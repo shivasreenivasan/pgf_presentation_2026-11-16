@@ -259,6 +259,7 @@ The ward pharmacist asks: **stop today, or complete 14 days?**
 - R
 - Python
 - Julia
+- C++
 :::
 
 ## One word for today's lecture?
