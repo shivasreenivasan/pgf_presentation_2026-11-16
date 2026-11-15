@@ -25,9 +25,9 @@ format:
     revealjs-plugins:
       - live-questions
       - quiz
-    # live-questions:
-    #   server:
-    #   session: pgf-presentation
+    live-questions:
+      server: https://pgf-presentation-2026-11-16.shivasreenivasan.workers.dev
+      session: pgf-presentation
     quiz:
       checkKey: "a"          # A = check answer (c is chalkboard)
       resetKey: "z"          # Z = reset question (q/r are the timer)
@@ -251,6 +251,19 @@ The ward pharmacist asks: **stop today, or complete 14 days?**
 **Timing:** 30 seconds (cumulative 3:00).
 
 **Tip:** if the room is large, estimate in fives and click accordingly. Counts reset when the page reloads.
+:::
+
+## Which language do you use most?
+
+::: {.poll #lang}
+- R
+- Python
+- Julia
+:::
+
+## One word for today's lecture?
+
+::: {.wordcloud #mood max-words=2}
 :::
 
 ## Why duration matters {data-budget="1.5" data-section="Background"}

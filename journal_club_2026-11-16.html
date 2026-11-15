@@ -64,6 +64,7 @@
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-live-questions/live-questions.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
@@ -153,6 +154,7 @@
       margin-right: 0; 
     }
   </style>
+  <script type="application/json" id="lq-config">{"closeOnLeave":true,"qr":true,"results":"live","server":"https://pgf-presentation-2026-11-16.shivasreenivasan.workers.dev","session":"pgf-presentation"}</script>
   <!-- Countdown Global CSS -->
   <style text="text/css">:root {--countdown-font-size: 2rem;--countdown-color-border: #0072B2;--countdown-color-text: #0B2E4F;--countdown-color-running-background: #E6F1F8;--countdown-color-running-border: #0072B2;--countdown-color-running-text: #0B2E4F;--countdown-color-finished-background: #D55E00;--countdown-color-finished-border: #D55E00;--countdown-color-finished-text: #FFFFFF;--countdown-color-warning-background: #E69F00;--countdown-color-warning-border: #E69F00;--countdown-color-warning-text: #1B1F24;}</style>
 </head>
@@ -249,6 +251,22 @@ Shiva Sreenivasan
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="which-language-do-you-use-most" class="slide level2">
+<h2>Which language do you use most?</h2>
+<div id="lang" class="lq-question lq-poll" data-lq="{&quot;id&quot;:&quot;lang&quot;,&quot;options&quot;:[&quot;R&quot;,&quot;Python&quot;,&quot;Julia&quot;],&quot;prompt&quot;:&quot;Which language do you use most?&quot;,&quot;results&quot;:&quot;live&quot;,&quot;type&quot;:&quot;poll&quot;}">
+<ul>
+<li>R</li>
+<li>Python</li>
+<li>Julia</li>
+</ul>
+</div>
+</section>
+<section id="one-word-for-todays-lecture" class="slide level2">
+<h2>One word for today’s lecture?</h2>
+<div id="mood" class="lq-question lq-wordcloud" data-lq="{&quot;id&quot;:&quot;mood&quot;,&quot;maxAnswers&quot;:3,&quot;maxWords&quot;:2,&quot;prompt&quot;:&quot;One word for today’s lecture?&quot;,&quot;results&quot;:&quot;live&quot;,&quot;type&quot;:&quot;wordcloud&quot;}">
+
+</div>
 </section>
 <section id="why-duration-matters" class="slide level2" data-budget="1.5" data-section="Background">
 <h2>Why duration matters</h2>
@@ -560,7 +578,7 @@ Shiva Sreenivasan
 <li><span class="correct" data-explanation="Correct. The worst end of the confidence interval stayed inside the margin, so a large extra harm is unlikely.">C. 7 days is not worse than 14 days by more than the agreed margin</span></li>
 <li><span data-explanation="Not quite: the answer is C. 'No significant difference' is the language of superiority trials. Non-inferiority asks a different question.">D. The trial found no difference, so the result is inconclusive</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
@@ -684,7 +702,7 @@ Shiva Sreenivasan
 <li><span data-explanation="Not quite: the answer is A. Group size is handled by 1:1 randomisation in blocks, not by concealment.">C. To make sure the groups were the same size</span></li>
 <li><span data-explanation="Not quite: the answer is A. This was a deliberate design choice, not a technical limit.">D. Because the computer system could not randomise earlier</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
@@ -839,7 +857,7 @@ Shiva Sreenivasan
 <li><span class="correct" data-explanation="Correct. Power is the chance of detecting a true effect; the remaining 20% is the type II error rate.">C. If 7 days truly is non-inferior, the trial had an 80% chance of showing it</span></li>
 <li><span data-explanation="Not quite: the answer is C. That is adherence, which is a separate issue.">D. 80% of patients followed the protocol</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
@@ -918,7 +936,7 @@ Shiva Sreenivasan
 <li><span data-explanation="Not quite: the answer is B. Subgroups and secondary outcomes were not corrected for multiplicity.">C. To correct for prespecified subgroups</span></li>
 <li><span data-explanation="Not quite: the answer is B. Clustering was handled in a separate mixed-model analysis.">D. To account for clustering by hospital</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Click the countdown (bottom right) to start 20 seconds, take a show of hands for each option, then click (or press 1 to 4) to select and press A or click Check to reveal.</p>
@@ -1004,7 +1022,7 @@ Shiva Sreenivasan
 <li><span data-explanation="Not quite: the answer is A. Excluding him is what a per-protocol analysis does, not ITT.">C. Neither: he is excluded</span></li>
 <li><span data-explanation="Not quite: the answer is A. Trials do not create new groups after randomisation.">D. A separate non-adherent group</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
@@ -1208,7 +1226,7 @@ Shiva Sreenivasan
 <li><span class="correct" data-explanation="Correct. ARR = 10% − 8% = 2 points; NNT = 100 ÷ 2 = 50.">C. 50</span></li>
 <li><span data-explanation="Not quite: the answer is C. 80% is the relative risk (8 ÷ 10), not the NNT.">D. 80</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
@@ -1311,7 +1329,7 @@ Shiva Sreenivasan
 <li><span data-explanation="Not quite: the answer is B. The gram-positive interval is wide and includes no difference; it does not show harm.">C. Gram-positive infections need 14 days</span></li>
 <li><span data-explanation="Not quite: the answer is B. Subgroup findings do not overturn a sound overall result.">D. The overall trial result is invalid</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
@@ -1382,7 +1400,7 @@ Shiva Sreenivasan
 <li><span data-explanation="Not quite: the answer is B. Crossing zero is expected; the test is whether the interval stays clear of the +4 margin.">C. Inconclusive, because the CI crosses zero</span></li>
 <li><span data-explanation="Not quite: the answer is B. Subgroup results are too imprecise to support this.">D. 14 days is superior for gram-positive infection</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Option C catches people who apply superiority logic to a non-inferiority trial. Crossing zero is expected; the test is whether the interval stays clear of the margin.</p>
@@ -1592,7 +1610,7 @@ Shiva Sreenivasan
 <li><span data-explanation="Not quite: the answer is A. ITT preserves randomisation but dilutes the contrast, which is anti-conservative in non-inferiority trials.">C. Have no effect, because ITT preserves randomisation</span></li>
 <li><span data-explanation="Not quite: the answer is A. Crossover dilutes the difference between arms towards non-inferiority.">D. Raise mortality equally in both groups</span></li>
 </ul>
-<countdown-timer id="timer_121faccc936a83ec2cffe348c0db69b8dabdf2f3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+<countdown-timer id="timer_dba597ec514acd1fbacb869b112b15beb5c55bf4" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
  </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> In superiority trials, dilution is conservative. In non-inferiority trials it is anti-conservative. That is why per-protocol analyses matter here.</p>
@@ -1904,6 +1922,7 @@ Shiva Sreenivasan
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-live-questions/live-questions.js"></script>
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
@@ -2099,7 +2118,7 @@ Shiva Sreenivasan
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealLiveQuestions, RevealQuiz, QuartoSupport,
 
           RevealMath,
           RevealNotes,
