@@ -93,6 +93,9 @@ $code-color: $oi-vermillion;
   .card.orange { border-left-color: $oi-orange; }
   .card.green  { border-left-color: $oi-green; }
   .card.red    { border-left-color: $oi-vermillion; }
+  .card.purple { border-left-color: $oi-purple; }
+  .tab-lead { display: block; color: $muted; font-style: italic; font-size: 0.7em; margin-bottom: 0.3em; }
+  .panel-tabset .card { font-size: 0.85em; }
 
   .big-number {
     font-size: 2.2em;
@@ -103,21 +106,24 @@ $code-color: $oi-vermillion;
   .big-label { font-size: 0.6em; color: $muted; }
 
   // PICO grid
-  .pico {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.4em 0.6em;
-    font-size: 0.78em;
-    .cell {
-      background: $wash;
-      border-radius: 8px;
-      padding: 0.4em 0.6em;
-      border-top: 6px solid $oi-blue;
+  .pico-card {
+    position: relative;
+    background: $wash;
+    border-radius: 8px;
+    padding: 0.5em 0.8em 0.5em 3.2em;
+    border-left: 8px solid $oi-blue;
+    font-size: 0.8em;
+    min-height: 4em;
+    ul { margin-top: 0.3em; font-size: 0.9em; }
+    .letter {
+      position: absolute; left: 0.35em; top: 0.1em;
+      font-size: 2.6em; font-weight: 800; color: $navy; line-height: 1.2;
     }
-    .cell:nth-child(2) { border-top-color: $oi-orange; }
-    .cell:nth-child(3) { border-top-color: $oi-green; }
-    .cell:nth-child(4) { border-top-color: $oi-purple; }
-    .letter { font-size: 1.6em; font-weight: 800; color: $navy; margin-right: 0.2em; }
+    &.i  { border-left-color: $oi-orange; }
+    &.c  { border-left-color: $oi-green; }
+    &.o  { border-left-color: $oi-purple; }
+    &.t1 { border-left-color: $oi-sky; }
+    &.t2 { border-left-color: $oi-vermillion; }
   }
 
   // Tables
@@ -143,48 +149,57 @@ $code-color: $oi-vermillion;
   .rob.some { background: $oi-orange; color: $ink; }
   .rob.high { background: $oi-vermillion; color: #fff; }
 
-  // Quiz
-  .quiz {
-    font-size: 0.8em;
-    .q-stem { font-weight: 600; margin-bottom: 0.5em; }
-    .q-opt {
-      display: block;
+  // Quiz (quarto-quiz extension: restyle to the deck palette)
+  .quiz-question {
+    > p { font-weight: 600; font-size: 0.85em; }
+    ul { font-size: 0.8em; margin: 0; }
+    li.option-button {
+      box-sizing: border-box;
       width: 100%;
-      text-align: left;
       margin: 0.25em 0;
       padding: 0.35em 0.7em;
       border: 2px solid $oi-blue;
       border-radius: 8px;
       background: #fff;
       color: $ink;
-      font: inherit;
-      cursor: pointer;
       transition: background 0.15s ease;
     }
-    .q-opt:hover:not([disabled]) { background: $wash; }
-    .q-opt.correct { background: $oi-green; border-color: $oi-green; color: #fff; }
-    .q-opt.correct::after { content: "  \2713 correct"; font-weight: 700; }
-    .q-opt.wrong { background: lighten($oi-vermillion, 40%); border-color: $oi-vermillion; }
-    .q-opt.wrong::after { content: "  \2717"; font-weight: 700; color: $oi-vermillion; }
-    .q-opt[disabled] { cursor: default; }
-    .q-explain {
-      display: none;
-      margin-top: 0.5em;
-      padding: 0.4em 0.7em;
-      background: $wash;
-      border-left: 6px solid $oi-green;
-      border-radius: 6px;
-      font-size: 0.85em;
-    }
-    .q-explain.show { display: block; }
-    .q-reset {
+    li.option-button:hover { background: $wash; }
+    li.option-button.selected { background: lighten($oi-sky, 28%); border-color: $oi-blue; }
+    li.option-button.correct { background: $oi-green; border-color: $oi-green; color: #fff; }
+    li.option-button.correct::after { content: "  \2713"; font-weight: 700; }
+    li.option-button.incorrect { background: lighten($oi-vermillion, 40%); border-color: $oi-vermillion; color: $ink; }
+    li.option-button.incorrect::after { content: "  \2717"; font-weight: 700; color: $oi-vermillion; }
+    .button-container { justify-content: flex-start; gap: 0.3em; }
+    .action-buttons { font-size: 0.5em; margin-top: 0.5em; padding: 0.25em 0.8em; border-radius: 6px; }
+    .check-button { background: $oi-blue; }
+    .reset-button { background: $muted; }
+    .prev-button, .next-button { display: none; }  // arrows already navigate
+    .feedback {
       margin-top: 0.4em;
-      font-size: 0.6em;
-      background: none;
-      border: 1px solid $muted;
+      padding: 0.3em 0.7em;
+      background: $wash;
       border-radius: 6px;
-      color: $muted;
-      cursor: pointer;
+      font-size: 0.6em;
+      text-align: left;
+      &:empty { display: none; }
+    }
+  }
+
+  // Tabsets
+  .panel-tabset {
+    ul.panel-tabset-tabby {
+      border-bottom: 2px solid $oi-blue;
+      margin-bottom: 0.4em;
+      li a {
+        font-size: 0.7em;
+        font-weight: 600;
+        color: $muted;
+        padding: 0.2em 0.8em;
+        border-radius: 8px 8px 0 0;
+      }
+      li a[aria-selected="true"] { color: #fff; background: $oi-blue; }
+      li a:hover:not([aria-selected="true"]) { background: $wash; color: $navy; }
     }
   }
 

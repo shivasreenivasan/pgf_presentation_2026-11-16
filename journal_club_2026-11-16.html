@@ -6,10 +6,12 @@
 <script src="journal_club_2026-11-16_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="journal_club_2026-11-16_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="journal_club_2026-11-16_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="journal_club_2026-11-16_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="journal_club_2026-11-16_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="journal_club_2026-11-16_files/libs/quarto-contrib/countdown-0.6.0/countdown.js"></script>
+<link href="journal_club_2026-11-16_files/libs/quarto-contrib/countdown-0.6.0/countdown.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
 
-  <meta name="author" content="Presenter: [Name]">
+  <meta name="author" content="Shiva Sreenivasan">
   <meta name="dcterms.date" content="2026-11-16">
   <title>Antibiotic Treatment for 7 versus 14 Days in Patients with Bloodstream Infections</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -56,12 +58,13 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="journal_club_2026-11-16_files/libs/revealjs/dist/theme/quarto-4e9ae02f7efb2b47bf9fbd6ac8dec20d.css">
+  <link rel="stylesheet" href="journal_club_2026-11-16_files/libs/revealjs/dist/theme/quarto-34d1cbb6e6f4952e2e6a8418a00fed2b.css">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
   <link href="journal_club_2026-11-16_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -150,6 +153,8 @@
       margin-right: 0; 
     }
   </style>
+  <!-- Countdown Global CSS -->
+  <style text="text/css">:root {--countdown-font-size: 2rem;--countdown-color-border: #0072B2;--countdown-color-text: #0B2E4F;--countdown-color-running-background: #E6F1F8;--countdown-color-running-border: #0072B2;--countdown-color-running-text: #0B2E4F;--countdown-color-finished-background: #D55E00;--countdown-color-finished-border: #D55E00;--countdown-color-finished-text: #FFFFFF;--countdown-color-warning-background: #E69F00;--countdown-color-warning-border: #E69F00;--countdown-color-warning-text: #1B1F24;}</style>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -162,7 +167,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Presenter: [Name]
+Shiva Sreenivasan
 </div>
 </div>
 </div>
@@ -173,13 +178,15 @@ Presenter: [Name]
 <h2>Learning objectives</h2>
 <p>By the end of this session you should be able to:</p>
 <ol type="1">
+<li>Explain <strong>randomisation, power, confidence intervals</strong> and <strong>intention-to-treat</strong> in plain English</li>
 <li>Explain how a <strong>non-inferiority</strong> trial differs from a superiority trial</li>
-<li>Appraise BALANCE with <strong>CONSORT</strong>, <strong>RoB 2</strong> and <strong>GRADE</strong></li>
+<li>Appraise BALANCE with simple checklists and <strong>GRADE</strong></li>
 <li>Decide when <strong>7 days</strong> of antibiotics is reasonable for bacteraemia</li>
 </ol>
 <aside class="notes">
-<p><strong>Say:</strong> Welcome. Today’s paper is a large pragmatic RCT that many of us will meet on the next take. Three objectives: understand non-inferiority, appraise the trial formally, and decide whether it should change what we write on the drug chart.</p>
+<p><strong>Say:</strong> Welcome. Today’s paper is a large pragmatic RCT that many of us will meet on the next take. Four objectives: learn the key trial words, understand non-inferiority, appraise the trial, and decide whether it should change what we write on the drug chart.</p>
 <p><strong>Timing:</strong> 1 minute (cumulative 1:00). Press T to start the session timer now.</p>
+<p><strong>Approach:</strong> this version is pitched for learners. Each statistical idea gets a tabbed explainer slide (plain English, then BALANCE) followed by a quick quiz. A jargon buster slide sits just before the references as backup.</p>
 <p><strong>Anticipated question:</strong> “Why this paper?” Answer: it applies to almost every specialty that admits patients, the design teaches non-inferiority well, and it is now being cited in local stewardship updates.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -324,25 +331,73 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-clinical-question-pico" class="slide level2" data-budget="1" data-section="Background">
-<h2>The clinical question (PICO)</h2>
-<div class="pico">
-<div class="cell">
-<p><span class="letter">P</span> Hospitalised adults, ward or ICU, with a pathogenic bacteraemia; no <em>S. aureus</em>, severe immunosuppression or deep focus</p>
+<section id="the-clinical-question-picott" class="slide level2" data-budget="1" data-section="Background">
+<h2>The clinical question (PICOTT)</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Population</a></li><li><a href="#tabset-1-2">Intervention</a></li><li><a href="#tabset-1-3">Control</a></li><li><a href="#tabset-1-4">Outcome</a></li><li><a href="#tabset-1-5">Question type</a></li><li><a href="#tabset-1-6">Study type</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="pico-card p">
+<p><span class="letter">P</span></p>
+<p><strong>Hospitalised adults, ward or ICU, with bacteraemia from a pathogenic organism</strong></p>
+<ul>
+<li>Excluded: <em>S. aureus</em> or <em>S. lugdunensis</em>, fungaemia, severe immunosuppression</li>
+<li>Excluded: prosthetic valve or endovascular graft, deep or undrained focus</li>
+</ul>
 </div>
-<div class="cell">
-<p><span class="letter">I</span> <strong>7 days</strong> of adequate antibiotic therapy</p>
 </div>
-<div class="cell">
-<p><span class="letter">C</span> <strong>14 days</strong> of adequate antibiotic therapy</p>
+<div id="tabset-1-2">
+<div class="pico-card i">
+<p><span class="letter">I</span></p>
+<p><strong>7 days</strong> of adequate antibiotic therapy</p>
+<ul>
+<li>Drug, dose, route and oral switch chosen by the treating team</li>
+</ul>
 </div>
-<div class="cell">
-<p><span class="letter">O</span> Death from any cause by <strong>90 days</strong>; margin 4 percentage points</p>
+</div>
+<div id="tabset-1-3">
+<div class="pico-card c">
+<p><span class="letter">C</span></p>
+<p><strong>14 days</strong> of adequate antibiotic therapy</p>
+<ul>
+<li>Identical management to the 7-day arm until day 7</li>
+</ul>
+</div>
+</div>
+<div id="tabset-1-4">
+<div class="pico-card o">
+<p><span class="letter">O</span></p>
+<p><strong>Death from any cause by 90 days</strong></p>
+<ul>
+<li>Non-inferiority margin: <strong>4 percentage points</strong> (absolute)</li>
+<li>Secondary: relapse, <em>C. difficile</em>, resistant organisms, antibiotic-free days, length of stay</li>
+</ul>
+</div>
+</div>
+<div id="tabset-1-5">
+<div class="pico-card t1">
+<p><span class="letter">T</span></p>
+<p><strong>Therapy</strong>: is a shorter course as safe as the usual course?</p>
+<ul>
+<li>A non-inferiority question, not a superiority one</li>
+</ul>
+</div>
+</div>
+<div id="tabset-1-6">
+<div class="pico-card t2">
+<p><span class="letter">T</span></p>
+<p><strong>Randomised controlled trial</strong>: the best design for a therapy question</p>
+<ul>
+<li>Multicentre, open-label, non-inferiority; 74 hospitals, 7 countries</li>
+<li>Allocation concealed until day 7 of adequate therapy</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Note that ‘adequate’ means an agent the organism is susceptible to on local laboratory reporting. Drug choice, dose, route and oral switch were left to the treating team. This is a test of a duration strategy, not of a drug.</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 7:00).</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 7:00). Click through the six tabs; spend most time on P and O, and use the two Ts to link the question type to the best study design.</p>
 <p><strong>Anticipated question:</strong> “Day 1 counted from when?” Duration was counted as days of adequate treatment; the primary outcome clock started at the date of the index positive blood culture.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -381,6 +436,148 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
+<section id="superiority-vs-non-inferiority" class="slide level2" data-budget="2" data-section="Methods">
+<h2>Superiority vs non-inferiority</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Superiority</a></li><li><a href="#tabset-2-2">Non-inferiority</a></li><li><a href="#tabset-2-3">Picture it</a></li><li><a href="#tabset-2-4">Why use it here?</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<div class="card">
+<p><strong>Question: is the new treatment <em>better</em>?</strong></p>
+<ul>
+<li>Most trials you read ask this</li>
+<li>Example: does a new drug reduce deaths compared with placebo?</li>
+<li>Success = the confidence interval shows a clear benefit (it does not cross “no difference”)</li>
+</ul>
+</div>
+</div>
+<div id="tabset-2-2">
+<div class="card orange">
+<p><strong>Question: is the new treatment <em>not unacceptably worse</em>?</strong></p>
+<ul>
+<li>Used when the new option has other advantages: shorter, cheaper, safer, simpler</li>
+<li>We decide in advance how much worse we would tolerate: the <strong>margin</strong></li>
+<li>Success = the <em>worst</em> end of the confidence interval stays inside the margin</li>
+</ul>
+</div>
+</div>
+<div id="tabset-2-3">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-ni-explainer-1.png" alt="Diagram of four hypothetical trial results against a non-inferiority margin of plus 4 points. Superior: interval entirely below zero. Non-inferior: interval crosses zero but upper end below plus 4. Inconclusive: upper end beyond plus 4. Inferior: whole interval beyond plus 4. BALANCE, minus 1.6 (minus 4.0 to 0.8), is shown as non-inferior." width="2200"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-4">
+<div class="card green">
+<ul>
+<li>Nobody expects 7 days to <em>save</em> lives compared with 14</li>
+<li>The hoped-for gains are <strong>fewer side effects, less resistance, shorter stays</strong></li>
+<li>So the fair question is: “Does stopping at 7 days cost lives?”</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> Go tab by tab. The key sentence: in a non-inferiority trial, we look at the <em>worst-case</em> end of the confidence interval and ask whether it stays within the amount of harm we agreed to accept.</p>
+<p><strong>Picture it tab:</strong> walk down the rows. The ‘inconclusive’ row is the one people get wrong: the point estimate looks fine, but the interval runs past the margin, so we cannot rule out unacceptable harm. BALANCE is the blue row.</p>
+<p><strong>Timing:</strong> 2 minutes (cumulative 10:00).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-non-inferiority-margin" class="slide level2" data-budget="1.5" data-section="Methods">
+<h2>The non-inferiority margin</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">What is it?</a></li><li><a href="#tabset-3-2">How is it chosen?</a></li><li><a href="#tabset-3-3">BALANCE: 4 points</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<div class="card">
+<ul>
+<li>The <strong>largest amount of extra harm</strong> we would accept in exchange for the benefits of the new approach</li>
+<li>Chosen <strong>before</strong> the trial starts, and written in the protocol</li>
+<li>A smaller margin = a stricter test = needs more patients</li>
+</ul>
+</div>
+</div>
+<div id="tabset-3-2">
+<div class="card orange">
+<ul>
+<li>Clinical judgement: what would patients and clinicians accept?</li>
+<li>Previous evidence about the comparator</li>
+<li>Practicality: tiny margins need enormous trials</li>
+</ul>
+</div>
+</div>
+<div id="tabset-3-3">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="big-number">+4</span></p>
+<p><span class="big-label">percentage points of extra deaths: the most BALANCE would accept</span></p>
+</div><div class="column" style="width:50%;">
+<p><span class="big-number">18%</span></p>
+<p><span class="big-label">of the expected 22% death rate with 14 days, in relative terms</span></p>
+</div></div>
+<p>Earlier trials used <strong>10 points</strong>, a much looser test.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> Put it in people terms: a 4-point margin means BALANCE was willing to accept, at most, 4 extra deaths per 100 patients. Ask the room: is that small? It depends on what you gain, and that is a discussion question at the end.</p>
+<p><strong>Calculation:</strong> relative margin = 4 / 22 = 18%, calculated in R.</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 11:30).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="quiz-what-does-non-inferior-mean" class="slide level2 quiz-question" data-budget="1" data-section="Methods">
+<h2>Quiz: what does non-inferior mean?</h2>
+<p>A non-inferiority trial concludes that 7 days is <strong>non-inferior</strong> to 14 days. This means:</p>
+<ul>
+<li><span data-explanation="Not quite: the answer is C. Non-inferior does not mean better. Showing better needs a superiority result.">A. 7 days is better than 14 days</span></li>
+<li><span data-explanation="Not quite: the answer is C. Trials cannot prove two treatments are identical; they can only rule out differences larger than a chosen amount.">B. 7 days is exactly as good as 14 days</span></li>
+<li><span class="correct" data-explanation="Correct. The worst end of the confidence interval stayed inside the margin, so a large extra harm is unlikely.">C. 7 days is not worse than 14 days by more than the agreed margin</span></li>
+<li><span data-explanation="Not quite: the answer is C. 'No significant difference' is the language of superiority trials. Non-inferiority asks a different question.">D. The trial found no difference, so the result is inconclusive</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
+<aside class="notes">
+<p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
+<p><strong>Teaching point:</strong> ‘non-inferior’ is a precise claim: any extra harm is smaller than the margin. It is not ‘equivalent’ and not ‘better’.</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 12:30).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="who-could-enter" class="slide level2" data-budget="1.5" data-section="Methods">
 <h2>Who could enter?</h2>
 <div class="columns">
@@ -402,7 +599,7 @@ Presenter: [Name]
 </div></div>
 <aside class="notes">
 <p><strong>Say:</strong> The exclusions remove exactly the groups where we already treat for longer. Keep this list in mind when we discuss applicability; <em>S. aureus</em> is the second most common cause of bacteraemia worldwide according to the authors.</p>
-<p><strong>Timing:</strong> 1.5 minutes (cumulative 9:30).</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 14:00).</p>
 <p><strong>Detail:</strong> severe immunosuppression was defined as neutropenia, or immunosuppression after solid organ or haematopoietic stem cell transplant.</p>
 <p><strong>Anticipated question:</strong> “Were coagulase-negative staphylococci excluded?” A single positive culture with a common contaminant was excluded. True CoNS bacteraemia could be included, and CoNS made up 4.8% of isolates.</p>
 <style type="text/css">
@@ -417,18 +614,82 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
-<section id="randomisation-and-intervention" class="slide level2" data-budget="1" data-section="Methods">
-<h2>Randomisation and intervention</h2>
+<section id="randomisation-concealment-and-blinding" class="slide level2" data-budget="1.5" data-section="Methods">
+<h2>Randomisation, concealment and blinding</h2>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Randomisation</a></li><li><a href="#tabset-4-2">Allocation concealment</a></li><li><a href="#tabset-4-3">Blinding</a></li><li><a href="#tabset-4-4">What clinicians chose</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<div class="card">
+<p><strong>Chance decides who gets which treatment</strong></p>
 <ul>
-<li>Web-based, variable blocks, 1:1; stratified by <strong>site</strong> and <strong>ICU or ward</strong></li>
-<li>Allocation <strong>concealed until day 7</strong> of adequate therapy</li>
-<li>Clinicians chose drug, dose, route and oral switch</li>
-<li>Adherence checked daily: assigned duration <strong>±2 days</strong></li>
+<li>Creates groups that are alike in everything, known <em>and unknown</em>, except the treatment</li>
+<li>BALANCE: computer-generated, 1:1, balanced within each <strong>hospital</strong> and for <strong>ICU vs ward</strong></li>
 </ul>
+</div>
+</div>
+<div id="tabset-4-2">
+<div class="card orange">
+<p><strong>Nobody can know or influence the next allocation in advance</strong></p>
+<ul>
+<li>Stops clinicians steering sicker patients into one group</li>
+<li>BALANCE: allocation stayed <strong>hidden until day 7</strong>, when the two arms finally differ</li>
+</ul>
+</div>
+</div>
+<div id="tabset-4-3">
+<div class="card purple">
+<p><strong>Who knows which treatment a patient is getting?</strong></p>
+<ul>
+<li>BALANCE was <strong>open-label</strong> after day 7: no placebo for days 8 to 14</li>
+<li>Analysts were blinded; death is an objective outcome</li>
+<li>Risk: knowing the plan may change behaviour (for example, extending antibiotics)</li>
+</ul>
+</div>
+</div>
+<div id="tabset-4-4">
+<div class="card green">
+<ul>
+<li>Drug, dose, route and oral switch: all left to the treating team</li>
+<li>Adherence checked daily: assigned duration <strong>±2 days</strong></li>
+<li>A test of a <em>duration strategy</em>, not of a particular drug</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 <aside class="notes">
-<p><strong>Say:</strong> Placebo was not feasible with so many pathogens and regimens. The design compromise is clever: because both arms are identical until day 7, hiding allocation until then removes early differential management.</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 10:30).</p>
+<p><strong>Say:</strong> Concealment and blinding are often confused. Concealment protects <em>who gets in which group</em> (before allocation). Blinding protects <em>what happens after</em> allocation. BALANCE has strong concealment and partial blinding.</p>
+<p><strong>Design point:</strong> placebo was not feasible with so many pathogens and regimens. Because both arms are identical until day 7, hiding allocation until then removes early differential management.</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 15:30).</p>
 <p><strong>Anticipated question:</strong> “Was outcome assessment blinded?” Mortality is objective. Adjudication of antimicrobial-resistant organisms and all analyses were blinded to group.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="quiz-allocation-concealment" class="slide level2 quiz-question" data-budget="1" data-section="Methods">
+<h2>Quiz: allocation concealment</h2>
+<p>Why did BALANCE keep the allocation hidden until day 7?</p>
+<ul>
+<li><span class="correct" data-explanation="Correct. Both arms get identical care until day 7, so hiding allocation until then prevents early differences in management.">A. So clinicians could not treat the two groups differently in the first week</span></li>
+<li><span data-explanation="Not quite: the answer is A. After day 7 everyone knew: the trial was open-label from then on.">B. To make the trial double-blind throughout</span></li>
+<li><span data-explanation="Not quite: the answer is A. Group size is handled by 1:1 randomisation in blocks, not by concealment.">C. To make sure the groups were the same size</span></li>
+<li><span data-explanation="Not quite: the answer is A. This was a deliberate design choice, not a technical limit.">D. Because the computer system could not randomise earlier</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
+<aside class="notes">
+<p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
+<p><strong>Teaching point:</strong> good concealment means the people enrolling and treating patients cannot predict or change who goes where.</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 16:30).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -443,16 +704,35 @@ Presenter: [Name]
 </section>
 <section id="outcomes-and-statistics" class="slide level2" data-budget="1.5" data-section="Methods">
 <h2>Outcomes and statistics</h2>
+<div class="panel-tabset">
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Outcomes</a></li><li><a href="#tabset-5-2">Sample size</a></li><li><a href="#tabset-5-3">Analyses</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1">
 <ul>
 <li><strong>Primary:</strong> all-cause death by 90 days</li>
 <li>Margin <strong>4 percentage points</strong> (absolute)</li>
-<li>3626 patients for 80% power, one-sided alpha 2.5%, assuming 22% control mortality</li>
-<li>Three interim analyses, so the primary result uses a <strong>95.7% CI</strong></li>
-<li>ITT primary; per-protocol and modified ITT as supporting analyses</li>
+<li>Secondary outcomes exploratory: no multiplicity correction</li>
 </ul>
+</div>
+<div id="tabset-5-2">
+<ul>
+<li>3626 patients for 80% power (explained next)</li>
+<li>One-sided alpha 2.5%, assuming 22% deaths with 14 days</li>
+<li>Three interim looks at the data, so the main result uses a <strong>95.7% CI</strong></li>
+</ul>
+</div>
+<div id="tabset-5-3">
+<ul>
+<li><strong>Intention-to-treat (ITT)</strong> primary (explained shortly)</li>
+<li>Per-protocol and modified ITT as supporting analyses</li>
+<li>Clustering by centre: separate prespecified mixed model</li>
+</ul>
+</div>
+</div>
+</div>
 <aside class="notes">
 <p><strong>Say:</strong> A 4-point absolute margin sounds small. In relative terms it is 18% of the planned 22% control mortality, and 25% of the observed 14-day mortality of 16.1%. Calculated in R from the published figures.</p>
-<p><strong>Timing:</strong> 1.5 minutes (cumulative 12:00).</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 18:00). Click through the three tabs.</p>
 <p><strong>Secondary outcomes:</strong> death in hospital and ICU, relapse, adverse events, <em>C. difficile</em>, resistant organisms, length of stay, antibiotic-free days and others. No correction for multiplicity; the authors call these exploratory.</p>
 <p><strong>Anticipated question:</strong> “Why both ITT and per-protocol?” In non-inferiority trials ITT can be anti-conservative, so CONSORT asks for both. If they agree, confidence rises.</p>
 <style type="text/css">
@@ -467,21 +747,269 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
-<section id="quiz-reading-the-methods" class="slide level2" data-budget="1" data-section="Methods">
-<h2>Quiz: reading the methods</h2>
-<div class="quiz">
-  <div class="q-stem">Why is the primary result reported with a 95.7% rather than a 95% confidence interval?</div>
-  <button class="q-opt" data-correct="false">A. The test was one-sided</button>
-  <button class="q-opt" data-correct="true">B. Alpha was spent on three interim analyses</button>
-  <button class="q-opt" data-correct="false">C. To correct for prespecified subgroups</button>
-  <button class="q-opt" data-correct="false">D. To account for clustering by hospital</button>
-  <div class="q-explain">The paper states the 95.7% CI reflects the exact alpha spending incurred in the interim analyses. Subgroups and secondary outcomes were not corrected for multiplicity.</div>
-  <button class="q-reset">reset</button>
+<section id="power-and-sample-size" class="slide level2" data-budget="1.5" data-section="Methods">
+<h2>Power and sample size</h2>
+<div class="panel-tabset">
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">What is power?</a></li><li><a href="#tabset-6-2">Two kinds of error</a></li><li><a href="#tabset-6-3">What goes in</a></li><li><a href="#tabset-6-4">BALANCE</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1">
+<div class="card">
+<p><strong>The chance a trial gets the right answer when the answer is “yes”</strong></p>
+<ul>
+<li>80% power: if 7 days truly is non-inferior, the trial has an 80% chance of showing it</li>
+<li>Too few patients = low power = a real answer may be missed</li>
+</ul>
+</div>
+</div>
+<div id="tabset-6-2">
+<table class="caption-top">
+<caption>Power = 1 − beta = 80%</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Truth: non-inferior</th>
+<th>Truth: worse than margin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Trial says non-inferior</strong></td>
+<td>Correct</td>
+<td><strong>Type I error</strong> (alpha): 2.5%</td>
+</tr>
+<tr class="even">
+<td><strong>Trial says not shown</strong></td>
+<td><strong>Type II error</strong> (beta): 20%</td>
+<td>Correct</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-6-3">
+<div class="card orange">
+<ul>
+<li><strong>Expected event rate</strong> in the comparator group (22% deaths with 14 days)</li>
+<li><strong>Margin</strong> (4 points): smaller margin = more patients</li>
+<li><strong>Alpha</strong> (2.5%, one-sided) and <strong>power</strong> (80%)</li>
+<li>Allowance for dropouts and interim analyses</li>
+</ul>
+</div>
+</div>
+<div id="tabset-6-4">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="big-number">3626</span></p>
+<p><span class="big-label">patients planned</span></p>
+</div><div class="column" style="width:50%;">
+<p><span class="big-number">3608</span></p>
+<p><span class="big-label">patients analysed (intention-to-treat)</span></p>
+</div></div>
+<p>Observed 14-day mortality was <strong>16.1%</strong>, lower than the 22% assumed.</p>
+</div>
+</div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Give 20 seconds, take a show of hands for each option, then click one to reveal.</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 13:00).</p>
+<p><strong>Say:</strong> Power is decided before the trial and depends on four ingredients. BALANCE reached its planned size, so it was not underpowered.</p>
+<p><strong>Type I error in a non-inferiority trial</strong> is the dangerous one: wrongly declaring a shorter course safe. That is why alpha is kept at 2.5% one-sided.</p>
+<p><strong>If asked:</strong> lower-than-expected mortality makes the estimate <em>more</em> precise on the absolute scale (fewer events, less variance), so the trial remains well powered, but a fixed 4-point margin becomes relatively larger (25% of observed control mortality).</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 19:30).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="quiz-power" class="slide level2 quiz-question" data-budget="1" data-section="Methods">
+<h2>Quiz: power</h2>
+<p>BALANCE was designed with <strong>80% power</strong>. What does this mean?</p>
+<ul>
+<li><span data-explanation="Not quite: the answer is C. Power is about the trial's design, not patient outcomes.">A. 80% of patients survived</span></li>
+<li><span data-explanation="Not quite: the answer is C. Power is conditional: it applies only if the treatment truly is non-inferior.">B. There is an 80% chance the result is correct</span></li>
+<li><span class="correct" data-explanation="Correct. Power is the chance of detecting a true effect; the remaining 20% is the type II error rate.">C. If 7 days truly is non-inferior, the trial had an 80% chance of showing it</span></li>
+<li><span data-explanation="Not quite: the answer is C. That is adherence, which is a separate issue.">D. 80% of patients followed the protocol</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
+<aside class="notes">
+<p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
+<p><strong>Teaching point:</strong> underpowered trials can miss real answers. Always check whether the trial reached its planned sample size.</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 20:30).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="confidence-intervals" class="slide level2" data-budget="1.5" data-section="Methods">
+<h2>Confidence intervals</h2>
+<div class="panel-tabset">
+<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">What a CI shows</a></li><li><a href="#tabset-7-2">Reading it</a></li><li><a href="#tabset-7-3">Why 95.7%?</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1">
+<div class="card">
+<p><strong>The range of true effects that fit the data</strong></p>
+<ul>
+<li>The point estimate is the single best guess</li>
+<li>The interval shows how sure we are: narrow = precise, wide = uncertain</li>
+<li>Bigger trials give narrower intervals</li>
+</ul>
+</div>
+</div>
+<div id="tabset-7-2">
+<div class="card orange">
+<ul>
+<li><strong>Crosses zero</strong>: we cannot exclude “no difference”</li>
+<li><strong>Superiority</strong>: whole interval on the benefit side of zero</li>
+<li><strong>Non-inferiority</strong>: the harm end of the interval is inside the margin</li>
+<li>The interval matters more than the p-value</li>
+</ul>
+</div>
+</div>
+<div id="tabset-7-3">
+<div class="card purple">
+<ul>
+<li>The data were checked <strong>three times</strong> during the trial (interim analyses)</li>
+<li>Each look “spends” a little of the allowed error (alpha)</li>
+<li>Less is left for the final analysis, so the interval is set at 95.7% to keep the overall error rate at 2.5% one-sided</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> One sentence to remember: the confidence interval is the range of true effects compatible with the data. In a non-inferiority trial we care most about the end of that range closest to harm.</p>
+<p><strong>One-sided vs two-sided:</strong> a one-sided test at 2.5% uses the same cut-off as the upper end of a two-sided 95% CI. That is why non-inferiority results are usually shown as a two-sided interval.</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 22:00).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="quiz-reading-the-methods" class="slide level2 quiz-question" data-budget="1" data-section="Methods">
+<h2>Quiz: reading the methods</h2>
+<p>Why is the primary result reported with a 95.7% rather than a 95% confidence interval?</p>
+<ul>
+<li><span data-explanation="Not quite: the answer is B. The width reflects alpha spent on interim analyses, not sidedness.">A. The test was one-sided</span></li>
+<li><span class="correct" data-explanation="Correct. The paper states the 95.7% CI reflects the exact alpha spending incurred in the interim analyses.">B. Alpha was spent on three interim analyses</span></li>
+<li><span data-explanation="Not quite: the answer is B. Subgroups and secondary outcomes were not corrected for multiplicity.">C. To correct for prespecified subgroups</span></li>
+<li><span data-explanation="Not quite: the answer is B. Clustering was handled in a separate mixed-model analysis.">D. To account for clustering by hospital</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
+<aside class="notes">
+<p><strong>Say:</strong> Click the countdown (bottom right) to start 20 seconds, take a show of hands for each option, then click (or press 1 to 4) to select and press A or click Check to reveal.</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 23:00).</p>
 <p><strong>Follow-up:</strong> clustering by centre was handled in a separate prespecified mixed-model analysis, which gave consistent results.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="intention-to-treat-vs-per-protocol" class="slide level2" data-budget="1.5" data-section="Methods">
+<h2>Intention-to-treat vs per-protocol</h2>
+<div class="panel-tabset">
+<ul id="tabset-8" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-8-1">Intention-to-treat</a></li><li><a href="#tabset-8-2">Per-protocol</a></li><li><a href="#tabset-8-3">Modified ITT</a></li><li><a href="#tabset-8-4">Why both matter here</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1">
+<div class="card">
+<p><strong>“Analyse as randomised”</strong></p>
+<ul>
+<li>Everyone counted in the group they were assigned to, whatever treatment they actually got</li>
+<li>Keeps the benefit of randomisation: groups stay comparable</li>
+<li>Answers: what happens when we <em>plan</em> 7 days in real practice?</li>
+</ul>
+</div>
+</div>
+<div id="tabset-8-2">
+<div class="card orange">
+<p><strong>“Analyse those who did as planned”</strong></p>
+<ul>
+<li>Only patients who received their assigned duration (±2 days)</li>
+<li>Answers: what happens when patients <em>actually get</em> 7 days?</li>
+<li>Groups may no longer be comparable (who deviates is not random)</li>
+</ul>
+</div>
+</div>
+<div id="tabset-8-3">
+<div class="card purple">
+<ul>
+<li>ITT, but only patients alive on day 7</li>
+<li>In BALANCE, patients who died before day 7 never reached the point where the arms differ</li>
+</ul>
+</div>
+</div>
+<div id="tabset-8-4">
+<div class="card green">
+<ul>
+<li>In a <strong>superiority</strong> trial, ITT is cautious: crossover dilutes the difference and makes benefit harder to show</li>
+<li>In a <strong>non-inferiority</strong> trial, the same dilution makes the arms look alike and makes non-inferiority <em>easier</em> to show</li>
+<li>So we want ITT <strong>and</strong> per-protocol to agree; in BALANCE they did</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> This is the single most important statistical idea for this paper. Use the ‘Why both matter here’ tab to link back to the 23.9% non-adherence in the 7-day arm, which we will see in the results.</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 24:30).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="quiz-intention-to-treat" class="slide level2 quiz-question" data-budget="1" data-section="Methods">
+<h2>Quiz: intention-to-treat</h2>
+<p>Mr K is randomised to <strong>7 days</strong>, but his team keeps antibiotics going to <strong>12 days</strong>. In the intention-to-treat analysis he is counted in:</p>
+<ul>
+<li><span class="correct" data-explanation="Correct. ITT analyses everyone as randomised, regardless of what they actually received.">A. The 7-day group</span></li>
+<li><span data-explanation="Not quite: the answer is A. Moving him would break randomisation; that is closer to an 'as-treated' analysis.">B. The 14-day group</span></li>
+<li><span data-explanation="Not quite: the answer is A. Excluding him is what a per-protocol analysis does, not ITT.">C. Neither: he is excluded</span></li>
+<li><span data-explanation="Not quite: the answer is A. Trials do not create new groups after randomisation.">D. A separate non-adherent group</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
+<aside class="notes">
+<p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
+<p><strong>Teaching point:</strong> ITT protects randomisation. Per-protocol shows what happens when treatment is actually delivered as planned.</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 25:30).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -499,7 +1027,7 @@ Presenter: [Name]
 
 <img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-flow-1.png" alt="Horizontal bar chart of trial flow: 36,637 patients with positive blood cultures were assessed, 13,597 were eligible, 3,631 were randomised, 3,608 formed the intention-to-treat population and 3,581 had complete 90-day outcome data." width="2200" class="r-stretch"><aside class="notes">
 <p><strong>Say:</strong> Only 26.7% of eligible patients were enrolled. The largest single reason for non-enrolment was the attending physician declining (4,532 patients). That suggests clinicians kept patients they were worried about out of the trial, a selection effect worth discussing.</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 14:00).</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 26:30).</p>
 <p><strong>Numbers:</strong> from Figure 1 of the paper. 1,814 assigned 7 days and 1,794 assigned 14 days in the ITT population; 27 lost to follow-up (0.7%).</p>
 <p><strong>Anticipated question:</strong> “Does low enrolment matter if randomisation was sound?” Internal validity is preserved; external validity (who this applies to) is what suffers.</p>
 <style type="text/css">
@@ -553,7 +1081,7 @@ Presenter: [Name]
 </table>
 <aside class="notes">
 <p><strong>Say:</strong> An older, sick population: more than half in ICU, median SOFA 4. The dominant picture is community-acquired gram-negative urosepsis, which is worth remembering when you generalise.</p>
-<p><strong>Timing:</strong> 30 seconds (cumulative 14:30).</p>
+<p><strong>Timing:</strong> 30 seconds (cumulative 27:00).</p>
 <p><strong>Extra detail if asked:</strong> intra-abdominal or hepatobiliary 18.8%, lung 13.0%, vascular catheter 6.3%; monomicrobial gram-positive 17.3%, polymicrobial 11.7%; source-control procedure in 44.9%; median Clinical Frailty Scale 4.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -572,7 +1100,7 @@ Presenter: [Name]
 
 <img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-primary-1.png" alt="Forest plot of the risk difference in 90-day mortality, 7 days minus 14 days. Intention-to-treat minus 1.6 percentage points, 95.7% CI minus 4.0 to 0.8. Per-protocol minus 2.0, 95% CI minus 4.5 to 0.6. Modified intention-to-treat minus 1.6, 95% CI minus 3.9 to 0.7. All upper limits lie below the non-inferiority margin of plus 4 points." width="2200" class="r-stretch"><aside class="notes">
 <p><strong>Say:</strong> 261 of 1,802 died with 7 days (14.5%) and 286 of 1,779 with 14 days (16.1%). Difference −1.6 points, 95.7% CI −4.0 to 0.8. The upper limit is below +4, so non-inferiority is shown. All three analyses agree.</p>
-<p><strong>Timing:</strong> 1.5 minutes (cumulative 16:00).</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 28:30).</p>
 <p><strong>Check:</strong> the R code recomputes each difference from the published counts and confirms it matches the published value.</p>
 <p><strong>Anticipated question:</strong> “Does this mean 7 days is better?” No.&nbsp;The interval includes zero, so superiority is not shown. The point estimate favouring 7 days could be chance.</p>
 <style type="text/css">
@@ -587,8 +1115,12 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
-<section id="absolute-effect-calculated" class="slide level2" data-budget="1.5" data-section="Results">
+<section id="absolute-effect-calculated" class="slide level2" data-budget="2" data-section="Results">
 <h2>Absolute effect, calculated</h2>
+<div class="panel-tabset">
+<ul id="tabset-9" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-9-1">BALANCE numbers</a></li><li><a href="#tabset-9-2">What they mean</a></li><li><a href="#tabset-9-3">Why NNT is tricky here</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1">
 <div class="columns">
 <div class="column" style="width:33%;">
 <p><span class="big-number">1.6</span></p>
@@ -603,12 +1135,85 @@ Presenter: [Name]
 <div class="card orange">
 <p>The CI runs from <strong>NNTB 25</strong> through no effect to <strong>NNTH 125</strong>. An NNT is not meaningful when the CI crosses zero.</p>
 </div>
+</div>
+<div id="tabset-9-2">
+<table class="caption-top">
+<caption>RRR always looks bigger than ARR; ask for absolute numbers</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Measure</th>
+<th>Plain English</th>
+<th>BALANCE (ITT)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ARR</strong></td>
+<td>Difference in risk: risk with 14 days minus risk with 7 days</td>
+<td>16.1% − 14.5% = 1.6 points</td>
+</tr>
+<tr class="even">
+<td><strong>RRR</strong></td>
+<td>That difference as a share of the comparator risk</td>
+<td>1.6 ÷ 16.1 = 10%</td>
+</tr>
+<tr class="odd">
+<td><strong>NNT</strong></td>
+<td>Patients to treat for one extra good outcome: 100 ÷ ARR</td>
+<td>100 ÷ 1.6 ≈ 63</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-9-3">
+<div class="card orange">
+<ul>
+<li>The confidence interval crosses zero: 7 days might be slightly better <em>or</em> slightly worse</li>
+<li>So the NNT runs from “benefit” through infinity to “harm”</li>
+<li>In a non-inferiority trial the better question is: <strong>how much harm can we rule out?</strong> Answer: more than about 0.8 extra deaths per 100</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 <aside class="notes">
 <p><strong>Say:</strong> These are calculated in R from the ITT counts (261/1,802 and 286/1,779), not taken from the paper. ARR 1.59 points; RRR 9.9%; NNT 62.8.</p>
 <p>The CI bounds come from inverting the published 95.7% CI limits (−4.0 and +0.8 points). Because the interval crosses zero, the honest expression is ‘NNTB 25 to infinity to NNTH 125’ (Altman’s convention).</p>
-<p><strong>Timing:</strong> 1.5 minutes (cumulative 17:30).</p>
+<p><strong>Timing:</strong> 2 minutes (cumulative 30:30). Start on ‘What they mean’ if the room is new to these terms.</p>
 <p><strong>Teaching point:</strong> in a non-inferiority trial the question is not ‘how many to treat’ but ‘how much harm can we exclude’. The data exclude an excess mortality above about 0.8 points with shorter treatment.</p>
 <p><strong>Anticipated question:</strong> “Why not report relative risk?” The trial’s margin and analysis were on the absolute scale, which is the scale clinicians and patients use.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="quiz-number-needed-to-treat" class="slide level2 quiz-question" data-budget="1" data-section="Results">
+<h2>Quiz: number needed to treat</h2>
+<p>A treatment lowers the risk of death from <strong>10%</strong> to <strong>8%</strong>. What is the NNT?</p>
+<ul>
+<li><span data-explanation="Not quite: the answer is C. 2 is the absolute difference in percentage points, not the NNT.">A. 2</span></li>
+<li><span data-explanation="Not quite: the answer is C. This is the relative risk reduction (20%), not the NNT.">B. 20</span></li>
+<li><span class="correct" data-explanation="Correct. ARR = 10% − 8% = 2 points; NNT = 100 ÷ 2 = 50.">C. 50</span></li>
+<li><span data-explanation="Not quite: the answer is C. 80% is the relative risk (8 ÷ 10), not the NNT.">D. 80</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
+<aside class="notes">
+<p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
+<p><strong>Teaching point:</strong> NNT = 100 ÷ ARR (in percentage points). Show the working on the chalkboard (press B) if helpful.</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 31:30).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -626,7 +1231,7 @@ Presenter: [Name]
 
 <img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-adherence-1.png" alt="Stacked horizontal bars of adherence to assigned duration. 7-day group: 0.8% shorter, 76.1% adherent, 23.1% longer. 14-day group: 5.8% shorter, 83.5% adherent, 10.7% longer." width="2200" class="r-stretch"><aside class="notes">
 <p><strong>Say:</strong> Non-adherence was 23.9% in the 7-day arm (almost all longer courses) and 16.5% in the 14-day arm. Clinicians extended treatment when worried, for example persistent sepsis or a new hospital-acquired infection.</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 18:30).</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 32:30).</p>
 <p><strong>Anticipated question:</strong> “Does this undermine the result?” It is the key appraisal issue; we return to it in the quiz on non-adherence. Short version: per-protocol and modified ITT analyses agreed, and a later post-hoc analysis adjusting for non-adherence also agreed.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -642,10 +1247,47 @@ Presenter: [Name]
 </section>
 <section id="subgroups" class="slide level2" data-budget="1" data-section="Results">
 <h2>Subgroups</h2>
-
-<img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-subgroups-1.png" alt="Forest plot of selected prespecified subgroups for 90-day mortality risk difference. Most intervals are wide and several cross the plus 4 point margin, including lung, vascular catheter, unknown source, gram-positive, polymicrobial, Clinical Frailty Scale 5 or more, APACHE II 25 or more and vasopressor use. Gram-negative is minus 2.8, 95% CI minus 5.6 to minus 0.1." width="2200" class="r-stretch"><aside class="notes">
+<div class="panel-tabset">
+<ul id="tabset-10" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-10-1">Severity</a></li><li><a href="#tabset-10-2">Source</a></li><li><a href="#tabset-10-3">Pathogen</a></li></ul>
+<div class="tab-content">
+<div id="tabset-10-1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-subgroups-severity-1.png" alt="Forest plot of severity subgroups, 90-day mortality risk difference 7 minus 14 days: ICU at enrolment minus 0.3 (minus 3.7 to 3.1); ward minus 3.2 (minus 6.3 to 0.0); APACHE II 25 or more 0.1 (minus 7.0 to 7.2); vasopressor or inotrope 0.5 (minus 4.0 to 5.1); Clinical Frailty Scale 5 or more 2.8 (minus 2.1 to 7.8). All except ICU and ward cross the plus 4 margin." width="2200"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-10-2">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-subgroups-source-1.png" alt="Forest plot of infection source subgroups, 90-day mortality risk difference 7 minus 14 days: urinary tract minus 1.9 (minus 5.2 to 1.4); intra-abdominal or hepatobiliary minus 4.2 (minus 9.9 to 1.4); lung 1.5 (minus 6.1 to 9.0); vascular catheter 2.1 (minus 8.6 to 12.7); unknown source 1.2 (minus 5.5 to 7.9). Lung, catheter and unknown source cross the plus 4 margin." width="2200"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-10-3">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-subgroups-pathogen-1.png" alt="Forest plot of pathogen subgroups, 90-day mortality risk difference 7 minus 14 days: gram-positive 1.6 (minus 4.5 to 7.7); gram-negative minus 2.8 (minus 5.6 to minus 0.1); polymicrobial 1.5 (minus 5.8 to 8.7). Gram-positive and polymicrobial cross the plus 4 margin." width="2200"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
 <p><strong>Say:</strong> Subgroups are broadly consistent, but many intervals are wide and cross the margin, so we cannot claim non-inferiority within them. The authors say as much. Two to watch: frail patients (CFS 5 or more: +2.8, 95% CI −2.1 to 7.8) and lung source (+1.5, −6.1 to 9.0). These are hypothesis-generating only.</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 19:30).</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 33:30). Severity tab first (frailty), then Source (lung), then Pathogen (gram-negative).</p>
 <p><strong>Anticipated question:</strong> “Gram-negative looks significantly better with 7 days?” −2.8 (−5.6 to −0.1) just excludes zero, but with 13 or more subgroups and no multiplicity correction, one nominally significant result is expected by chance.</p>
 <p>Subgroup values from Figure 3 of the paper; CIs are 95% and unadjusted.</p>
 <style type="text/css">
@@ -660,12 +1302,64 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
+<section id="quiz-subgroups" class="slide level2 quiz-question" data-budget="1" data-section="Results">
+<h2>Quiz: subgroups</h2>
+<p>In the gram-negative subgroup, the difference was <strong>−2.8 points (95% CI −5.6 to −0.1)</strong>. What should we conclude?</p>
+<ul>
+<li><span data-explanation="Not quite: the answer is B. One of 13 or more unadjusted subgroups reaching significance is expected by chance.">A. 7 days is better than 14 days for gram-negative infection</span></li>
+<li><span class="correct" data-explanation="Correct. Subgroups are usually underpowered and not corrected for multiple comparisons; treat them as hypothesis-generating.">B. It is a hypothesis to test, not a conclusion</span></li>
+<li><span data-explanation="Not quite: the answer is B. The gram-positive interval is wide and includes no difference; it does not show harm.">C. Gram-positive infections need 14 days</span></li>
+<li><span data-explanation="Not quite: the answer is B. Subgroup findings do not overturn a sound overall result.">D. The overall trial result is invalid</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
+<aside class="notes">
+<p><strong>Say:</strong> Start the countdown, show of hands, then select and press A (or click Check).</p>
+<p><strong>Teaching point:</strong> the more subgroups you look at, the more likely one ‘significant’ result appears by chance. Look for consistency with the overall result.</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 34:30).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="secondary-outcomes" class="slide level2" data-budget="0.5" data-section="Results">
 <h2>Secondary outcomes</h2>
-
-<img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-secondary-1.png" alt="Forest plot of binary secondary outcomes, risk difference 7 minus 14 days with 95% CI: death in hospital minus 1.0 (minus 2.9 to 0.9); death in ICU minus 0.6 (minus 3.2 to 1.9); relapse 0.4 (minus 0.6 to 1.4); C. difficile minus 0.2 (minus 1.1 to 0.6); resistant organism colonisation or infection 1.1 (minus 0.8 to 2.9); allergy minus 0.3 (minus 0.9 to 0.3); acute kidney injury minus 0.1 (minus 0.7 to 0.5)." width="2200" class="r-stretch"><aside class="notes">
+<div class="panel-tabset">
+<ul id="tabset-11" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-11-1">Safety and relapse</a></li><li><a href="#tabset-11-2">Antibiotic exposure and stay</a></li></ul>
+<div class="tab-content">
+<div id="tabset-11-1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="journal_club_2026-11-16_files/figure-revealjs/plot-secondary-1.png" alt="Forest plot of binary secondary outcomes, risk difference 7 minus 14 days with 95% CI: death in hospital minus 1.0 (minus 2.9 to 0.9); death in ICU minus 0.6 (minus 3.2 to 1.9); relapse 0.4 (minus 0.6 to 1.4); C. difficile minus 0.2 (minus 1.1 to 0.6); resistant organism colonisation or infection 1.1 (minus 0.8 to 2.9); allergy minus 0.3 (minus 0.9 to 0.3); acute kidney injury minus 0.1 (minus 0.7 to 0.5)." width="2200"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-11-2">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="big-number">19 vs 14</span></p>
+<p><span class="big-label">Antibiotic-free days by day 28 (median); difference 5 (95% CI 4.6 to 5.4)</span></p>
+</div><div class="column" style="width:50%;">
+<p><span class="big-number">10 vs 11</span></p>
+<p><span class="big-label">Days in hospital (median); difference −1 (95% CI −1.5 to −0.5)</span></p>
+</div></div>
+</div>
+</div>
+</div>
+<aside class="notes">
 <p><strong>Say:</strong> No detectable differences in relapse, <em>C. difficile</em>, allergy, AKI or resistant organisms. But these events were rare, so the intervals are wide relative to the event rates. The clear gain is five more antibiotic-free days by day 28, and one fewer day in hospital (median 10 vs 11; difference −1, 95% CI −1.5 to −0.5).</p>
-<p><strong>Timing:</strong> 30 seconds (cumulative 20:00).</p>
+<p><strong>Timing:</strong> 30 seconds (cumulative 35:00).</p>
 <p><strong>Anticipated question:</strong> “So shorter courses do not reduce resistance?” The trial could not show it: resistance was measured from routine cultures, not active surveillance, and follow-up for <em>C. difficile</em> missed community and readmission episodes, as the authors acknowledge.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -679,20 +1373,20 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
-<section id="quiz-interpreting-the-result" class="slide level2" data-budget="1" data-section="Results">
+<section id="quiz-interpreting-the-result" class="slide level2 quiz-question" data-budget="1" data-section="Results">
 <h2>Quiz: interpreting the result</h2>
-<div class="quiz">
-  <div class="q-stem">ITT difference −1.6 points (95.7% CI −4.0 to 0.8); margin +4. Which statement is correct?</div>
-  <button class="q-opt" data-correct="false">A. 7 days is superior to 14 days</button>
-  <button class="q-opt" data-correct="true">B. 7 days is non-inferior; superiority is not shown</button>
-  <button class="q-opt" data-correct="false">C. Inconclusive, because the CI crosses zero</button>
-  <button class="q-opt" data-correct="false">D. 14 days is superior for gram-positive infection</button>
-  <div class="q-explain">The upper limit (0.8) lies below the +4 margin, so non-inferiority is shown. The interval includes zero, so superiority is not. Subgroup results are too imprecise to support D.</div>
-  <button class="q-reset">reset</button>
-</div>
+<p>ITT difference −1.6 points (95.7% CI −4.0 to 0.8); margin +4. Which statement is correct?</p>
+<ul>
+<li><span data-explanation="Not quite: the answer is B. The interval includes zero, so superiority is not shown.">A. 7 days is superior to 14 days</span></li>
+<li><span class="correct" data-explanation="Correct. The upper limit (0.8) lies below the +4 margin, so non-inferiority is shown; the interval includes zero, so superiority is not.">B. 7 days is non-inferior; superiority is not shown</span></li>
+<li><span data-explanation="Not quite: the answer is B. Crossing zero is expected; the test is whether the interval stays clear of the +4 margin.">C. Inconclusive, because the CI crosses zero</span></li>
+<li><span data-explanation="Not quite: the answer is B. Subgroup results are too imprecise to support this.">D. 14 days is superior for gram-positive infection</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> Option C catches people who apply superiority logic to a non-inferiority trial. Crossing zero is expected; the test is whether the interval stays clear of the margin.</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 21:00).</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 36:00).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -721,7 +1415,7 @@ Presenter: [Name]
 </div></div>
 <aside class="notes">
 <p><strong>Say:</strong> Keep these separate. The authors’ claim is narrow and matches the data. What follows is our own appraisal, not the authors’.</p>
-<p><strong>Timing:</strong> 30 seconds (cumulative 21:30).</p>
+<p><strong>Timing:</strong> 30 seconds (cumulative 36:30).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -734,8 +1428,13 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
-<section id="consort-non-inferiority-extension" class="slide level2" data-budget="1.5" data-section="Appraisal">
-<h2>CONSORT non-inferiority extension</h2>
+<section id="appraisal-checklists" class="slide level2" data-budget="4" data-section="Appraisal">
+<h2>Appraisal checklists</h2>
+<div class="panel-tabset">
+<ul id="tabset-12" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-12-1">CONSORT (reporting)</a></li><li><a href="#tabset-12-2">CASP (quick appraisal)</a></li><li><a href="#tabset-12-3">RoB 2 (risk of bias)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-12-1">
+<p><span class="tab-lead">Was the non-inferiority design reported properly?</span></p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -770,24 +1469,9 @@ Presenter: [Name]
 </tr>
 </tbody>
 </table>
-<aside class="notes">
-<p><strong>Say:</strong> The design is reported well. The last row is the subtle one. Classic non-inferiority logic assumes the comparator has proven efficacy against placebo. Fourteen days has never been shown to beat a shorter course, so the margin is a clinical judgement about acceptable extra deaths, not a fraction of a known treatment effect <span class="citation" data-cites="mulla2012">[<a href="#/references" role="doc-biblioref" onclick="">7</a>]</span>.</p>
-<p><strong>Timing:</strong> 1.5 minutes (cumulative 23:00).</p>
-<p><strong>Anticipated question:</strong> “Is 4 points small enough?” It is about a quarter of the observed control mortality in relative terms. Would patients accept up to 4 extra deaths per 100 to gain five antibiotic-free days? This is a good discussion point.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="casp-rct-checklist" class="slide level2" data-budget="1.5" data-section="Appraisal">
-<h2>CASP RCT checklist</h2>
+</div>
+<div id="tabset-12-2">
+<p><span class="tab-lead">A structured set of questions any reader can ask of an RCT</span></p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -795,7 +1479,7 @@ Presenter: [Name]
 </colgroup>
 <thead>
 <tr class="header">
-<th>CASP question <span class="citation" data-cites="casp2020">[<a href="#/references" role="doc-biblioref" onclick="">8</a>]</span></th>
+<th>CASP question <span class="citation" data-cites="casp2020">[<a href="#/references" role="doc-biblioref" onclick="">7</a>]</span></th>
 <th>Judgement</th>
 </tr>
 </thead>
@@ -826,24 +1510,9 @@ Presenter: [Name]
 </tr>
 </tbody>
 </table>
-<aside class="notes">
-<p><strong>Say:</strong> Walk through quickly; most answers are yes. The two weaker areas are the open-label period after day 7 and the lack of information on co-interventions and oral switch timing.</p>
-<p><strong>Timing:</strong> 1.5 minutes (cumulative 24:30).</p>
-<p><strong>Anticipated question:</strong> “Could open-label design bias mortality?” Death is objective, so measurement bias is unlikely. The concern is behaviour: clinicians who know the patient will stop at day 7 may look harder for reasons to continue, which feeds the non-adherence issue.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="risk-of-bias-rob-2-90-day-mortality" class="slide level2" data-budget="2" data-section="Appraisal">
-<h2>Risk of bias: RoB 2, 90-day mortality</h2>
+</div>
+<div id="tabset-12-3">
+<p><span class="tab-lead">Could the trial’s conduct have pushed the result one way?</span></p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -852,7 +1521,7 @@ Presenter: [Name]
 </colgroup>
 <thead>
 <tr class="header">
-<th>Domain <span class="citation" data-cites="sterne2019">[<a href="#/references" role="doc-biblioref" onclick="">9</a>]</span></th>
+<th>Domain <span class="citation" data-cites="sterne2019">[<a href="#/references" role="doc-biblioref" onclick="">8</a>]</span></th>
 <th>Judgement</th>
 <th>Reason</th>
 </tr>
@@ -890,10 +1559,18 @@ Presenter: [Name]
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
 <aside class="notes">
-<p><strong>Say:</strong> This is our judgement, not the authors’. The only domain with concerns is deviations. For the effect of assignment (ITT), RoB 2 would often rate deviations that reflect usual practice as low risk. We have been stricter because in a non-inferiority trial, deviations that blur the contrast push towards a finding of non-inferiority.</p>
-<p><strong>Timing:</strong> 2 minutes (cumulative 26:30).</p>
+<p><strong>Approach:</strong> three tools, three questions. CONSORT: was it reported well? CASP: a quick general appraisal. RoB 2: could bias have shifted the result? Spend about 1 minute on CONSORT, 1 on CASP, 2 on RoB 2.</p>
+<p><strong>CONSORT tab.</strong> <strong>Say:</strong> The design is reported well. The last row is the subtle one. Classic non-inferiority logic assumes the comparator has proven efficacy against placebo. Fourteen days has never been shown to beat a shorter course, so the margin is a clinical judgement about acceptable extra deaths, not a fraction of a known treatment effect <span class="citation" data-cites="mulla2012">[<a href="#/references" role="doc-biblioref" onclick="">9</a>]</span>.</p>
+<p><strong>Anticipated question:</strong> “Is 4 points small enough?” It is about a quarter of the observed control mortality in relative terms. Would patients accept up to 4 extra deaths per 100 to gain five antibiotic-free days? This is a good discussion point.</p>
+<p><strong>CASP tab.</strong> <strong>Say:</strong> Walk through quickly; most answers are yes. The two weaker areas are the open-label period after day 7 and the lack of information on co-interventions and oral switch timing.</p>
+<p><strong>Anticipated question:</strong> “Could open-label design bias mortality?” Death is objective, so measurement bias is unlikely. The concern is behaviour: clinicians who know the patient will stop at day 7 may look harder for reasons to continue, which feeds the non-adherence issue.</p>
+<p><strong>RoB 2 tab.</strong> <strong>Say:</strong> This is our judgement, not the authors’. The only domain with concerns is deviations. For the effect of assignment (ITT), RoB 2 would often rate deviations that reflect usual practice as low risk. We have been stricter because in a non-inferiority trial, deviations that blur the contrast push towards a finding of non-inferiority.</p>
 <p><strong>Anticipated question:</strong> “Would you rate it high risk?” No.&nbsp;Non-adherence was moderate, the median durations still separated by six days, and the supporting analyses agreed.</p>
+<p><strong>Timing:</strong> 4 minutes (cumulative 40:30).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -906,21 +1583,21 @@ Presenter: [Name]
           display:block!important;
       }</style></aside>
 </section>
-<section id="quiz-the-non-inferiority-trap" class="slide level2" data-budget="1" data-section="Appraisal">
+<section id="quiz-the-non-inferiority-trap" class="slide level2 quiz-question" data-budget="1" data-section="Appraisal">
 <h2>Quiz: the non-inferiority trap</h2>
-<div class="quiz">
-  <div class="q-stem">23% of the 7-day group received longer courses. In an ITT analysis of a non-inferiority trial, this tends to:</div>
-  <button class="q-opt" data-correct="true">A. Bias towards finding non-inferiority</button>
-  <button class="q-opt" data-correct="false">B. Bias towards finding inferiority</button>
-  <button class="q-opt" data-correct="false">C. Have no effect, because ITT preserves randomisation</button>
-  <button class="q-opt" data-correct="false">D. Raise mortality equally in both groups</button>
-  <div class="q-explain">Crossover makes the arms more alike, shrinking any true difference towards zero and so towards non-inferiority. BALANCE's per-protocol and modified ITT analyses agreed, and a post-hoc analysis adjusting for non-adherence reached the same conclusion.</div>
-  <button class="q-reset">reset</button>
-</div>
+<p>23% of the 7-day group received longer courses. In an ITT analysis of a non-inferiority trial, this tends to:</p>
+<ul>
+<li><span class="correct" data-explanation="Correct. Crossover makes the arms more alike, shrinking any true difference towards zero and so towards non-inferiority. Per-protocol, modified ITT and a post-hoc adjusted analysis all agreed.">A. Bias towards finding non-inferiority</span></li>
+<li><span data-explanation="Not quite: the answer is A. Crossover makes the arms more alike, pushing towards non-inferiority.">B. Bias towards finding inferiority</span></li>
+<li><span data-explanation="Not quite: the answer is A. ITT preserves randomisation but dilutes the contrast, which is anti-conservative in non-inferiority trials.">C. Have no effect, because ITT preserves randomisation</span></li>
+<li><span data-explanation="Not quite: the answer is A. Crossover dilutes the difference between arms towards non-inferiority.">D. Raise mortality equally in both groups</span></li>
+</ul>
+<countdown-timer id="timer_34dc1084e17b81748a0e5a53e0b34a9ff3ff18d3" minutes="00" seconds="20" class="countdown" warn-when="5" update-every="1" play-sound="true" blink-colon="false" start-immediately="false" tabindex="0" style="right: 0;bottom: 1.4em;">
+ </countdown-timer>
 <aside class="notes">
 <p><strong>Say:</strong> In superiority trials, dilution is conservative. In non-inferiority trials it is anti-conservative. That is why per-protocol analyses matter here.</p>
 <p><strong>Post-hoc analysis</strong> <span class="citation" data-cites="ong2026">[<a href="#/references" role="doc-biblioref" onclick="">10</a>]</span>: non-adherence was associated with prognostic factors (more acute illness, non-urinary source, non-<em>Enterobacterales</em> organisms). After inverse probability weighting, the per-protocol risk difference was −1.61% (95% CI −4.13 to 0.87) and the as-treated estimate −0.75% (−3.36 to 1.86), still within the 4-point margin. [VERIFY these figures against the Lancet Infect Dis full text; taken from the published abstract.]</p>
-<p><strong>Timing:</strong> 1 minute (cumulative 27:30).</p>
+<p><strong>Timing:</strong> 1 minute (cumulative 41:30).</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -974,7 +1651,7 @@ Presenter: [Name]
 <p>Applies to the trial population; downgrade for indirectness outside it.</p>
 <aside class="notes">
 <p><strong>Say:</strong> Our GRADE judgement for the question ‘in patients like those enrolled’. If you apply it to excluded groups (<em>S. aureus</em>, neutropenia, deep foci), indirectness would lower certainty sharply, and in truth the trial gives no evidence for them.</p>
-<p><strong>Timing:</strong> 1.5 minutes (cumulative 29:00).</p>
+<p><strong>Timing:</strong> 1.5 minutes (cumulative 43:00).</p>
 <p><strong>Note:</strong> the paper includes a meta-analysis with the earlier trials in Supplementary Figure S1, which we have not reviewed. The ‘consistent with earlier RCTs’ judgement rests on the three trials summarised earlier.</p>
 <p><strong>Anticipated question:</strong> “Why not downgrade mortality for risk of bias?” The deviations concern was judged not serious because sensitivity analyses agreed.</p>
 <style type="text/css">
@@ -991,30 +1668,42 @@ Presenter: [Name]
 </section>
 <section id="applicability-to-nhs-patients" class="slide level2" data-budget="2" data-section="Applicability">
 <h2>Applicability to NHS patients</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
+<div class="panel-tabset">
+<ul id="tabset-13" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-13-1">Likely applies</a></li><li><a href="#tabset-13-2">Uncertain</a></li><li><a href="#tabset-13-3">Does not apply</a></li></ul>
+<div class="tab-content">
+<div id="tabset-13-1">
 <div class="card green">
-<p><strong>Likely applies</strong></p>
 <ul>
 <li>Community-acquired gram-negative bacteraemia, especially urinary</li>
 <li>Ward and ICU patients who are improving</li>
 <li>Source identified and controlled</li>
 </ul>
 </div>
-</div><div class="column" style="width:50%;">
+</div>
+<div id="tabset-13-2">
+<div class="card orange">
+<ul>
+<li>Frail older patients (CFS 5 or more)</li>
+<li>Lung, catheter or unknown source</li>
+<li>Gram-positive organisms other than <em>S. aureus</em></li>
+<li>No UK sites; patients clinicians declined to enrol</li>
+</ul>
+</div>
+</div>
+<div id="tabset-13-3">
 <div class="card red">
-<p><strong>Does not apply</strong></p>
 <ul>
 <li><em>S. aureus</em>, fungaemia</li>
 <li>Neutropenia, transplant</li>
 <li>Endovascular, bone, joint or undrained foci</li>
 </ul>
 </div>
-</div></div>
-<p>No UK sites; frail patients and non-urinary sources less certain.</p>
+</div>
+</div>
+</div>
 <aside class="notes">
 <p><strong>Say:</strong> Most NHS bacteraemia on the general take looks like the BALANCE population. Uncertainty remains for frail older patients, lung and catheter sources, and gram-positive organisms other than <em>S. aureus</em>, where subgroups were small.</p>
-<p><strong>Timing:</strong> 2 minutes (cumulative 31:00).</p>
+<p><strong>Timing:</strong> 2 minutes (cumulative 45:00). Go through the tabs left to right.</p>
 <p><strong>Selection:</strong> 4,532 eligible patients were not enrolled because the attending physician declined. Patients who worried clinicians may be under-represented.</p>
 <p><strong>Anticipated question:</strong> “What about oral step-down?” Route was at clinician discretion and the paper does not report the oral switch rate in the main text, so we cannot say how much of the 7 days was oral.</p>
 <style type="text/css">
@@ -1039,7 +1728,7 @@ Presenter: [Name]
 </ul>
 <aside class="notes">
 <p><strong>Say:</strong> There is no national NICE recommendation on how long to treat bacteraemia [VERIFY: confirm that NG253 sections 1.8 and 1.9 do not set a duration]. National stewardship guidance asks us to review at 48 to 72 hours, and NHS England’s stewardship report cites seven days for gram-negative bacteraemia with urinary source as a shortened course trusts have adopted. That document is England-specific; colleagues in Northern Ireland, Scotland and Wales should check their regional guidance.</p>
-<p><strong>Timing:</strong> 2 minutes (cumulative 33:00).</p>
+<p><strong>Timing:</strong> 2 minutes (cumulative 47:00).</p>
 <p><strong>Anticipated question:</strong> “Does BALANCE change S. aureus practice?” No.&nbsp;<em>S. aureus</em> was excluded and the authors explicitly say their results do not apply to it.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1062,7 +1751,7 @@ Presenter: [Name]
 <li>Fixed 7 days or individualised duration?</li>
 </ol>
 <aside class="notes">
-<p><strong>Timing:</strong> 5 minutes (cumulative 38:00). Spend about 1 minute on each, keep 1 minute in reserve.</p>
+<p><strong>Timing:</strong> 5 minutes (cumulative 52:00). Spend about 1 minute on each, keep 1 minute in reserve.</p>
 <p><strong>Prompts:</strong></p>
 <ol type="1">
 <li>Revisit the poll. Has anyone moved? Reasons to extend: persistent bacteraemia, undrained focus, new infection, not improving by day 7.</li>
@@ -1096,8 +1785,50 @@ Presenter: [Name]
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Read the bottom line slowly. That is our interpretation, not the authors’ wording.</p>
-<p><strong>Timing:</strong> 2 minutes (cumulative 40:00). Press R to reset the timer for the next presenter.</p>
+<p><strong>Timing:</strong> 2 minutes (cumulative 54:00). Press R to reset the timer for the next presenter.</p>
 <p><strong>Anticipated question:</strong> “Can I quote this to my consultant?” Quote the trial and its population; check that the patient meets the inclusion criteria and that local guidance agrees.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="jargon-buster" class="slide level2" data-budget="0" data-section="Backup">
+<h2>Jargon buster</h2>
+<div class="panel-tabset">
+<ul id="tabset-14" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-14-1">Non-inferiority</a></li><li><a href="#tabset-14-2">Margin</a></li><li><a href="#tabset-14-3">ITT / PP</a></li><li><a href="#tabset-14-4">Power</a></li><li><a href="#tabset-14-5">Alpha</a></li><li><a href="#tabset-14-6">CI</a></li><li><a href="#tabset-14-7">ARR / NNT</a></li></ul>
+<div class="tab-content">
+<div id="tabset-14-1">
+<p>A trial asking whether a new option is <strong>not unacceptably worse</strong> than the standard. Success = the harm end of the confidence interval stays inside the <strong>margin</strong>.</p>
+</div>
+<div id="tabset-14-2">
+<p>The <strong>largest extra harm</strong> we agree in advance to accept. BALANCE: 4 extra deaths per 100.</p>
+</div>
+<div id="tabset-14-3">
+<p><strong>Intention-to-treat:</strong> analyse everyone as randomised. <strong>Per-protocol:</strong> analyse only those who got the assigned treatment. In non-inferiority trials, check both.</p>
+</div>
+<div id="tabset-14-4">
+<p>The chance of showing a true effect. 80% power = a 20% chance of missing it (type II error).</p>
+</div>
+<div id="tabset-14-5">
+<p>The accepted risk of a false-positive conclusion (type I error). BALANCE: 2.5% one-sided.</p>
+</div>
+<div id="tabset-14-6">
+<p>The range of true effects compatible with the data. Narrow = precise.</p>
+</div>
+<div id="tabset-14-7">
+<p><strong>ARR:</strong> difference in risk between groups. <strong>NNT:</strong> 100 ÷ ARR (in percentage points).</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Backup slide.</strong> Use if a term comes up in discussion. Not timed.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1131,14 +1862,14 @@ Presenter: [Name]
 <div id="ref-piaggio2012" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[6] </div><div class="csl-right-inline">Piaggio G, Elbourne DR, Pocock SJ, Evans SJW, Altman DG. Reporting of noninferiority and equivalence randomized trials: Extension of the <span>CONSORT</span> 2010 statement. JAMA 2012;308:2594–604.</div>
 </div>
-<div id="ref-mulla2012" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline">Mulla SM, Scott IA, Jackevicius CA, You JJ, Guyatt GH. How to use a noninferiority trial: Users’ guides to the medical literature. JAMA 2012;308:2605–11.</div>
-</div>
 <div id="ref-casp2020" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline">Critical Appraisal Skills Programme. <a href="https://casp-uk.net/casp-tools-checklists/"><span>CASP</span> randomised controlled trial checklist</a> 2020.</div>
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">Critical Appraisal Skills Programme. <a href="https://casp-uk.net/casp-tools-checklists/"><span>CASP</span> randomised controlled trial checklist</a> 2020.</div>
 </div>
 <div id="ref-sterne2019" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline"><span class="nocase">Sterne JAC, Savović J, Page MJ, et al.</span> <span>RoB 2</span>: A revised tool for assessing risk of bias in randomised trials. BMJ 2019;366:l4898.</div>
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline"><span class="nocase">Sterne JAC, Savović J, Page MJ, et al.</span> <span>RoB 2</span>: A revised tool for assessing risk of bias in randomised trials. BMJ 2019;366:l4898.</div>
+</div>
+<div id="ref-mulla2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">Mulla SM, Scott IA, Jackevicius CA, You JJ, Guyatt GH. How to use a noninferiority trial: Users’ guides to the medical literature. JAMA 2012;308:2605–11.</div>
 </div>
 <div id="ref-ong2026" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[10] </div><div class="csl-right-inline"><span class="nocase">Ong SWX, Pinto R, Mahar RK, et al.</span> Accounting for non-adherence to assigned antibiotic treatment duration for bloodstream infection (<span>BALANCE</span>): A post-hoc analysis of a randomised clinical trial. Lancet Infectious Diseases 2026;26:250–9. <a href="https://doi.org/10.1016/S1473-3099(25)00592-4">https://doi.org/10.1016/S1473-3099(25)00592-4</a>.</div>
@@ -1173,6 +1904,7 @@ Presenter: [Name]
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
   <script src="journal_club_2026-11-16_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -1196,6 +1928,7 @@ Presenter: [Name]
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"a","resetKey":"z","shuffleKey":"u","allowNumberKeys":true,"disableOnCheck":true,"shuffleOptions":false,"defaultCorrect":"Correct!","defaultIncorrect":"Not quite.","includeScore":false,"disableReset":false},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1366,7 +2099,7 @@ Presenter: [Name]
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
 
           RevealMath,
           RevealNotes,
@@ -1647,26 +2380,8 @@ Presenter: [Name]
       })();
     })();
 
-    /* ---------- Quiz and poll ---------- */
+    /* ---------- Poll (quizzes use the quarto-quiz extension) ---------- */
     document.addEventListener("click", function (e) {
-      var opt = e.target.closest(".q-opt");
-      if (opt && !opt.disabled) {
-        var quiz = opt.closest(".quiz");
-        quiz.querySelectorAll(".q-opt").forEach(function (b) {
-          b.disabled = true;
-          if (b.dataset.correct === "true") b.classList.add("correct");
-        });
-        if (opt.dataset.correct !== "true") opt.classList.add("wrong");
-        quiz.querySelector(".q-explain").classList.add("show");
-        return;
-      }
-      var rs = e.target.closest(".q-reset");
-      if (rs) {
-        var q = rs.closest(".quiz");
-        q.querySelectorAll(".q-opt").forEach(function (b) { b.disabled = false; b.classList.remove("correct", "wrong"); });
-        q.querySelector(".q-explain").classList.remove("show");
-        return;
-      }
       var pb = e.target.closest(".poll-btn");
       if (pb) {
         var poll = pb.closest(".poll");
