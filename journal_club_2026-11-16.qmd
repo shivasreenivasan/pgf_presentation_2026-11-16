@@ -253,19 +253,18 @@ The ward pharmacist asks: **stop today, or complete 14 days?**
 **Tip:** if the room is large, estimate in fives and click accordingly. Counts reset when the page reloads.
 :::
 
-## Which language do you use most?
+<!-- ## Which language do you use most?
 
 ::: {.poll #lang}
 - R
 - Python
-- Julia
-- C++
+- Julia 
 :::
 
 ## One word for today's lecture?
 
 ::: {.wordcloud #mood max-words=2}
-:::
+::: -->
 
 ## Why duration matters {data-budget="1.5" data-section="Background"}
 
