@@ -1478,16 +1478,16 @@ Applies to the trial population; downgrade for indirectness outside it.
 
 ## Take-home messages {data-budget="1.5" data-section="Close"}
 
-::: {.incremental}
+::: 
 - 7 days was **non-inferior** to 14 days for 90-day death: −1.6 points (95.7% CI −4.0 to 0.8)
 - **5 more antibiotic-free days**; harms too rare to compare reliably
 - Non-adherence biases towards non-inferiority, but supporting analyses agree
 - Not for *S. aureus*, severe immunosuppression or deep foci
 :::
 
-:::: {.card .green}
+::: {.card .green}
 **Bottom line:** for improving inpatients with uncomplicated, non-*S. aureus* bacteraemia, plan 7 days and justify anything longer.
-::::
+:::
 
 ::: notes
 **Say:** Read the bottom line slowly. That is our interpretation, not the authors' wording.
