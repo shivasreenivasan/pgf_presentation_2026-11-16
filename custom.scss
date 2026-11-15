@@ -1,0 +1,244 @@
+/*-- scss:defaults --*/
+
+// Okabe-Ito colour-blind-safe palette
+$oi-blue:        #0072B2;
+$oi-orange:      #E69F00;
+$oi-vermillion:  #D55E00;
+$oi-green:       #009E73;
+$oi-sky:         #56B4E9;
+$oi-purple:      #CC79A7;
+$ink:            #1B1F24;
+$navy:           #0B2E4F;
+$muted:          #4A5560;
+$paper:          #FFFFFF;
+$wash:           #F2F6FA;
+
+$body-bg:               $paper;
+$body-color:            $ink;
+$link-color:            $oi-blue;
+$selection-bg:          lighten($oi-sky, 25%);
+$presentation-heading-color: $navy;
+$presentation-heading-font-weight: 700;
+$presentation-font-size-root: 38px;
+$presentation-h2-font-size: 1.45em;
+$presentation-h3-font-size: 1.15em;
+$font-family-sans-serif: "Source Sans Pro", "Segoe UI", Helvetica, Arial, sans-serif;
+$code-color: $oi-vermillion;
+
+/*-- scss:rules --*/
+
+.reveal {
+  .slides section { text-align: left; }
+
+  h2 {
+    border-bottom: 4px solid $oi-blue;
+    padding-bottom: 0.15em;
+    margin-bottom: 0.6em;
+  }
+
+  .slide-number { color: $muted; font-size: 0.55em; }
+
+  .footer { color: $muted; font-size: 0.5em; }
+
+  ul li { margin-bottom: 0.25em; }
+
+  .refs-slide #refs { column-count: 2; column-gap: 1.2em; font-size: 0.62em; line-height: 1.25; }
+  .refs-slide .csl-entry { break-inside: avoid; margin-bottom: 0.35em; }
+
+  .small  { font-size: 0.7em; }
+  .smaller { font-size: 0.6em; }
+  .muted  { color: $muted; }
+  .center { text-align: center; }
+
+  .verify {
+    background: lighten($oi-orange, 38%);
+    border-bottom: 2px dotted $oi-vermillion;
+    padding: 0 0.15em;
+    font-weight: 600;
+  }
+
+  .source {
+    font-size: 0.45em;
+    color: $muted;
+    position: absolute;
+    bottom: -0.2em;
+    left: 0;
+  }
+
+  // Title slide
+  #title-slide {
+    background: linear-gradient(135deg, $navy 0%, darken($oi-blue, 8%) 100%);
+    color: #fff;
+    padding: 1.2em 1.4em;
+    border-radius: 10px;
+    .title { color: #fff; font-size: 1.55em; line-height: 1.15; }
+    .subtitle { color: lighten($oi-sky, 20%); font-size: 0.85em; margin-top: 0.5em; }
+    .author, .date, .quarto-title-author-name { color: #fff; }
+    .date { opacity: 0.9; }
+  }
+
+  // Section divider slides
+  .section-slide {
+    h2 { border: none; font-size: 2em; color: #fff; }
+  }
+
+  // Callouts and cards
+  .card {
+    background: $wash;
+    border-left: 6px solid $oi-blue;
+    border-radius: 6px;
+    padding: 0.5em 0.8em;
+    margin: 0.3em 0;
+  }
+  .card.orange { border-left-color: $oi-orange; }
+  .card.green  { border-left-color: $oi-green; }
+  .card.red    { border-left-color: $oi-vermillion; }
+
+  .big-number {
+    font-size: 2.2em;
+    font-weight: 800;
+    color: $oi-blue;
+    line-height: 1;
+  }
+  .big-label { font-size: 0.6em; color: $muted; }
+
+  // PICO grid
+  .pico {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4em 0.6em;
+    font-size: 0.78em;
+    .cell {
+      background: $wash;
+      border-radius: 8px;
+      padding: 0.4em 0.6em;
+      border-top: 6px solid $oi-blue;
+    }
+    .cell:nth-child(2) { border-top-color: $oi-orange; }
+    .cell:nth-child(3) { border-top-color: $oi-green; }
+    .cell:nth-child(4) { border-top-color: $oi-purple; }
+    .letter { font-size: 1.6em; font-weight: 800; color: $navy; margin-right: 0.2em; }
+  }
+
+  // Tables
+  table {
+    font-size: 0.72em;
+    border-collapse: collapse;
+    th { background: $navy; color: #fff; padding: 0.3em 0.5em; a { color: lighten($oi-sky, 15%); } }
+    td { padding: 0.25em 0.5em; border-bottom: 1px solid #d9e1e8; }
+    tr:nth-child(even) td { background: $wash; }
+  }
+
+  // RoB 2 traffic lights (shape + colour, so not colour-only)
+  .rob {
+    display: inline-block;
+    min-width: 6.2em;
+    text-align: center;
+    border-radius: 999px;
+    padding: 0.05em 0.5em;
+    font-weight: 700;
+    font-size: 0.9em;
+  }
+  .rob.low  { background: $oi-green; color: #fff; }
+  .rob.some { background: $oi-orange; color: $ink; }
+  .rob.high { background: $oi-vermillion; color: #fff; }
+
+  // Quiz
+  .quiz {
+    font-size: 0.8em;
+    .q-stem { font-weight: 600; margin-bottom: 0.5em; }
+    .q-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0.25em 0;
+      padding: 0.35em 0.7em;
+      border: 2px solid $oi-blue;
+      border-radius: 8px;
+      background: #fff;
+      color: $ink;
+      font: inherit;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .q-opt:hover:not([disabled]) { background: $wash; }
+    .q-opt.correct { background: $oi-green; border-color: $oi-green; color: #fff; }
+    .q-opt.correct::after { content: "  \2713 correct"; font-weight: 700; }
+    .q-opt.wrong { background: lighten($oi-vermillion, 40%); border-color: $oi-vermillion; }
+    .q-opt.wrong::after { content: "  \2717"; font-weight: 700; color: $oi-vermillion; }
+    .q-opt[disabled] { cursor: default; }
+    .q-explain {
+      display: none;
+      margin-top: 0.5em;
+      padding: 0.4em 0.7em;
+      background: $wash;
+      border-left: 6px solid $oi-green;
+      border-radius: 6px;
+      font-size: 0.85em;
+    }
+    .q-explain.show { display: block; }
+    .q-reset {
+      margin-top: 0.4em;
+      font-size: 0.6em;
+      background: none;
+      border: 1px solid $muted;
+      border-radius: 6px;
+      color: $muted;
+      cursor: pointer;
+    }
+  }
+
+  // Live poll
+  .poll {
+    font-size: 0.8em;
+    .poll-row {
+      display: grid;
+      grid-template-columns: 13em 1fr 2.5em;
+      align-items: center;
+      gap: 0.5em;
+      margin: 0.35em 0;
+    }
+    .poll-btn {
+      font: inherit;
+      padding: 0.3em 0.6em;
+      border-radius: 8px;
+      border: 2px solid $oi-blue;
+      background: #fff;
+      cursor: pointer;
+    }
+    .poll-bar { height: 0.9em; background: $oi-sky; border-radius: 4px; width: 0; transition: width 0.25s ease; }
+    .poll-row:nth-child(2) .poll-bar { background: $oi-orange; }
+    .poll-row:nth-child(3) .poll-bar { background: $oi-purple; }
+    .poll-count { font-weight: 700; text-align: right; }
+  }
+}
+
+// Session timer (outside .reveal so it sits above slides)
+#jc-timer {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  z-index: 40;
+  font-family: "Source Sans Pro", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  background: rgba(11, 46, 79, 0.92);
+  color: #fff;
+  border-radius: 10px;
+  padding: 6px 10px 7px;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  user-select: none;
+  line-height: 1.25;
+  .jc-row { display: flex; justify-content: space-between; gap: 10px; }
+  .jc-label { opacity: 0.8; }
+  .jc-clock { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .jc-bar { height: 5px; background: rgba(255,255,255,0.25); border-radius: 3px; margin-top: 4px; overflow: hidden; }
+  .jc-fill { height: 100%; width: 0; background: $oi-sky; transition: width 0.5s linear; }
+  .jc-status { font-weight: 700; }
+  &.ahead  .jc-status { color: lighten($oi-green, 25%); }
+  &.behind .jc-status { color: $oi-orange; }
+  &.late   .jc-fill   { background: $oi-orange; }
+  &.paused .jc-clock::after { content: " \2016"; }
+  .jc-help { font-size: 11px; opacity: 0.7; margin-top: 2px; }
+  &.hidden { display: none; }
+}
