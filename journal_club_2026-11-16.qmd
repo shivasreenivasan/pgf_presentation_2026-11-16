@@ -20,8 +20,14 @@ format:
     margin: 0.06
     fig-dpi: 200
     link-citations: true
+    filters:
+      - live-questions
     revealjs-plugins:
+      - live-questions
       - quiz
+    # live-questions:
+    #   server:
+    #   session: pgf-presentation
     quiz:
       checkKey: "a"          # A = check answer (c is chalkboard)
       resetKey: "z"          # Z = reset question (q/r are the timer)
