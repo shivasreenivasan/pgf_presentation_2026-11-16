@@ -650,13 +650,13 @@ Why did BALANCE keep the allocation hidden until day 7?
 
 ### Sample size
 
-- 3626 patients for 80% power (explained next)
+- 3626 patients for **80% power** (explained later)
 - One-sided alpha 2.5%, assuming 22% deaths with 14 days
 - Three interim looks at the data, so the main result uses a **95.7% CI**
 
 ### Analyses
 
-- **Intention-to-treat (ITT)** primary (explained shortly)
+- **Intention-to-treat (ITT)** primary (explained later)
 - Per-protocol and modified ITT as supporting analyses
 - Clustering by centre: separate prespecified mixed model
 
