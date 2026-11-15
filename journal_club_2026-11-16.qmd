@@ -198,21 +198,22 @@ rel_margin_observed <- margin / (100 * r14)        # observed control mortality
 By the end of this session you should be able to:
 
 1. Explain **randomisation, power, confidence intervals** and **intention-to-treat** in plain English
-2. Explain how a **non-inferiority** trial differs from a superiority trial
-3. Appraise BALANCE with simple checklists and **GRADE**
-4. Decide when **7 days** of antibiotics is reasonable for bacteraemia
+2. Calculate and explain **ARR, RRR and NNT** (including **NNTB** and **NNTH**)
+3. Explain how a **non-inferiority** trial differs from a superiority trial
+4. Appraise BALANCE with simple checklists and **GRADE**
+5. Decide when **7 days** of antibiotics is reasonable for bacteraemia
 
 ::: notes
-**Say:** Welcome. Today's paper is a large pragmatic RCT that many of us will meet on the next take. Four objectives: learn the key trial words, understand non-inferiority, appraise the trial, and decide whether it should change what we write on the drug chart.
+**Say:** Welcome. Today's paper is a large pragmatic RCT that many of us will meet on the next take. Five objectives: learn the key trial words, learn how to describe the size of an effect (ARR, RRR, NNT), understand non-inferiority, appraise the trial, and decide whether it should change what we write on the drug chart.
 
 **Timing:** 1 minute (cumulative 1:00). Press T to start the session timer now.
 
-**Approach:** this version is pitched for learners. Each statistical idea gets a tabbed explainer slide (plain English, then BALANCE) followed by a quick quiz. A jargon buster slide sits just before the references as backup.
+**Approach:** this version is pitched for learners. Each statistical idea gets a tabbed explainer slide (plain English, then BALANCE) followed by a quick quiz for the key ideas (non-inferiority, ITT, NNT). A jargon buster and four extra quizzes sit just before the references as backup.
 
 **Anticipated question:** "Why this paper?" Answer: it applies to almost every specialty that admits patients, the design teaches non-inferiority well, and it is now being cited in local stewardship updates.
 :::
 
-## Clinical scenario {data-budget="1.5" data-section="Opening"}
+## Clinical scenario {data-budget="1" data-section="Opening"}
 
 :::: {.card}
 **Mrs D, 72.** *E. coli* bacteraemia from pyelonephritis. Admitted to ICU on noradrenaline.
@@ -227,7 +228,7 @@ The ward pharmacist asks: **stop today, or complete 14 days?**
 ::: notes
 **Say:** This is a fictional but typical patient. Read the vignette aloud. Ask the room to hold their answer in mind; we will vote on the next slide.
 
-**Timing:** 1.5 minutes (cumulative 2:30).
+**Timing:** 1 minute (cumulative 2:00).
 
 **Points to draw out:** source is identified and controlled (no obstruction on imaging assumed), organism is not *S. aureus*, she is not severely immunosuppressed and has no prosthetic valve. That places her inside the BALANCE population, which matters later.
 
@@ -248,7 +249,7 @@ The ward pharmacist asks: **stop today, or complete 14 days?**
 ::: notes
 **Say:** Quick show of hands; click each button once per hand to build the bar chart. We will revisit this vote at the end.
 
-**Timing:** 30 seconds (cumulative 3:00).
+**Timing:** 30 seconds (cumulative 2:30).
 
 **Tip:** if the room is large, estimate in fives and click accordingly. Counts reset when the page reloads.
 :::
@@ -278,14 +279,14 @@ The ward pharmacist asks: **stop today, or complete 14 days?**
 ::: notes
 **Say:** The authors frame the problem as a balance of harms. Early appropriate therapy improves survival, but nobody had shown that the second week adds anything.
 
-**Timing:** 1.5 minutes (cumulative 4:30).
+**Timing:** 1.5 minutes (cumulative 4:00).
 
 **Source detail:** the 2.9 million figure and the observation that median durations were 14 days or longer in critically ill patients are from the paper's introduction (its refs 2 and 19).
 
 **Anticipated question:** "Isn't 'complete the course' still the message?" Point out that the 'complete the course' message has been challenged in the UK for some years; the aim is the shortest effective course, which is a question of evidence, not adherence.
 :::
 
-## Before BALANCE {data-budget="1.5" data-section="Background"}
+## Before BALANCE {data-budget="1" data-section="Background"}
 
 | Trial | Patients | Population | Result |
 |---|---|---|---|
@@ -300,7 +301,7 @@ Gaps: few ICU patients, gram-negative only, 10-point margins or composite outcom
 ::: notes
 **Say:** Three earlier RCTs all favoured seven days, but they were small, restricted to gram-negative organisms, and either excluded ICU patients or enrolled very few. They used wide margins (10 percentage points) or composite outcomes.
 
-**Timing:** 1.5 minutes (cumulative 6:00).
+**Timing:** 1 minute (cumulative 5:00).
 
 **Anticipated question:** "So why was another trial needed?" Because a 10-point margin for death is very permissive; BALANCE set 4 points and included ICU and gram-positive infections.
 :::
@@ -377,7 +378,7 @@ Gaps: few ICU patients, gram-negative only, 10-point margins or composite outcom
 ::: notes
 **Say:** Note that 'adequate' means an agent the organism is susceptible to on local laboratory reporting. Drug choice, dose, route and oral switch were left to the treating team. This is a test of a duration strategy, not of a drug.
 
-**Timing:** 1 minute (cumulative 7:00). Click through the six tabs; spend most time on P and O, and use the two Ts to link the question type to the best study design.
+**Timing:** 1 minute (cumulative 6:00). Click through the six tabs; spend most time on P and O, and use the two Ts to link the question type to the best study design.
 
 **Anticipated question:** "Day 1 counted from when?" Duration was counted as days of adequate treatment; the primary outcome clock started at the date of the index positive blood culture.
 :::
@@ -392,7 +393,7 @@ Gaps: few ICU patients, gram-negative only, 10-point margins or composite outcom
 ::: notes
 **Say:** Eight and a half years of recruitment, which is itself a teaching point: practice changed over that time (rapid diagnostics, oral step-down).
 
-**Timing:** 1 minute (cumulative 8:00).
+**Timing:** 1 minute (cumulative 7:00).
 
 **Countries:** the paper lists sites in its Table S1 (supplement), which we did not have. Secondary reports name Australia, Canada, Israel, New Zealand, Saudi Arabia, Switzerland and the USA. [VERIFY against Table S1.] The UK was not a site.
 
@@ -468,7 +469,7 @@ ggplot(ex, aes(rd, lab, colour = kind)) +
 
 **Picture it tab:** walk down the rows. The 'inconclusive' row is the one people get wrong: the point estimate looks fine, but the interval runs past the margin, so we cannot rule out unacceptable harm. BALANCE is the blue row.
 
-**Timing:** 2 minutes (cumulative 10:00).
+**Timing:** 2 minutes (cumulative 9:00).
 :::
 
 ## The non-inferiority margin {data-budget="1.5" data-section="Methods"}
@@ -515,7 +516,7 @@ Earlier trials used **10 points**, a much looser test.
 
 **Calculation:** relative margin = 4 / 22 = `r sprintf("%.0f%%", 100 * rel_margin_planned)`, calculated in R.
 
-**Timing:** 1.5 minutes (cumulative 11:30).
+**Timing:** 1.5 minutes (cumulative 10:30).
 :::
 
 ## Quiz: what does non-inferior mean? {.quiz-question data-budget="1" data-section="Methods"}
@@ -534,10 +535,10 @@ A non-inferiority trial concludes that 7 days is **non-inferior** to 14 days. Th
 
 **Teaching point:** 'non-inferior' is a precise claim: any extra harm is smaller than the margin. It is not 'equivalent' and not 'better'.
 
-**Timing:** 1 minute (cumulative 12:30).
+**Timing:** 1 minute (cumulative 11:30).
 :::
 
-## Who could enter? {data-budget="1.5" data-section="Methods"}
+## Who could enter? {data-budget="1" data-section="Methods"}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -560,14 +561,14 @@ A non-inferiority trial concludes that 7 days is **non-inferior** to 14 days. Th
 ::: notes
 **Say:** The exclusions remove exactly the groups where we already treat for longer. Keep this list in mind when we discuss applicability; *S. aureus* is the second most common cause of bacteraemia worldwide according to the authors.
 
-**Timing:** 1.5 minutes (cumulative 14:00).
+**Timing:** 1 minute (cumulative 12:30).
 
 **Detail:** severe immunosuppression was defined as neutropenia, or immunosuppression after solid organ or haematopoietic stem cell transplant.
 
 **Anticipated question:** "Were coagulase-negative staphylococci excluded?" A single positive culture with a common contaminant was excluded. True CoNS bacteraemia could be included, and CoNS made up 4.8% of isolates.
 :::
 
-## Randomisation, concealment and blinding {data-budget="1.5" data-section="Methods"}
+## Randomisation, concealment and blinding {data-budget="1" data-section="Methods"}
 
 ::: {.panel-tabset}
 
@@ -614,31 +615,12 @@ A non-inferiority trial concludes that 7 days is **non-inferior** to 14 days. Th
 
 **Design point:** placebo was not feasible with so many pathogens and regimens. Because both arms are identical until day 7, hiding allocation until then removes early differential management.
 
-**Timing:** 1.5 minutes (cumulative 15:30).
+**Timing:** 1 minute (cumulative 13:30).
 
 **Anticipated question:** "Was outcome assessment blinded?" Mortality is objective. Adjudication of antimicrobial-resistant organisms and all analyses were blinded to group.
 :::
 
-## Quiz: allocation concealment {.quiz-question data-budget="1" data-section="Methods"}
-
-Why did BALANCE keep the allocation hidden until day 7?
-
-- [A. So clinicians could not treat the two groups differently in the first week]{.correct data-explanation="Correct. Both arms get identical care until day 7, so hiding allocation until then prevents early differences in management."}
-- [B. To make the trial double-blind throughout]{data-explanation="Not quite: the answer is A. After day 7 everyone knew: the trial was open-label from then on."}
-- [C. To make sure the groups were the same size]{data-explanation="Not quite: the answer is A. Group size is handled by 1:1 randomisation in blocks, not by concealment."}
-- [D. Because the computer system could not randomise earlier]{data-explanation="Not quite: the answer is A. This was a deliberate design choice, not a technical limit."}
-
-{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
-
-::: notes
-**Say:** Start the countdown, show of hands, then select and press A (or click Check).
-
-**Teaching point:** good concealment means the people enrolling and treating patients cannot predict or change who goes where.
-
-**Timing:** 1 minute (cumulative 16:30).
-:::
-
-## Outcomes and statistics {data-budget="1.5" data-section="Methods"}
+## Outcomes and statistics {data-budget="1" data-section="Methods"}
 
 ::: {.panel-tabset}
 
@@ -665,14 +647,14 @@ Why did BALANCE keep the allocation hidden until day 7?
 ::: notes
 **Say:** A 4-point absolute margin sounds small. In relative terms it is `r sprintf("%.0f%%", 100 * rel_margin_planned)` of the planned 22% control mortality, and `r sprintf("%.0f%%", 100 * rel_margin_observed)` of the observed 14-day mortality of `r sprintf("%.1f%%", 100 * r14)`. Calculated in R from the published figures.
 
-**Timing:** 1.5 minutes (cumulative 18:00). Click through the three tabs.
+**Timing:** 1 minute (cumulative 14:30). Click through the three tabs.
 
 **Secondary outcomes:** death in hospital and ICU, relapse, adverse events, *C. difficile*, resistant organisms, length of stay, antibiotic-free days and others. No correction for multiplicity; the authors call these exploratory.
 
 **Anticipated question:** "Why both ITT and per-protocol?" In non-inferiority trials ITT can be anti-conservative, so CONSORT asks for both. If they agree, confidence rises.
 :::
 
-## Power and sample size {data-budget="1.5" data-section="Methods"}
+## Power and sample size {data-budget="1" data-section="Methods"}
 
 ::: {.panel-tabset}
 
@@ -729,26 +711,7 @@ Observed 14-day mortality was **`r sprintf("%.1f%%", 100 * r14)`**, lower than t
 
 **If asked:** lower-than-expected mortality makes the estimate *more* precise on the absolute scale (fewer events, less variance), so the trial remains well powered, but a fixed 4-point margin becomes relatively larger (`r sprintf("%.0f%%", 100 * rel_margin_observed)` of observed control mortality).
 
-**Timing:** 1.5 minutes (cumulative 19:30).
-:::
-
-## Quiz: power {.quiz-question data-budget="1" data-section="Methods"}
-
-BALANCE was designed with **80% power**. What does this mean?
-
-- [A. 80% of patients survived]{data-explanation="Not quite: the answer is C. Power is about the trial's design, not patient outcomes."}
-- [B. There is an 80% chance the result is correct]{data-explanation="Not quite: the answer is C. Power is conditional: it applies only if the treatment truly is non-inferior."}
-- [C. If 7 days truly is non-inferior, the trial had an 80% chance of showing it]{.correct data-explanation="Correct. Power is the chance of detecting a true effect; the remaining 20% is the type II error rate."}
-- [D. 80% of patients followed the protocol]{data-explanation="Not quite: the answer is C. That is adherence, which is a separate issue."}
-
-{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
-
-::: notes
-**Say:** Start the countdown, show of hands, then select and press A (or click Check).
-
-**Teaching point:** underpowered trials can miss real answers. Always check whether the trial reached its planned sample size.
-
-**Timing:** 1 minute (cumulative 20:30).
+**Timing:** 1 minute (cumulative 15:30).
 :::
 
 ## Confidence intervals {data-budget="1.5" data-section="Methods"}
@@ -789,26 +752,7 @@ BALANCE was designed with **80% power**. What does this mean?
 
 **One-sided vs two-sided:** a one-sided test at 2.5% uses the same cut-off as the upper end of a two-sided 95% CI. That is why non-inferiority results are usually shown as a two-sided interval.
 
-**Timing:** 1.5 minutes (cumulative 22:00).
-:::
-
-## Quiz: reading the methods {.quiz-question data-budget="1" data-section="Methods"}
-
-Why is the primary result reported with a 95.7% rather than a 95% confidence interval?
-
-- [A. The test was one-sided]{data-explanation="Not quite: the answer is B. The width reflects alpha spent on interim analyses, not sidedness."}
-- [B. Alpha was spent on three interim analyses]{.correct data-explanation="Correct. The paper states the 95.7% CI reflects the exact alpha spending incurred in the interim analyses."}
-- [C. To correct for prespecified subgroups]{data-explanation="Not quite: the answer is B. Subgroups and secondary outcomes were not corrected for multiplicity."}
-- [D. To account for clustering by hospital]{data-explanation="Not quite: the answer is B. Clustering was handled in a separate mixed-model analysis."}
-
-{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
-
-::: notes
-**Say:** Click the countdown (bottom right) to start 20 seconds, take a show of hands for each option, then click (or press 1 to 4) to select and press A or click Check to reveal.
-
-**Timing:** 1 minute (cumulative 23:00).
-
-**Follow-up:** clustering by centre was handled in a separate prespecified mixed-model analysis, which gave consistent results.
+**Timing:** 1.5 minutes (cumulative 17:00).
 :::
 
 ## Intention-to-treat vs per-protocol {data-budget="1.5" data-section="Methods"}
@@ -855,7 +799,7 @@ Why is the primary result reported with a 95.7% rather than a 95% confidence int
 ::: notes
 **Say:** This is the single most important statistical idea for this paper. Use the 'Why both matter here' tab to link back to the 23.9% non-adherence in the 7-day arm, which we will see in the results.
 
-**Timing:** 1.5 minutes (cumulative 24:30).
+**Timing:** 1.5 minutes (cumulative 18:30).
 :::
 
 ## Quiz: intention-to-treat {.quiz-question data-budget="1" data-section="Methods"}
@@ -874,7 +818,7 @@ Mr K is randomised to **7 days**, but his team keeps antibiotics going to **12 d
 
 **Teaching point:** ITT protects randomisation. Per-protocol shows what happens when treatment is actually delivered as planned.
 
-**Timing:** 1 minute (cumulative 25:30).
+**Timing:** 1 minute (cumulative 19:30).
 :::
 
 ## Who was randomised? {data-budget="1" data-section="Results"}
@@ -902,7 +846,7 @@ ggplot(flow, aes(n, stage)) +
 ::: notes
 **Say:** Only 26.7% of eligible patients were enrolled. The largest single reason for non-enrolment was the attending physician declining (4,532 patients). That suggests clinicians kept patients they were worried about out of the trial, a selection effect worth discussing.
 
-**Timing:** 1 minute (cumulative 26:30).
+**Timing:** 1 minute (cumulative 20:30).
 
 **Numbers:** from Figure 1 of the paper. 1,814 assigned 7 days and 1,794 assigned 14 days in the ITT population; 27 lost to follow-up (0.7%).
 
@@ -925,7 +869,7 @@ ggplot(flow, aes(n, stage)) +
 ::: notes
 **Say:** An older, sick population: more than half in ICU, median SOFA 4. The dominant picture is community-acquired gram-negative urosepsis, which is worth remembering when you generalise.
 
-**Timing:** 30 seconds (cumulative 27:00).
+**Timing:** 30 seconds (cumulative 21:00).
 
 **Extra detail if asked:** intra-abdominal or hepatobiliary 18.8%, lung 13.0%, vascular catheter 6.3%; monomicrobial gram-positive 17.3%, polymicrobial 11.7%; source-control procedure in 44.9%; median Clinical Frailty Scale 4.
 :::
@@ -960,14 +904,105 @@ ggplot(pp, aes(rd, analysis)) +
 ::: notes
 **Say:** 261 of 1,802 died with 7 days (14.5%) and 286 of 1,779 with 14 days (16.1%). Difference −1.6 points, 95.7% CI −4.0 to 0.8. The upper limit is below +4, so non-inferiority is shown. All three analyses agree.
 
-**Timing:** 1.5 minutes (cumulative 28:30).
+**Timing:** 1.5 minutes (cumulative 22:30).
 
 **Check:** the R code recomputes each difference from the published counts and confirms it matches the published value.
 
 **Anticipated question:** "Does this mean 7 days is better?" No. The interval includes zero, so superiority is not shown. The point estimate favouring 7 days could be chance.
 :::
 
-## Absolute effect, calculated {data-budget="2" data-section="Results"}
+## How big is the effect? The vocabulary {data-budget="2" data-section="Results"}
+
+::: {.panel-tabset}
+
+### Start with risk
+
+::: {.card}
+**Risk = how many had the outcome ÷ how many were in the group**
+
+Made-up example: 100 patients get the old drug, 100 get the new drug.
+
+| | Died | Risk |
+|---|---|---|
+| Old drug (control) | 20 of 100 | **20%** |
+| New drug | 15 of 100 | **15%** |
+
+Everything on the next tabs is just a different way of comparing **20%** with **15%**.
+:::
+
+### ARR
+
+::: {.card}
+**Absolute risk reduction = control risk − treatment risk**
+
+- 20% − 15% = **5 percentage points**
+- In people terms: **5 fewer deaths for every 100 patients treated**
+- Also called the **risk difference** (BALANCE reports "7 days minus 14 days", so a *minus* number = fewer deaths with 7 days)
+- If the treatment makes things *worse*, it is an **absolute risk increase (ARI)**
+:::
+
+### RR and RRR
+
+::: {.card .orange}
+**Relative risk (RR) = treatment risk ÷ control risk**
+
+- 15% ÷ 20% = **0.75** (RR of 1 = no difference; below 1 = fewer events)
+
+**Relative risk reduction (RRR) = 1 − RR**, or ARR ÷ control risk
+
+- 5 ÷ 20 = **25%**: "the new drug cuts deaths by a quarter"
+:::
+
+### Why ARR beats RRR
+
+::: {.card .orange}
+The same **25% RRR** can mean very different things:
+
+| Control risk | Treatment risk | RRR | ARR | NNT |
+|---|---|---|---|---|
+| 20% | 15% | 25% | 5 points | 20 |
+| 0.4% | 0.3% | 25% | 0.1 points | 1,000 |
+
+RRR stays the same when the baseline risk changes; ARR does not. Drug adverts quote the RRR because it sounds bigger. **Always ask for the absolute numbers.**
+:::
+
+### NNT, NNTB, NNTH
+
+::: {.card .green}
+**Number needed to treat (NNT) = 100 ÷ ARR** (with ARR in percentage points)
+
+- 100 ÷ 5 = **20**: treat 20 patients with the new drug to prevent **one** extra death
+- **NNTB** (number needed to treat to **benefit**) is the same thing, said out loud to show the direction
+- **NNTH** (number needed to treat to **harm**; also "NNH") = 100 ÷ ARI: how many you treat before **one** extra patient is harmed
+- Example: rash in 2% on the old drug, 6% on the new: ARI 4 points, NNTH = 100 ÷ 4 = **25**
+- Lower NNTB = better treatment; lower NNTH = more harmful treatment
+:::
+
+### Percent vs points
+
+::: {.card .purple}
+- Going from 20% to 15% is a fall of **5 percentage points** (absolute)
+- It is also a fall of **25 percent** (relative)
+- Both are true; they answer different questions. Say "points" for absolute changes to avoid confusion
+:::
+
+:::
+
+::: notes
+**Say:** Before we look at BALANCE's numbers, here is the vocabulary using a made-up trial with round numbers. Everything rests on the first tab: risk is simply the proportion who had the outcome. Then go tab by tab; write 20% and 15% on the chalkboard (press B) and do each sum live.
+
+**Key line for the room:** ARR tells you *how many people* benefit; RRR tells you *by what fraction* their risk changed. Patients and clinicians usually need the absolute number.
+
+**Why ARR beats RRR tab:** this is the classic trap. A 25% RRR for a rare outcome may mean treating 1,000 people to help one.
+
+**NNTB/NNTH tab:** both use the same formula (100 ÷ the absolute difference). The B or H just tells you which direction the difference goes. A treatment can have both: an NNTB for its main benefit and an NNTH for a side effect, and weighing the two is the clinical decision.
+
+**Timing:** 2 minutes (cumulative 24:30). Skip the 'Percent vs points' tab if short of time.
+
+**Anticipated question:** "What about odds ratios and hazard ratios?" They are other relative measures, used by particular statistical models. For common outcomes they are not the same as RR. BALANCE reports a risk difference, so we do not need them today.
+:::
+
+## Absolute effect in BALANCE {data-budget="1.5" data-section="Results"}
 
 ::: {.panel-tabset}
 
@@ -992,25 +1027,28 @@ ggplot(pp, aes(rd, analysis)) +
 ::::
 
 :::: {.card .orange}
-The CI runs from **NNTB `r sprintf("%.0f", nntb_limit)`** through no effect to **NNTH `r sprintf("%.0f", nnth_limit)`**. An NNT is not meaningful when the CI crosses zero.
+The range of plausible values runs from **NNTB `r sprintf("%.0f", nntb_limit)`** (7 days helps) through "no difference" to **NNTH `r sprintf("%.0f", nnth_limit)`** (7 days harms). See the last tab for why.
 ::::
 
 
-### What they mean
+### The sums
 
 | Measure | Plain English | BALANCE (ITT) |
 |---|---|---|
-| **ARR** | Difference in risk: risk with 14 days minus risk with 7 days | `r sprintf("%.1f", 100 * r14)`% − `r sprintf("%.1f", 100 * r7)`% = `r sprintf("%.1f", 100 * arr)` points |
-| **RRR** | That difference as a share of the comparator risk | `r sprintf("%.1f", 100 * arr)` ÷ `r sprintf("%.1f", 100 * r14)` = `r sprintf("%.0f%%", 100 * rrr)` |
-| **NNT** | Patients to treat for one extra good outcome: 100 ÷ ARR | 100 ÷ `r sprintf("%.1f", 100 * arr)` ≈ `r sprintf("%.0f", nnt)` |
+| **Risk** | Deaths ÷ patients in each group | 7 days: 261 ÷ 1,802 = `r sprintf("%.1f", 100 * r7)`%; 14 days: 286 ÷ 1,779 = `r sprintf("%.1f", 100 * r14)`% |
+| **ARR** | Control risk minus treatment risk (14 days is the control) | `r sprintf("%.1f", 100 * r14)`% − `r sprintf("%.1f", 100 * r7)`% = `r sprintf("%.1f", 100 * arr)` points: about `r sprintf("%.1f", 100 * arr)` fewer deaths per 100 patients |
+| **RRR** | ARR as a fraction of the control risk | `r sprintf("%.1f", 100 * arr)` ÷ `r sprintf("%.1f", 100 * r14)` = `r sprintf("%.0f%%", 100 * rrr)` |
+| **NNT** | 100 ÷ ARR: patients given 7 days (instead of 14) for one fewer death | 100 ÷ `r sprintf("%.1f", 100 * arr)` ≈ `r sprintf("%.0f", nnt)` |
 
-: RRR always looks bigger than ARR; ask for absolute numbers
+: Note how "`r sprintf("%.0f%%", 100 * rrr)` fewer deaths" (RRR) sounds far more impressive than "`r sprintf("%.1f", 100 * arr)` fewer per 100" (ARR)
 
 ### Why NNT is tricky here
 
 ::: {.card .orange}
-- The confidence interval crosses zero: 7 days might be slightly better *or* slightly worse
-- So the NNT runs from "benefit" through infinity to "harm"
+- These are **point estimates**: the single best guess. The confidence interval for the difference is −4.0 to +0.8 points
+- At the −4.0 end (4 fewer deaths per 100 with 7 days): **NNTB = 100 ÷ 4 = `r sprintf("%.0f", nntb_limit)`**
+- At the +0.8 end (0.8 more deaths per 100 with 7 days): **NNTH = 100 ÷ 0.8 = `r sprintf("%.0f", nnth_limit)`**
+- In the middle the difference passes through **zero**, and 100 ÷ 0 is infinite. So the NNT is written "NNTB `r sprintf("%.0f", nntb_limit)` to ∞ to NNTH `r sprintf("%.0f", nnth_limit)`"
 - In a non-inferiority trial the better question is: **how much harm can we rule out?** Answer: more than about 0.8 extra deaths per 100
 :::
 
@@ -1021,7 +1059,9 @@ The CI runs from **NNTB `r sprintf("%.0f", nntb_limit)`** through no effect to *
 
 The CI bounds come from inverting the published 95.7% CI limits (−4.0 and +0.8 points). Because the interval crosses zero, the honest expression is 'NNTB `r sprintf("%.0f", nntb_limit)` to infinity to NNTH `r sprintf("%.0f", nnth_limit)`' (Altman's convention).
 
-**Timing:** 2 minutes (cumulative 30:30). Start on 'What they mean' if the room is new to these terms.
+**Timing:** 1.5 minutes (cumulative 26:00). Start on 'The sums' tab: it repeats the previous slide's formulas with BALANCE's real numbers.
+
+**How to say the NNT in words:** "If we gave 7 days instead of 14 to about `r sprintf("%.0f", nnt)` patients, our best guess is one fewer death. But the trial cannot exclude anything from a real benefit to a very small harm."
 
 **Teaching point:** in a non-inferiority trial the question is not 'how many to treat' but 'how much harm can we exclude'. The data exclude an excess mortality above about 0.8 points with shorter treatment.
 
@@ -1044,7 +1084,7 @@ A treatment lowers the risk of death from **10%** to **8%**. What is the NNT?
 
 **Teaching point:** NNT = 100 ÷ ARR (in percentage points). Show the working on the chalkboard (press B) if helpful.
 
-**Timing:** 1 minute (cumulative 31:30).
+**Timing:** 1 minute (cumulative 27:00).
 :::
 
 ## Did patients get what they were assigned? {data-budget="1" data-section="Results"}
@@ -1077,7 +1117,7 @@ ggplot(adh, aes(pct, arm, fill = cat)) +
 ::: notes
 **Say:** Non-adherence was 23.9% in the 7-day arm (almost all longer courses) and 16.5% in the 14-day arm. Clinicians extended treatment when worried, for example persistent sepsis or a new hospital-acquired infection.
 
-**Timing:** 1 minute (cumulative 32:30).
+**Timing:** 1 minute (cumulative 28:00).
 
 **Anticipated question:** "Does this undermine the result?" It is the key appraisal issue; we return to it in the quiz on non-adherence. Short version: per-protocol and modified ITT analyses agreed, and a later post-hoc analysis adjusting for non-adherence also agreed.
 :::
@@ -1153,30 +1193,11 @@ plot_sg("Pathogen")
 ::: notes
 **Say:** Subgroups are broadly consistent, but many intervals are wide and cross the margin, so we cannot claim non-inferiority within them. The authors say as much. Two to watch: frail patients (CFS 5 or more: +2.8, 95% CI −2.1 to 7.8) and lung source (+1.5, −6.1 to 9.0). These are hypothesis-generating only.
 
-**Timing:** 1 minute (cumulative 33:30). Severity tab first (frailty), then Source (lung), then Pathogen (gram-negative).
+**Timing:** 1 minute (cumulative 29:00). Severity tab first (frailty), then Source (lung), then Pathogen (gram-negative).
 
 **Anticipated question:** "Gram-negative looks significantly better with 7 days?" −2.8 (−5.6 to −0.1) just excludes zero, but with 13 or more subgroups and no multiplicity correction, one nominally significant result is expected by chance.
 
 Subgroup values from Figure 3 of the paper; CIs are 95% and unadjusted.
-:::
-
-## Quiz: subgroups {.quiz-question data-budget="1" data-section="Results"}
-
-In the gram-negative subgroup, the difference was **−2.8 points (95% CI −5.6 to −0.1)**. What should we conclude?
-
-- [A. 7 days is better than 14 days for gram-negative infection]{data-explanation="Not quite: the answer is B. One of 13 or more unadjusted subgroups reaching significance is expected by chance."}
-- [B. It is a hypothesis to test, not a conclusion]{.correct data-explanation="Correct. Subgroups are usually underpowered and not corrected for multiple comparisons; treat them as hypothesis-generating."}
-- [C. Gram-positive infections need 14 days]{data-explanation="Not quite: the answer is B. The gram-positive interval is wide and includes no difference; it does not show harm."}
-- [D. The overall trial result is invalid]{data-explanation="Not quite: the answer is B. Subgroup findings do not overturn a sound overall result."}
-
-{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
-
-::: notes
-**Say:** Start the countdown, show of hands, then select and press A (or click Check).
-
-**Teaching point:** the more subgroups you look at, the more likely one 'significant' result appears by chance. Look for consistency with the overall result.
-
-**Timing:** 1 minute (cumulative 34:30).
 :::
 
 ## Secondary outcomes {data-budget="0.5" data-section="Results"}
@@ -1230,7 +1251,7 @@ ggplot(sec, aes(rd, out)) +
 ::: notes
 **Say:** No detectable differences in relapse, *C. difficile*, allergy, AKI or resistant organisms. But these events were rare, so the intervals are wide relative to the event rates. The clear gain is five more antibiotic-free days by day 28, and one fewer day in hospital (median 10 vs 11; difference −1, 95% CI −1.5 to −0.5).
 
-**Timing:** 30 seconds (cumulative 35:00).
+**Timing:** 30 seconds (cumulative 29:30).
 
 **Anticipated question:** "So shorter courses do not reduce resistance?" The trial could not show it: resistance was measured from routine cultures, not active surveillance, and follow-up for *C. difficile* missed community and readmission episodes, as the authors acknowledge.
 :::
@@ -1249,7 +1270,7 @@ ITT difference −1.6 points (95.7% CI −4.0 to 0.8); margin +4. Which statemen
 ::: notes
 **Say:** Option C catches people who apply superiority logic to a non-inferiority trial. Crossing zero is expected; the test is whether the interval stays clear of the margin.
 
-**Timing:** 1 minute (cumulative 36:00).
+**Timing:** 1 minute (cumulative 30:30).
 :::
 
 ## Authors' conclusions vs our appraisal {data-budget="0.5" data-section="Appraisal"}
@@ -1274,10 +1295,10 @@ Agree for the **included** population. Caution where excluded or under-represent
 ::: notes
 **Say:** Keep these separate. The authors' claim is narrow and matches the data. What follows is our own appraisal, not the authors'.
 
-**Timing:** 30 seconds (cumulative 36:30).
+**Timing:** 30 seconds (cumulative 31:00).
 :::
 
-## Appraisal checklists {data-budget="4" data-section="Appraisal"}
+## Appraisal checklists {data-budget="3" data-section="Appraisal"}
 
 ::: {.panel-tabset}
 
@@ -1336,7 +1357,7 @@ Agree for the **included** population. Caution where excluded or under-represent
 
 **Anticipated question:** "Would you rate it high risk?" No. Non-adherence was moderate, the median durations still separated by six days, and the supporting analyses agreed.
 
-**Timing:** 4 minutes (cumulative 40:30).
+**Timing:** 3 minutes (cumulative 34:00).
 :::
 
 ## Quiz: the non-inferiority trap {.quiz-question data-budget="1" data-section="Appraisal"}
@@ -1355,7 +1376,7 @@ Agree for the **included** population. Caution where excluded or under-represent
 
 **Post-hoc analysis** [@ong2026]: non-adherence was associated with prognostic factors (more acute illness, non-urinary source, non-*Enterobacterales* organisms). After inverse probability weighting, the per-protocol risk difference was −1.61% (95% CI −4.13 to 0.87) and the as-treated estimate −0.75% (−3.36 to 1.86), still within the 4-point margin. [VERIFY these figures against the Lancet Infect Dis full text; taken from the published abstract.]
 
-**Timing:** 1 minute (cumulative 41:30).
+**Timing:** 1 minute (cumulative 35:00).
 :::
 
 ## Certainty of evidence: GRADE {data-budget="1.5" data-section="Appraisal"}
@@ -1372,14 +1393,14 @@ Applies to the trial population; downgrade for indirectness outside it.
 ::: notes
 **Say:** Our GRADE judgement for the question 'in patients like those enrolled'. If you apply it to excluded groups (*S. aureus*, neutropenia, deep foci), indirectness would lower certainty sharply, and in truth the trial gives no evidence for them.
 
-**Timing:** 1.5 minutes (cumulative 43:00).
+**Timing:** 1.5 minutes (cumulative 36:30).
 
 **Note:** the paper includes a meta-analysis with the earlier trials in Supplementary Figure S1, which we have not reviewed. The 'consistent with earlier RCTs' judgement rests on the three trials summarised earlier.
 
 **Anticipated question:** "Why not downgrade mortality for risk of bias?" The deviations concern was judged not serious because sensitivity analyses agreed.
 :::
 
-## Applicability to NHS patients {data-budget="2" data-section="Applicability"}
+## Applicability to NHS patients {data-budget="1.5" data-section="Applicability"}
 
 ::: {.panel-tabset}
 
@@ -1413,14 +1434,14 @@ Applies to the trial population; downgrade for indirectness outside it.
 ::: notes
 **Say:** Most NHS bacteraemia on the general take looks like the BALANCE population. Uncertainty remains for frail older patients, lung and catheter sources, and gram-positive organisms other than *S. aureus*, where subgroups were small.
 
-**Timing:** 2 minutes (cumulative 45:00). Go through the tabs left to right.
+**Timing:** 1.5 minutes (cumulative 38:00). Go through the tabs left to right.
 
 **Selection:** 4,532 eligible patients were not enrolled because the attending physician declined. Patients who worried clinicians may be under-represented.
 
 **Anticipated question:** "What about oral step-down?" Route was at clinician discretion and the paper does not report the oral switch rate in the main text, so we cannot say how much of the 7 days was oral.
 :::
 
-## Current guidance position {data-budget="2" data-section="Applicability"}
+## Current guidance position {data-budget="1.5" data-section="Applicability"}
 
 - **UKHSA Start Smart then Focus (2023):** review at 48 to 72 hours [@ukhsa2023sstf]
 - **NHS England:** gives 7 days for gram-negative bacteraemia with urinary source as an example of a shortened course [@nhse2025watch]
@@ -1430,12 +1451,12 @@ Applies to the trial population; downgrade for indirectness outside it.
 ::: notes
 **Say:** There is no national NICE recommendation on how long to treat bacteraemia [VERIFY: confirm that NG253 sections 1.8 and 1.9 do not set a duration]. National stewardship guidance asks us to review at 48 to 72 hours, and NHS England's stewardship report cites seven days for gram-negative bacteraemia with urinary source as a shortened course trusts have adopted. That document is England-specific; colleagues in Northern Ireland, Scotland and Wales should check their regional guidance.
 
-**Timing:** 2 minutes (cumulative 47:00).
+**Timing:** 1.5 minutes (cumulative 39:30).
 
 **Anticipated question:** "Does BALANCE change S. aureus practice?" No. *S. aureus* was excluded and the authors explicitly say their results do not apply to it.
 :::
 
-## Discussion questions {data-budget="5" data-section="Discussion"}
+## Discussion questions {data-budget="4" data-section="Discussion"}
 
 1. Would you stop Mrs D's antibiotics today? What would make you extend?
 2. Is a 4-point margin for death acceptable? Who should decide?
@@ -1443,7 +1464,7 @@ Applies to the trial population; downgrade for indirectness outside it.
 4. Fixed 7 days or individualised duration?
 
 ::: notes
-**Timing:** 5 minutes (cumulative 52:00). Spend about 1 minute on each, keep 1 minute in reserve.
+**Timing:** 4 minutes (cumulative 43:30). Spend about 1 minute on each, drop question 4 if running late.
 
 **Prompts:**
 
@@ -1455,7 +1476,7 @@ Applies to the trial population; downgrade for indirectness outside it.
 **Anticipated question:** "What about day 7 falling at the weekend?" Practical, and real. Stop dates written on day 1 or 3 avoid weekend drift.
 :::
 
-## Take-home messages {data-budget="2" data-section="Close"}
+## Take-home messages {data-budget="1.5" data-section="Close"}
 
 ::: {.incremental}
 - 7 days was **non-inferior** to 14 days for 90-day death: −1.6 points (95.7% CI −4.0 to 0.8)
@@ -1471,7 +1492,7 @@ Applies to the trial population; downgrade for indirectness outside it.
 ::: notes
 **Say:** Read the bottom line slowly. That is our interpretation, not the authors' wording.
 
-**Timing:** 2 minutes (cumulative 54:00). Press R to reset the timer for the next presenter.
+**Timing:** 1.5 minutes (cumulative 45:00). Press R to reset the timer for the next presenter.
 
 **Anticipated question:** "Can I quote this to my consultant?" Quote the trial and its population; check that the patient meets the inclusion criteria and that local guidance agrees.
 :::
@@ -1504,14 +1525,106 @@ The accepted risk of a false-positive conclusion (type I error). BALANCE: 2.5% o
 
 The range of true effects compatible with the data. Narrow = precise.
 
-### ARR / NNT
+### Risk / RD
 
-**ARR:** difference in risk between groups. **NNT:** 100 ÷ ARR (in percentage points).
+**Risk:** patients with the outcome ÷ patients in the group. **Risk difference (RD):** one group's risk minus the other's, in percentage points.
+
+### ARR / ARI
+
+**Absolute risk reduction:** control risk − treatment risk (e.g. 20% − 15% = 5 points = 5 fewer events per 100). If the treatment raises risk, it is an **absolute risk increase**.
+
+### RR / RRR
+
+**Relative risk:** treatment risk ÷ control risk (15 ÷ 20 = 0.75). **Relative risk reduction:** 1 − RR (25%). Sounds bigger than ARR; always ask for absolute numbers.
+
+### NNT
+
+**Number needed to treat:** 100 ÷ ARR (in points). How many patients you treat for one extra patient to benefit. **NNTB** = NNT to benefit; **NNTH** (or NNH) = 100 ÷ ARI, how many you treat for one extra patient to be harmed.
+
+### Points vs %
+
+20% → 15% is a fall of **5 percentage points** (absolute) and **25 percent** (relative).
 
 :::
 
 ::: notes
 **Backup slide.** Use if a term comes up in discussion. Not timed.
+:::
+
+## Backup quiz: allocation concealment {.quiz-question data-budget="0" data-section="Backup"}
+
+Why did BALANCE keep the allocation hidden until day 7?
+
+- [A. So clinicians could not treat the two groups differently in the first week]{.correct data-explanation="Correct. Both arms get identical care until day 7, so hiding allocation until then prevents early differences in management."}
+- [B. To make the trial double-blind throughout]{data-explanation="Not quite: the answer is A. After day 7 everyone knew: the trial was open-label from then on."}
+- [C. To make sure the groups were the same size]{data-explanation="Not quite: the answer is A. Group size is handled by 1:1 randomisation in blocks, not by concealment."}
+- [D. Because the computer system could not randomise earlier]{data-explanation="Not quite: the answer is A. This was a deliberate design choice, not a technical limit."}
+
+{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
+
+::: notes
+**Say:** Start the countdown, show of hands, then select and press A (or click Check).
+
+**Teaching point:** good concealment means the people enrolling and treating patients cannot predict or change who goes where.
+
+**Backup slide.** Not timed; use if time allows.
+:::
+
+## Backup quiz: power {.quiz-question data-budget="0" data-section="Backup"}
+
+BALANCE was designed with **80% power**. What does this mean?
+
+- [A. 80% of patients survived]{data-explanation="Not quite: the answer is C. Power is about the trial's design, not patient outcomes."}
+- [B. There is an 80% chance the result is correct]{data-explanation="Not quite: the answer is C. Power is conditional: it applies only if the treatment truly is non-inferior."}
+- [C. If 7 days truly is non-inferior, the trial had an 80% chance of showing it]{.correct data-explanation="Correct. Power is the chance of detecting a true effect; the remaining 20% is the type II error rate."}
+- [D. 80% of patients followed the protocol]{data-explanation="Not quite: the answer is C. That is adherence, which is a separate issue."}
+
+{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
+
+::: notes
+**Say:** Start the countdown, show of hands, then select and press A (or click Check).
+
+**Teaching point:** underpowered trials can miss real answers. Always check whether the trial reached its planned sample size.
+
+**Backup slide.** Not timed; use if time allows.
+:::
+
+## Backup quiz: reading the methods {.quiz-question data-budget="0" data-section="Backup"}
+
+Why is the primary result reported with a 95.7% rather than a 95% confidence interval?
+
+- [A. The test was one-sided]{data-explanation="Not quite: the answer is B. The width reflects alpha spent on interim analyses, not sidedness."}
+- [B. Alpha was spent on three interim analyses]{.correct data-explanation="Correct. The paper states the 95.7% CI reflects the exact alpha spending incurred in the interim analyses."}
+- [C. To correct for prespecified subgroups]{data-explanation="Not quite: the answer is B. Subgroups and secondary outcomes were not corrected for multiplicity."}
+- [D. To account for clustering by hospital]{data-explanation="Not quite: the answer is B. Clustering was handled in a separate mixed-model analysis."}
+
+{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
+
+::: notes
+**Say:** Click the countdown (bottom right) to start 20 seconds, take a show of hands for each option, then click (or press 1 to 4) to select and press A or click Check to reveal.
+
+**Backup slide.** Not timed; use if time allows.
+
+**Follow-up:** clustering by centre was handled in a separate prespecified mixed-model analysis, which gave consistent results.
+:::
+
+## Backup quiz: subgroups {.quiz-question data-budget="0" data-section="Backup"}
+
+In the gram-negative subgroup, the difference was **−2.8 points (95% CI −5.6 to −0.1)**. What should we conclude?
+
+- [A. 7 days is better than 14 days for gram-negative infection]{data-explanation="Not quite: the answer is B. One of 13 or more unadjusted subgroups reaching significance is expected by chance."}
+- [B. It is a hypothesis to test, not a conclusion]{.correct data-explanation="Correct. Subgroups are usually underpowered and not corrected for multiple comparisons; treat them as hypothesis-generating."}
+- [C. Gram-positive infections need 14 days]{data-explanation="Not quite: the answer is B. The gram-positive interval is wide and includes no difference; it does not show harm."}
+- [D. The overall trial result is invalid]{data-explanation="Not quite: the answer is B. Subgroup findings do not overturn a sound overall result."}
+
+{{< countdown "0:20" warn_when=5 play_sound="true" bottom="1.4em" >}}
+
+::: notes
+**Say:** Start the countdown, show of hands, then select and press A (or click Check).
+
+**Teaching point:** the more subgroups you look at, the more likely one 'significant' result appears by chance. Look for consistency with the overall result.
+
+**Backup slide.** Not timed; use if time allows.
 :::
 
 ## References {.scrollable .refs-slide}
