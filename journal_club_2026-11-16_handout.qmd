@@ -1,0 +1,1045 @@
+---
+title: "Antibiotic Treatment for 7 versus 14 Days in Patients with Bloodstream Infections"
+subtitle: "The BALANCE trial (N Engl J Med 2025;392:1065-78). Journal club handout"
+author: "Shiva Sreenivasan"
+date: 2026-11-16
+date-format: "D MMMM YYYY"
+lang: en-GB
+bibliography: references.bib
+csl: elsevier-vancouver.csl
+format:
+  typst:
+    mainfont: Roboto
+    papersize: a4
+    margin:
+      x: 2cm
+      y: 2.2cm
+    fontsize: 10.5pt
+    toc: true
+    toc-depth: 1
+    toc-title: "Contents"
+    number-sections: true
+    section-numbering: "1.1"
+    fig-format: png
+    fig-dpi: 300
+    fig-width: 6.6
+    fig-height: 3.1
+    citeproc: true
+    include-in-header:
+      - text: |
+          #show heading: set text(fill: rgb("#0B2E4F"))
+          #show heading.where(level: 1, outlined: true): it => { pagebreak(weak: true); block(above: 1.4em, below: 0.8em)[#it #v(-0.5em) #line(length: 100%, stroke: 1.2pt + rgb("#0072B2"))] }
+          #show link: set text(fill: rgb("#0072B2"))
+          #set table(stroke: 0.5pt + rgb("#C9D3DC"), inset: 6pt)
+          #show table.cell.where(y: 0): set text(weight: "bold")
+          #show figure.caption: set text(size: 9pt, fill: rgb("#4A5560"))
+          #show heading.where(level: 2): it => { block(breakable: false, width: 100%, below: 0pt)[#it #v(6em)]; v(-5.3em) }
+          #show table: set align(left)
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+library(ggplot2)
+utf8 <- isTRUE(l10n_info()[["UTF-8"]])   # fall back to ASCII symbols if R is not in a UTF-8 locale
+
+# Okabe-Ito colour-blind-safe palette
+oi <- c(blue = "#0072B2", orange = "#E69F00", verm = "#D55E00", green = "#009E73",
+        sky = "#56B4E9", purple = "#CC79A7", ink = "#1B1F24", grey = "#4A5560",
+        light = "#DDE3E9")
+
+theme_ho <- theme_minimal(base_size = 10.5) +
+  theme(
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.subtitle = element_text(colour = oi[["grey"]], size = 9),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    axis.text = element_text(colour = oi[["ink"]]),
+    strip.text = element_text(face = "bold", hjust = 0, colour = oi[["ink"]]),
+    legend.position = "top"
+  )
+
+umin <- function(x) if (utf8) gsub("-", "−", x, fixed = TRUE) else x
+pm <- if (utf8) "±" else "+/-"
+fmt_rd <- function(rd, lo, hi) umin(sprintf("%.1f (%.1f to %.1f)", rd, lo, hi))
+pct <- function(x, d = 1) sprintf(paste0("%.", d, "f%%"), 100 * x)
+
+# Primary outcome, from Table 2 and Figure 2 of the paper
+prim <- data.frame(
+  analysis = c("Intention-to-treat (primary)", "Per-protocol", "Modified ITT (alive at day 7)"),
+  e7  = c(261, 178, 247), n7  = c(1802, 1370, 1788),
+  e14 = c(286, 222, 272), n14 = c(1779, 1483, 1765),
+  rd  = c(-1.6, -2.0, -1.6), lo = c(-4.0, -4.5, -3.9), hi = c(0.8, 0.6, 0.7),
+  ci_level = c("95.7% CI", "95% CI", "95% CI")
+)
+prim$rd_check <- round(100 * (prim$e7 / prim$n7 - prim$e14 / prim$n14), 1)
+stopifnot(all(prim$rd_check == prim$rd))   # counts reproduce the published differences
+
+# Absolute and relative effects, intention-to-treat
+r7  <- prim$e7[1] / prim$n7[1]
+r14 <- prim$e14[1] / prim$n14[1]
+arr <- r14 - r7
+rrr <- arr / r14
+nnt <- 1 / arr
+nntb_limit <- 1 / (abs(prim$lo[1]) / 100)
+nnth_limit <- 1 / (prim$hi[1] / 100)
+
+margin <- 4
+rel_margin_planned  <- margin / 22
+rel_margin_observed <- margin / (100 * r14)
+```
+
+::: {.callout-important title="The paper in one paragraph"}
+BALANCE randomised **3,608** hospitalised adults with bloodstream infection (ward and ICU, *S. aureus* excluded) to **7 or 14 days** of adequate antibiotics. Death by 90 days was **14.5% with 7 days and 16.1% with 14 days**: a difference of **−1.6 percentage points (95.7% CI −4.0 to 0.8)**. The upper end of that interval sits well inside the pre-agreed **4-point non-inferiority margin**, so 7 days was **non-inferior** [@balance2025]. Patients given 7 days had a median of **5 more antibiotic-free days** by day 28.
+:::
+
+::: {.callout-tip title="How to use this handout"}
+Each section follows the order of the talk. Statistical ideas are explained in plain English first, then applied to BALANCE. Grey boxes marked **Worked example** use made-up round numbers; everything else uses the trial's published figures. A self-test with answers and a glossary are at the end. Each major section starts on a new page.
+:::
+
+# Learning objectives
+
+By the end of the session you should be able to:
+
+1. Explain **randomisation, power, confidence intervals** and **intention-to-treat** in plain English.
+2. Calculate and explain **ARR, RRR and NNT**, including **NNTB** and **NNTH**.
+3. Explain how a **non-inferiority** trial differs from a superiority trial.
+4. Appraise BALANCE with CONSORT, CASP, RoB 2 and **GRADE**.
+5. Decide when **7 days** of antibiotics is reasonable for bacteraemia.
+
+# Clinical scenario
+
+::: {.callout-note title="Mrs D, 72"}
+*E. coli* bacteraemia from pyelonephritis. Admitted to ICU on noradrenaline.
+
+**Day 7:** afebrile for 72 hours, off vasopressors, eating. Switched to an oral agent the isolate is susceptible to. The ward pharmacist asks: **stop today, or complete 14 days?**
+:::
+
+Mrs D is fictional but typical. Her source is identified and controlled, the organism is not *S. aureus*, she is not severely immunosuppressed and she has no prosthetic valve. That places her inside the population BALANCE studied, a point we return to under applicability (@sec-applicability).
+
+::: {.callout-caution title="Before you read on"}
+Think about what you or your colleagues would do for Mrs D today: stop, continue to 10 days, or complete 14 days. Revisit your answer at the end.
+:::
+
+# Background
+
+## Why duration matters
+
+Bloodstream infection causes about **2.9 million deaths a year** worldwide [@balance2025]. Starting the right antibiotic early improves survival, but how long to continue has rested on habit more than evidence. Durations of **14 days or more** were common in critical illness [@balance2025].
+
+| Too short | Too long |
+|---|---|
+| Fear of relapse or treatment failure | Adverse drug events and allergy |
+| Possible selection of resistance | *C. difficile* infection |
+| | Resistance in bystander gut and skin flora |
+| | Longer lines, longer stays, higher cost |
+
+: The balance of harms that gives the trial its name {#tbl-harms}
+
+::: {.callout-note title="'Complete the course'?"}
+The old public message to "always complete the course" has been challenged in the UK for some years. The aim is the **shortest effective course**, which is a question of evidence, not of patient adherence.
+:::
+
+## Before BALANCE
+
+| Trial | Patients | Population | Result |
+|------|---|---------|------|
+| Yahav 2019 [@yahav2019] | 604 | Gram-negative, uncomplicated | 7 days non-inferior |
+| von Dach 2020 [@vondach2020] | 503 | Gram-negative, uncomplicated | 7 days non-inferior |
+| Molina 2022 [@molina2022] | 248 | *Enterobacterales* | 7 days non-inferior |
+
+: Earlier randomised trials of 7 vs 14 days (sample sizes as stated in the BALANCE discussion [@balance2025]) {#tbl-before}
+
+All three favoured 7 days, but they were small, limited to gram-negative organisms, included few ICU patients, and used **10-point margins** or composite outcomes. BALANCE set a stricter **4-point** margin and enrolled ICU patients and gram-positive infections.
+
+# The clinical question {#sec-question}
+
+A well-built question makes the rest of the appraisal easy. **PICOTT** adds the question type and the best study type to the familiar PICO.
+
+| | Element | BALANCE |
+|-|---|--------------|
+| **P** | Population | Hospitalised adults, ward or ICU, with a pathogenic bacteraemia. Excluded: *S. aureus* or *S. lugdunensis*, fungaemia, severe immunosuppression, prosthetic valve or endovascular graft, deep or undrained focus |
+| **I** | Intervention | **7 days** of adequate antibiotic therapy; drug, dose, route and oral switch chosen by the treating team |
+| **C** | Control | **14 days** of adequate antibiotic therapy; identical management to day 7 |
+| **O** | Outcome | **Death from any cause by 90 days**; non-inferiority margin 4 percentage points |
+| **T** | Question type | Therapy: is a shorter course as safe as the usual course? |
+| **T** | Study type | Randomised controlled trial, the best design for a therapy question |
+
+: The BALANCE question in PICOTT format {#tbl-picott}
+
+::: {.callout-tip title="What 'adequate' means"}
+An antibiotic the isolate is susceptible to on local laboratory reporting. BALANCE tests a **duration strategy**, not a particular drug.
+:::
+
+# Methods
+
+## Design and setting
+
+BALANCE was an investigator-initiated, multicentre, **open-label, randomised, non-inferiority** trial in **74 hospitals in 7 countries**, enrolling from October 2014 to May 2023. It began in ICUs and extended to wards after a parallel ward pilot. The protocol and statistical analysis plan were published before the results [@daneman2020protocol]. All funders listed in the paper are public or charitable research bodies.
+
+```{r}
+#| label: fig-timeline
+#| fig-cap: "How a patient moved through BALANCE. Both arms were managed identically until day 7, when the allocation was revealed. Schematic drawn from the trial methods [@balance2025]."
+#| fig-height: 2.6
+#| fig-alt: "Timeline schematic. Day 0: index positive blood culture and randomisation with allocation concealed. Days 1 to 7: identical adequate antibiotic therapy in both arms. Day 7: allocation revealed. The 7-day arm stops; the 14-day arm continues to day 14. Day 90: primary outcome, death from any cause."
+tl <- data.frame(
+  arm = factor(c("14-day arm", "7-day arm"), levels = c("14-day arm", "7-day arm")),
+  start = c(0, 0), conceal_end = c(7, 7), stop = c(14, 7)
+)
+ggplot(tl) +
+  geom_segment(aes(x = start, xend = conceal_end, y = arm, yend = arm),
+               linewidth = 7, colour = oi[["grey"]], lineend = "butt") +
+  geom_segment(aes(x = conceal_end, xend = stop, y = arm, yend = arm),
+               linewidth = 7, colour = oi[["blue"]], lineend = "butt") +
+  geom_segment(aes(x = stop, xend = 90, y = arm, yend = arm),
+               linewidth = 0.6, colour = oi[["grey"]], linetype = "dotted") +
+  geom_vline(xintercept = 7, colour = oi[["verm"]], linewidth = 0.8) +
+  geom_point(aes(x = 90, y = arm), size = 3, colour = oi[["ink"]], shape = 18) +
+  annotate("text", x = 3.5, y = 2.45, label = "Identical care,\nallocation hidden", size = 3, lineheight = 0.9) +
+  annotate("text", x = 7.6, y = 0.5, label = "Day 7: allocation revealed", hjust = 0, size = 3, colour = oi[["verm"]]) +
+  annotate("text", x = 88, y = 2.45, label = "Day 90: death from\nany cause", hjust = 1, size = 3, lineheight = 0.9) +
+  scale_x_continuous(trans = scales::pseudo_log_trans(sigma = 3, base = 2),
+                     breaks = c(0, 7, 14, 28, 90), limits = c(0, 92)) +
+  scale_y_discrete(expand = expansion(add = c(0.7, 0.7))) +
+  labs(x = "Days from index blood culture (compressed scale)", y = NULL) +
+  theme_ho + theme(panel.grid.major.x = element_line(colour = oi[["light"]]))
+```
+
+## Who could enter?
+
+::: {.columns}
+::: {.column width="45%"}
+**Included**
+
+- Admitted when a blood culture grew a pathogenic bacterium
+- Ward or ICU
+:::
+::: {.column width="55%"}
+**Excluded**
+
+- *S. aureus* or *S. lugdunensis*; fungaemia
+- Severe immunosuppression (neutropenia, solid organ or stem cell transplant)
+- Prosthetic valve or endovascular graft
+- Endocarditis, osteomyelitis, septic arthritis, undrained abscess
+- Single culture with a likely contaminant
+:::
+:::
+
+::: {.callout-warning title="Keep the exclusions in mind"}
+The exclusions remove exactly the groups where we already treat for longer. The authors note that *S. aureus* is the second most common cause of bacteraemia worldwide, so a large share of everyday bacteraemia sits outside this trial.
+:::
+
+## Randomisation, concealment, and blinding
+
+These three terms are often confused. They protect different stages of a trial.
+
+| Term | What it protects | Plain English | In BALANCE |
+|---|---|-----|-----|
+| **Randomisation** | Comparability of groups | Chance decides who gets which treatment, so groups are alike in everything, known and unknown, except the treatment | Computer-generated, 1:1, variable blocks, stratified by hospital and by ICU vs ward |
+| **Allocation concealment** | The moment of allocation | Nobody can know or influence the next allocation in advance | Allocation **hidden until day 7** of adequate therapy |
+| **Blinding** | Everything after allocation | Who knows which treatment the patient is getting | **Open-label** after day 7; analysts blinded; death is objective |
+
+: Three safeguards, three different jobs {#tbl-safeguards}
+
+::: {.callout-tip title="A clever design compromise"}
+A placebo for days 8 to 14 was not feasible with so many pathogens and regimens. Because both arms are treated the same until day 7, hiding the allocation until then prevents any difference in early management. Adherence was checked daily against the assigned duration, **`r pm`2 days**.
+:::
+
+## Outcomes and analysis plan
+
+- **Primary outcome:** death from any cause by 90 days.
+- **Non-inferiority margin:** 4 percentage points, on the absolute scale.
+- **Secondary outcomes:** death in hospital and ICU, relapse, adverse events, *C. difficile*, resistant organisms, length of stay, antibiotic-free days. These were **exploratory**, with no correction for multiple comparisons.
+- **Sample size:** 3,626 patients for **80% power**, one-sided alpha 2.5%, assuming 22% deaths with 14 days.
+- **Interim analyses:** three, so the primary result is reported with a **95.7% CI**.
+- **Analyses:** intention-to-treat primary; per-protocol and modified intention-to-treat supporting; clustering by centre in a separate mixed model.
+
+# Statistics toolkit {#sec-stats}
+
+This section explains each idea you need to read the results. Each subsection ends with how it applies to BALANCE.
+
+## Superiority vs non-inferiority
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note title="Superiority" appearance="simple"}
+**Is the new treatment better?** Most trials ask this. Success means the whole confidence interval sits on the benefit side of "no difference".
+:::
+:::
+::: {.column width="50%"}
+::: {.callout-warning title="Non-inferiority" appearance="simple"}
+**Is the new treatment not unacceptably worse?** Used when the new option is shorter, cheaper, safer or simpler. Success means the **worst end** of the confidence interval stays inside a pre-agreed **margin**.
+:::
+:::
+:::
+
+```{r}
+#| label: fig-ni
+#| fig-cap: "Reading a non-inferiority result. Grey rows are made-up examples; the blue row is BALANCE. Only the end of each interval nearest harm is compared with the +4 margin."
+#| fig-height: 2.8
+#| fig-alt: "Four hypothetical trial results and BALANCE against a non-inferiority margin of plus 4 points. Superior: interval entirely below zero. Non-inferior: interval crosses zero with upper end below plus 4. Inconclusive: upper end beyond plus 4. Inferior: whole interval beyond plus 4. BALANCE, minus 1.6 (minus 4.0 to 0.8), is non-inferior."
+ex <- data.frame(
+  lab = c("Superior (and non-inferior)", "Non-inferior", "Inconclusive", "Inferior", "BALANCE"),
+  rd = c(-4.5, -0.5, 1.8, 6.5, -1.6), lo = c(-7, -3, -1.5, 4.8, -4.0), hi = c(-2, 2, 5.3, 8.2, 0.8),
+  kind = c("Example", "Example", "Example", "Example", "BALANCE")
+)
+ex$lab <- factor(ex$lab, levels = rev(ex$lab))
+ggplot(ex, aes(rd, lab, colour = kind)) +
+  annotate("rect", xmin = margin, xmax = 9.5, ymin = -Inf, ymax = Inf, fill = oi[["verm"]], alpha = 0.08) +
+  annotate("text", x = 6.8, y = 5.55, label = "unacceptably worse", colour = "#7A2E00", size = 3) +
+  annotate("text", x = -4.5, y = 5.55, label = "7 days better", colour = oi[["grey"]], size = 3) +
+  annotate("text", x = 2, y = 5.55, label = "a bit worse", colour = oi[["grey"]], size = 3) +
+  geom_vline(xintercept = 0, colour = oi[["grey"]]) +
+  geom_vline(xintercept = margin, linetype = "dashed", colour = oi[["verm"]], linewidth = 0.7) +
+  geom_errorbar(aes(xmin = lo, xmax = hi), width = 0.2, linewidth = 0.8) +
+  geom_point(size = 2.6, shape = 15) +
+  scale_colour_manual(values = c(BALANCE = oi[["blue"]], Example = oi[["grey"]]), guide = "none") +
+  scale_x_continuous(limits = c(-8, 9.5), breaks = seq(-8, 8, 2), labels = function(x) umin(as.character(x))) +
+  scale_y_discrete(expand = expansion(add = c(0.6, 1.1))) +
+  labs(x = "Difference in deaths, 7 days minus 14 days (percentage points)", y = NULL) +
+  theme_ho
+```
+
+::: {.callout-important title="The 'inconclusive' trap"}
+A point estimate can look reassuring while the interval runs past the margin. Then we **cannot rule out** unacceptable harm, and non-inferiority is not shown.
+:::
+
+**In BALANCE.** Nobody expected 7 days to *save* lives. The hoped-for gains were fewer side effects, less resistance and shorter stays. So the fair question was: does stopping at 7 days cost lives? That is a non-inferiority question.
+
+## The non-inferiority margin
+
+The margin is the **largest extra harm we would accept** in exchange for the benefits of the new approach. It is chosen before the trial, written in the protocol, and based on clinical judgement, previous evidence and practicality. A smaller margin is a stricter test and needs more patients.
+
+```{r}
+#| label: fig-margin
+#| fig-cap: "The same 4-point margin looks different in relative terms depending on the baseline death rate. Percentages calculated in R from the planning assumption and the observed 14-day mortality."
+#| fig-height: 1.9
+#| fig-alt: "Bar chart. A 4-point margin is 18 percent of the 22 percent death rate assumed when planning, and 25 percent of the 16.1 percent death rate actually observed with 14 days."
+mg <- data.frame(
+  basis = factor(c(sprintf("Planned (22%% deaths with 14 days)"),
+                   sprintf("Observed (%s deaths with 14 days)", pct(r14))),
+                 levels = rev(c(sprintf("Planned (22%% deaths with 14 days)"),
+                                sprintf("Observed (%s deaths with 14 days)", pct(r14))))),
+  rel = c(rel_margin_planned, rel_margin_observed)
+)
+ggplot(mg, aes(rel, basis)) +
+  geom_col(width = 0.55, fill = oi[["orange"]]) +
+  geom_text(aes(label = sprintf("4 points = %s of baseline", pct(rel, 0))), hjust = -0.05, size = 3.2) +
+  scale_x_continuous(labels = function(x) paste0(round(100 * x), "%"), limits = c(0, 0.42),
+                     expand = expansion(mult = c(0, 0.02))) +
+  labs(x = "Margin as a share of the baseline death rate", y = NULL) +
+  theme_ho
+```
+
+::: {.callout-note title="Put it in people terms"}
+A 4-point margin means BALANCE would accept at most **4 extra deaths per 100 patients**. In relative terms that is `r pct(rel_margin_planned, 0)` of the expected death rate, rising to `r pct(rel_margin_observed, 0)` of the death rate actually seen. Earlier trials used **10 points**, a much looser test. Whether 4 is small enough is a question for patients as much as trialists (@sec-discussion).
+:::
+
+## Power and sample size
+
+**Power** is the chance a trial gets the right answer when the true answer is "yes". With 80% power, if 7 days truly is non-inferior, the trial had an 80% chance of showing it.
+
+| | Truth: non-inferior | Truth: worse than margin |
+|---|---|---|
+| **Trial says non-inferior** | Correct | **Type I error** (alpha): 2.5% |
+| **Trial says not shown** | **Type II error** (beta): 20% | Correct |
+
+: The two kinds of error. Power = 1 − beta = 80% {#tbl-errors}
+
+::: {.callout-warning title="Which error matters more here?"}
+In a non-inferiority trial the dangerous mistake is the **type I error**: wrongly declaring a shorter course safe. That is why alpha is held at 2.5% one-sided.
+:::
+
+Four ingredients set the sample size: the expected event rate in the control group (22%), the margin (4 points), alpha (2.5% one-sided) and power (80%), plus an allowance for dropouts and interim analyses. BALANCE planned **3,626** patients and analysed **3,608**, so it reached its target. The observed 14-day mortality (`r pct(r14)`) was lower than assumed. Fewer events make the absolute estimate *more* precise, so the trial stayed well powered, but the fixed margin became relatively larger (@fig-margin).
+
+## Confidence intervals
+
+A confidence interval is **the range of true effects that fit the data**. The point estimate is the single best guess; the interval shows how sure we are. Narrow means precise; wide means uncertain. Bigger trials give narrower intervals.
+
+| If the interval... | ...then |
+|---|---|
+| crosses zero | we cannot exclude "no difference" |
+| lies wholly on the benefit side of zero | superiority is shown |
+| has its harm end inside the margin | non-inferiority is shown |
+
+: Reading an interval. The interval tells you more than the p-value {#tbl-ci}
+
+::: {.callout-tip title="Why 95.7% and not 95%?"}
+The data were checked **three times** during the trial. Each interim look "spends" a little of the allowed error. Less is left for the final analysis, so the interval is set at 95.7% to keep the overall error rate at 2.5% one-sided. A one-sided test at 2.5% uses the same cut-off as the upper end of a two-sided 95% interval, which is why non-inferiority results are shown as two-sided intervals.
+:::
+
+## Intention-to-treat vs per-protocol
+
+| Analysis | Who is counted | Question answered |
+|---|-----|-----|
+| **Intention-to-treat (ITT)** | Everyone, in the group they were randomised to | What happens when we *plan* 7 days in real practice? |
+| **Per-protocol (PP)** | Only those who received their assigned duration (`r pm`2 days) | What happens when patients *actually get* 7 days? |
+| **Modified ITT (mITT)** | ITT, but only patients alive on day 7 | Removes deaths before the arms could differ |
+
+: Three ways to analyse the same trial {#tbl-analyses}
+
+```{r}
+#| label: fig-populations
+#| fig-cap: "Patients contributing to each analysis of the primary outcome, by arm. Counts from Table 2 of the paper [@balance2025]."
+#| fig-height: 2.1
+#| fig-alt: "Grouped bars of analysis population sizes. Intention-to-treat: 1,802 in the 7-day arm and 1,779 in the 14-day arm. Modified intention-to-treat: 1,788 and 1,765. Per-protocol: 1,370 and 1,483. The per-protocol population is smaller in the 7-day arm because more of those patients received longer courses."
+popn <- data.frame(
+  analysis = rep(c("Intention-to-treat", "Modified ITT", "Per-protocol"), each = 2),
+  arm = rep(c("7 days", "14 days"), 3),
+  n = c(prim$n7[1], prim$n14[1], prim$n7[3], prim$n14[3], prim$n7[2], prim$n14[2])
+)
+popn$analysis <- factor(popn$analysis, levels = rev(c("Intention-to-treat", "Modified ITT", "Per-protocol")))
+popn$arm <- factor(popn$arm, levels = c("14 days", "7 days"))
+ggplot(popn, aes(n, analysis, fill = arm)) +
+  geom_col(position = position_dodge(width = 0.75), width = 0.7) +
+  geom_text(aes(label = format(n, big.mark = ",")), position = position_dodge(width = 0.75),
+            hjust = -0.1, size = 3) +
+  scale_fill_manual(values = c("7 days" = oi[["blue"]], "14 days" = oi[["orange"]]), name = NULL,
+                    breaks = c("7 days", "14 days")) +
+  scale_x_continuous(limits = c(0, 2100), labels = scales::comma, expand = expansion(mult = c(0, 0.02))) +
+  labs(x = "Patients analysed", y = NULL) +
+  theme_ho
+```
+
+::: {.callout-important title="The single most important idea for this paper"}
+In a **superiority** trial, ITT is cautious: crossover dilutes the difference and makes benefit harder to show. In a **non-inferiority** trial the same dilution makes the arms look alike and makes non-inferiority **easier** to show. So we want ITT **and** per-protocol to agree. In BALANCE they did (@fig-primary).
+:::
+
+# Results
+
+## Who was randomised?
+
+```{r}
+#| label: fig-flow
+#| fig-cap: "Trial flow, from Figure 1 of the paper [@balance2025]. Recreated from reported data."
+#| fig-height: 2.4
+#| fig-alt: "Horizontal bar chart of trial flow: 36,637 patients with positive blood cultures were assessed, 13,597 were eligible, 3,631 were randomised, 3,608 formed the intention-to-treat population and 3,581 had complete 90-day outcome data."
+flow <- data.frame(
+  stage = c("Assessed (positive culture)", "Eligible", "Randomised", "Intention-to-treat", "Complete 90-day data"),
+  n = c(36637, 13597, 3631, 3608, 3581)
+)
+flow$stage <- factor(flow$stage, levels = rev(flow$stage))
+ggplot(flow, aes(n, stage)) +
+  geom_col(fill = oi[["blue"]], width = 0.65) +
+  geom_text(aes(label = format(n, big.mark = ",")), hjust = -0.1, size = 3.2, colour = oi[["ink"]]) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.15)), labels = scales::comma) +
+  labs(x = "Patients", y = NULL) +
+  theme_ho
+```
+
+::: {.callout-warning title="Only 26.7% of eligible patients were enrolled"}
+Of 9,966 eligible patients who were not randomised, **4,532** had an attending physician who declined. Clinicians may have kept out the patients who worried them. Randomisation still protects the comparison (internal validity), but it is less clear **who** the result applies to (external validity).
+:::
+
+There were 1,814 patients assigned 7 days and 1,794 assigned 14 days in the ITT population; 27 (0.7%) were lost to follow-up.
+
+## Baseline characteristics
+
+| Characteristic (n = 3,608) | Value |
+|---|---|
+| Median age | 70 years |
+| In ICU at enrolment | 55.0% |
+| Community-acquired infection | 75.4% |
+| Urinary source | 42.2% |
+| Intra-abdominal or hepatobiliary source | 18.8% |
+| Lung source | 13.0% |
+| Monomicrobial gram-negative | 71.0% |
+| *E. coli* | 43.8% |
+| Source-control procedure | 44.9% |
+
+: Selected baseline characteristics; groups were similar [@balance2025] {#tbl-baseline}
+
+This is an older, sick population, with more than half in ICU and a median SOFA score of 4. The dominant picture is **community-acquired gram-negative urosepsis**, worth remembering when you generalise.
+
+## Primary outcome: death by 90 days
+
+```{r}
+#| label: fig-primary
+#| fig-cap: "Risk difference in 90-day mortality, 7 days minus 14 days. ITT shows the 95.7% CI; the other analyses show 95% CIs. Dashed line: non-inferiority margin. From Table 2 and Figure 2 of the paper [@balance2025], recreated from reported data."
+#| fig-height: 2.3
+#| fig-alt: "Forest plot of the risk difference in 90-day mortality. Intention-to-treat minus 1.6 percentage points, 95.7% CI minus 4.0 to 0.8. Per-protocol minus 2.0, 95% CI minus 4.5 to 0.6. Modified intention-to-treat minus 1.6, 95% CI minus 3.9 to 0.7. All upper limits lie below the non-inferiority margin of plus 4 points."
+pp <- prim
+pp$analysis <- factor(pp$analysis, levels = rev(pp$analysis))
+pp$lab <- fmt_rd(pp$rd, pp$lo, pp$hi)
+ggplot(pp, aes(rd, analysis)) +
+  annotate("rect", xmin = margin, xmax = 9, ymin = -Inf, ymax = Inf, fill = oi[["orange"]], alpha = 0.18) +
+  annotate("text", x = 6.5, y = 3.5, label = "7 days inferior", colour = "#7A5300", size = 3) +
+  annotate("text", x = -5.4, y = 3.5, label = "favours 7 days", colour = oi[["grey"]], size = 3) +
+  geom_vline(xintercept = 0, colour = oi[["grey"]]) +
+  geom_vline(xintercept = margin, linetype = "dashed", colour = oi[["verm"]], linewidth = 0.7) +
+  geom_errorbar(aes(xmin = lo, xmax = hi), width = 0.18, linewidth = 0.8, colour = oi[["blue"]]) +
+  geom_point(size = 2.8, shape = 15, colour = oi[["blue"]]) +
+  geom_text(aes(x = 9.4, label = lab), hjust = 0, size = 3) +
+  scale_x_continuous(limits = c(-7, 15.5), breaks = seq(-6, 8, 2), labels = function(x) umin(as.character(x))) +
+  scale_y_discrete(expand = expansion(add = c(0.6, 0.9))) +
+  labs(x = "Risk difference, 7 days minus 14 days (percentage points)", y = NULL) +
+  theme_ho
+```
+
+**261 of 1,802** patients died with 7 days (14.5%) and **286 of 1,779** with 14 days (16.1%). The difference was **−1.6 points (95.7% CI −4.0 to 0.8)**. The upper limit is below +4, so non-inferiority is shown. All three analyses agree.
+
+```{r}
+#| label: fig-waffle
+#| fig-cap: "What the primary result looks like per 1,000 patients. Each square is one patient; filled squares are deaths by day 90. Counts per 1,000 derived from the reported percentages (14.5% and 16.1%)."
+#| fig-height: 2.5
+#| fig-alt: "Two icon grids of 1,000 squares each. 7 days: 145 deaths per 1,000. 14 days: 161 deaths per 1,000. The two grids look almost the same."
+mk <- function(arm, deaths) {
+  g <- expand.grid(col = 1:50, row = 1:20)
+  g <- g[order(g$col, g$row), ]
+  g$died <- seq_len(nrow(g)) <= deaths
+  g$arm <- arm
+  g
+}
+wf <- rbind(mk(sprintf("7 days: %d deaths per 1,000", round(1000 * 0.145)), round(1000 * 0.145)),
+            mk(sprintf("14 days: %d deaths per 1,000", round(1000 * 0.161)), round(1000 * 0.161)))
+wf$arm <- factor(wf$arm, levels = unique(wf$arm))
+ggplot(wf, aes(col, row, fill = died)) +
+  geom_tile(colour = "white", linewidth = 0.25) +
+  facet_wrap(~arm, ncol = 2) +
+  scale_fill_manual(values = c(`TRUE` = oi[["verm"]], `FALSE` = oi[["light"]]),
+                    labels = c(`TRUE` = "Died by day 90", `FALSE` = "Alive at day 90"), name = NULL) +
+  coord_equal() +
+  theme_void(base_size = 10) +
+  theme(legend.position = "top", strip.text = element_text(face = "bold", size = 9.5))
+```
+
+::: {.callout-note title="Does this mean 7 days is better?"}
+No. The interval includes zero, so **superiority is not shown**. The point estimate favouring 7 days could be chance.
+:::
+
+## How big is the effect? The vocabulary
+
+Everything in this section is a different way of comparing two risks.
+
+::: {.callout-tip title="Worked example: made-up round numbers"}
+100 patients get an old drug and 20 die (**risk 20%**). 100 get a new drug and 15 die (**risk 15%**).
+
+- **Absolute risk reduction (ARR)** = control risk − treatment risk = 20% − 15% = **5 percentage points**: 5 fewer deaths per 100 treated. If the treatment makes things worse, this is an **absolute risk increase (ARI)**.
+- **Relative risk (RR)** = treatment risk ÷ control risk = 15 ÷ 20 = **0.75**. RR of 1 means no difference.
+- **Relative risk reduction (RRR)** = 1 − RR = ARR ÷ control risk = 5 ÷ 20 = **25%**.
+- **Number needed to treat (NNT)** = 100 ÷ ARR = 100 ÷ 5 = **20**: treat 20 patients to prevent one extra death. Said with its direction, this is the **NNTB** (to benefit).
+- **Number needed to treat to harm (NNTH)** = 100 ÷ ARI. If a rash occurs in 2% on the old drug and 6% on the new, ARI = 4 points and NNTH = 100 ÷ 4 = **25**.
+:::
+
+```{r}
+#| label: fig-arr-rrr
+#| fig-cap: "Why absolute numbers matter. Both made-up treatments cut risk by the same 25% in relative terms, but the absolute benefit and the NNT differ twenty-fold."
+#| fig-height: 2.2
+#| fig-alt: "Dumbbell chart of two hypothetical treatments with the same 25 percent relative risk reduction. Common outcome: risk falls from 20 percent to 15 percent, ARR 5 points, NNT 20. Rare outcome: risk falls from 0.4 percent to 0.3 percent, ARR 0.1 points, NNT 1,000."
+db <- data.frame(
+  scen = factor(c("Common outcome", "Rare outcome"), levels = c("Rare outcome", "Common outcome")),
+  ctrl = c(20, 0.4), trt = c(15, 0.3)
+)
+db$arr <- db$ctrl - db$trt
+db$rrr <- db$arr / db$ctrl
+db$nnt <- 100 / db$arr
+db$lab <- sprintf("RRR %s · ARR %s points · NNT %s", pct(db$rrr, 0), format(db$arr), format(round(db$nnt), big.mark = ","))
+ggplot(db, aes(y = scen)) +
+  geom_segment(aes(x = trt, xend = ctrl, yend = scen), linewidth = 1.2, colour = oi[["grey"]]) +
+  geom_point(aes(x = ctrl, colour = "Control"), size = 3.2) +
+  geom_point(aes(x = trt, colour = "Treatment"), size = 3.2) +
+  geom_text(aes(x = 21.5, label = lab), hjust = 0, size = 3) +
+  scale_colour_manual(values = c(Control = oi[["orange"]], Treatment = oi[["blue"]]), name = NULL) +
+  scale_x_continuous(limits = c(0, 42), breaks = seq(0, 20, 5), labels = function(x) paste0(x, "%")) +
+  labs(x = "Risk of death", y = NULL) +
+  theme_ho
+```
+
+::: {.callout-warning title="Percent or percentage points?"}
+A fall from 20% to 15% is **5 percentage points** (absolute) and **25 percent** (relative). Both are true. Say "points" for absolute changes. Advertisements quote the RRR because it sounds bigger: **always ask for the absolute numbers**.
+:::
+
+## Absolute effect in BALANCE
+
+Applying the same sums to the trial's ITT counts, calculated in R (not taken from the paper):
+
+| Measure | Plain English | BALANCE (ITT) |
+|--|-----|------|
+| **Risk** | Deaths ÷ patients in each group | 7 days: 261 ÷ 1,802 = `r pct(r7)`; 14 days: 286 ÷ 1,779 = `r pct(r14)` |
+| **ARR** | Control risk minus treatment risk (14 days is the control) | `r pct(r14)` − `r pct(r7)` = **`r sprintf("%.1f", 100 * arr)` points** |
+| **RRR** | ARR as a fraction of the control risk | `r sprintf("%.1f", 100 * arr)` ÷ `r sprintf("%.1f", 100 * r14)` = **`r pct(rrr, 0)`** |
+| **NNT** | 100 ÷ ARR | 100 ÷ `r sprintf("%.1f", 100 * arr)` ≈ **`r sprintf("%.0f", nnt)`** |
+
+: Effect sizes in BALANCE (point estimates) {#tbl-effects}
+
+Note how "`r pct(rrr, 0)` fewer deaths" sounds far more impressive than "`r sprintf("%.1f", 100 * arr)` fewer deaths per 100".
+
+```{r}
+#| label: fig-nnt
+#| fig-cap: "Why a single NNT misleads here. The 95.7% CI for the risk difference runs from −4.0 (benefit with 7 days) to +0.8 (harm). Inverting each end gives an NNTB and an NNTH; at zero the NNT is infinite. NNT values calculated in R."
+#| fig-height: 1.6
+#| fig-alt: "Number line from minus 5 to plus 2 percentage points. The confidence interval runs from minus 4.0, labelled NNTB 25, through zero, labelled NNT infinite, to plus 0.8, labelled NNTH 125. The point estimate minus 1.6 is labelled NNT 63."
+nl <- data.frame(x = c(prim$lo[1], -0.05, prim$rd[1], prim$hi[1] + 0.05),
+                 lab = c(sprintf("NNTB %.0f", nntb_limit), "NNT ∞", sprintf("Best guess\nNNT %.0f", nnt), sprintf("NNTH %.0f", nnth_limit)),
+                 y = c(1.25, 1.25, 0.72, 1.25), h = c(0.5, 1, 0.5, 0))
+if (!utf8) nl$lab[2] <- "NNT infinite"
+ggplot() +
+  annotate("segment", x = prim$lo[1], xend = prim$hi[1], y = 1, yend = 1, linewidth = 2.2, colour = oi[["blue"]]) +
+  annotate("point", x = prim$rd[1], y = 1, size = 4, shape = 15, colour = oi[["ink"]]) +
+  geom_vline(xintercept = 0, colour = oi[["grey"]]) +
+  geom_text(data = nl, aes(x, y, label = lab, hjust = h), size = 3, lineheight = 0.85) +
+  scale_x_continuous(limits = c(-5, 2), breaks = seq(-5, 2, 1), labels = function(x) umin(as.character(x))) +
+  scale_y_continuous(limits = c(0.45, 1.45)) +
+  labs(x = "Risk difference, 7 minus 14 days (percentage points)", y = NULL) +
+  theme_ho + theme(axis.text.y = element_blank(), panel.grid.major.y = element_blank())
+```
+
+::: {.callout-important title="How to say it"}
+"If we gave 7 days instead of 14 to about `r sprintf("%.0f", nnt)` patients, our best guess is one fewer death. But the trial cannot exclude anything from a real benefit (NNTB `r sprintf("%.0f", nntb_limit)`) to a very small harm (NNTH `r sprintf("%.0f", nnth_limit)`)." In a non-inferiority trial the better question is **how much harm can we rule out?** Answer: more than about **0.8 extra deaths per 100**.
+:::
+
+## Did patients get what they were assigned?
+
+```{r}
+#| label: fig-adherence
+#| fig-cap: "Adherence to the assigned duration. Median duration received was 8 days (IQR 7 to 11) vs 14 days (IQR 14 to 15). From the paper [@balance2025], recreated from reported data."
+#| fig-height: 1.9
+#| fig-alt: "Stacked horizontal bars of adherence to assigned duration. 7-day group: 0.8% shorter, 76.1% adherent, 23.1% longer. 14-day group: 5.8% shorter, 83.5% adherent, 10.7% longer."
+adh <- data.frame(
+  arm = rep(c("Assigned 7 days", "Assigned 14 days"), each = 3),
+  cat = rep(c("Shorter than assigned", paste0("Adherent (", pm, "2 days)"), "Longer than assigned"), 2),
+  p = c(0.8, 100 - 23.9, 23.1, 5.8, 100 - 16.5, 10.7)
+)
+adh$arm <- factor(adh$arm, levels = c("Assigned 14 days", "Assigned 7 days"))
+adh$cat <- factor(adh$cat, levels = unique(adh$cat))
+ggplot(adh, aes(p, arm, fill = cat)) +
+  geom_col(width = 0.6, colour = "white", linewidth = 0.4) +
+  geom_text(aes(label = ifelse(p > 4, sprintf("%.1f%%", p), "")),
+            position = position_stack(vjust = 0.5), size = 3,
+            colour = c("white", "white", oi[["ink"]], "white", "white", oi[["ink"]])) +
+  scale_fill_manual(values = c(oi[["purple"]], oi[["blue"]], oi[["orange"]]), name = NULL) +
+  scale_x_continuous(labels = function(x) paste0(x, "%"), expand = expansion(mult = c(0, 0.01))) +
+  labs(x = "Patients", y = NULL) +
+  theme_ho
+```
+
+Non-adherence was **23.9%** in the 7-day arm, almost all longer courses, and **16.5%** in the 14-day arm. Clinicians extended treatment when worried, for example by persistent sepsis or a new hospital-acquired infection. Why this matters is explained in @sec-trap.
+
+## Subgroups
+
+```{r}
+#| label: fig-subgroups
+#| fig-cap: "Prespecified subgroups for 90-day mortality (95% CIs, unadjusted). Triangles mark intervals that reach or cross the +4 margin. From Figure 3 of the paper [@balance2025], recreated from reported data."
+#| fig-height: 4.4
+#| fig-alt: "Forest plot of 13 subgroups in three panels. Severity: ICU minus 0.3 (minus 3.7 to 3.1); ward minus 3.2 (minus 6.3 to 0.0); APACHE II 25 or more 0.1 (minus 7.0 to 7.2); vasopressor 0.5 (minus 4.0 to 5.1); Clinical Frailty Scale 5 or more 2.8 (minus 2.1 to 7.8). Source: urinary minus 1.9 (minus 5.2 to 1.4); intra-abdominal minus 4.2 (minus 9.9 to 1.4); lung 1.5 (minus 6.1 to 9.0); catheter 2.1 (minus 8.6 to 12.7); unknown 1.2 (minus 5.5 to 7.9). Pathogen: gram-positive 1.6 (minus 4.5 to 7.7); gram-negative minus 2.8 (minus 5.6 to minus 0.1); polymicrobial 1.5 (minus 5.8 to 8.7)."
+sg <- data.frame(
+  group = c(rep("Severity", 5), rep("Source", 5), rep("Pathogen", 3)),
+  sub = c("ICU at enrolment", "Ward at enrolment", "APACHE II 25 or more", "Vasopressor or inotrope", "Clinical Frailty Scale 5+",
+          "Urinary tract", "Intra-abdominal or hepatobiliary", "Lung", "Vascular catheter", "Unknown source",
+          "Gram-positive", "Gram-negative", "Polymicrobial"),
+  rd = c(-0.3, -3.2, 0.1, 0.5, 2.8, -1.9, -4.2, 1.5, 2.1, 1.2, 1.6, -2.8, 1.5),
+  lo = c(-3.7, -6.3, -7.0, -4.0, -2.1, -5.2, -9.9, -6.1, -8.6, -5.5, -4.5, -5.6, -5.8),
+  hi = c(3.1, 0.0, 7.2, 5.1, 7.8, 1.4, 1.4, 9.0, 12.7, 7.9, 7.7, -0.1, 8.7)
+)
+sg$group <- factor(sg$group, levels = c("Severity", "Source", "Pathogen"))
+sg$sub <- factor(sg$sub, levels = rev(sg$sub))
+sg$crosses <- factor(ifelse(sg$hi >= margin, "Reaches or crosses +4", "Below +4"),
+                     levels = c("Reaches or crosses +4", "Below +4"))
+sg$lab <- fmt_rd(sg$rd, sg$lo, sg$hi)
+ggplot(sg, aes(rd, sub, colour = crosses, shape = crosses)) +
+  geom_vline(xintercept = 0, colour = oi[["grey"]]) +
+  geom_vline(xintercept = margin, linetype = "dashed", colour = oi[["verm"]], linewidth = 0.6) +
+  geom_errorbar(aes(xmin = lo, xmax = hi), width = 0.3, linewidth = 0.6) +
+  geom_point(size = 2.2) +
+  geom_text(aes(x = 14, label = lab), hjust = 0, size = 2.7, colour = oi[["ink"]]) +
+  facet_grid(group ~ ., scales = "free_y", space = "free_y") +
+  scale_colour_manual(values = c(oi[["orange"]], oi[["blue"]]), name = NULL) +
+  scale_shape_manual(values = c(17, 15), name = NULL) +
+  scale_x_continuous(limits = c(-10.5, 21), breaks = seq(-10, 12, 2), labels = function(x) umin(as.character(x))) +
+  labs(x = "Risk difference, 7 minus 14 days (percentage points)", y = NULL) +
+  theme_ho + theme(strip.text.y = element_text(angle = 0, hjust = 0))
+```
+
+Subgroups are broadly consistent with the overall result, but many intervals are wide and cross the margin, so **non-inferiority cannot be claimed within them**. Two to watch are frail patients (CFS 5 or more: +2.8, 95% CI −2.1 to 7.8) and lung source (+1.5, −6.1 to 9.0).
+
+::: {.callout-caution title="The gram-negative 'win'"}
+Gram-negative infection showed −2.8 points (95% CI −5.6 to −0.1), just excluding zero. With 13 or more subgroups and no correction for multiple comparisons, one nominally significant result is **expected by chance**. Treat it as a hypothesis, not a conclusion.
+:::
+
+## Secondary outcomes
+
+```{r}
+#| label: fig-secondary
+#| fig-cap: "Binary secondary outcomes, risk difference 7 minus 14 days with 95% CI. From Table 2 of the paper [@balance2025], recreated from reported data."
+#| fig-height: 2.5
+#| fig-alt: "Forest plot of secondary outcomes: death in hospital minus 1.0 (minus 2.9 to 0.9); death in ICU minus 0.6 (minus 3.2 to 1.9); relapse 0.4 (minus 0.6 to 1.4); C. difficile minus 0.2 (minus 1.1 to 0.6); resistant organism 1.1 (minus 0.8 to 2.9); allergy minus 0.3 (minus 0.9 to 0.3); acute kidney injury minus 0.1 (minus 0.7 to 0.5)."
+sec <- data.frame(
+  out = c("Death in hospital", "Death in ICU", "Relapse of bacteraemia", "C. difficile infection",
+          "Resistant organism (any culture)", "Allergy", "Acute kidney injury"),
+  rd = c(-1.0, -0.6, 0.4, -0.2, 1.1, -0.3, -0.1),
+  lo = c(-2.9, -3.2, -0.6, -1.1, -0.8, -0.9, -0.7),
+  hi = c(0.9, 1.9, 1.4, 0.6, 2.9, 0.3, 0.5)
+)
+sec$out <- factor(sec$out, levels = rev(sec$out))
+sec$lab <- fmt_rd(sec$rd, sec$lo, sec$hi)
+ggplot(sec, aes(rd, out)) +
+  geom_vline(xintercept = 0, colour = oi[["grey"]]) +
+  geom_errorbar(aes(xmin = lo, xmax = hi), width = 0.25, linewidth = 0.7, colour = oi[["green"]]) +
+  geom_point(size = 2.4, shape = 15, colour = oi[["green"]]) +
+  geom_text(aes(x = 3.4, label = lab), hjust = 0, size = 2.9) +
+  scale_x_continuous(limits = c(-3.5, 6.2), breaks = seq(-3, 3, 1), labels = function(x) umin(as.character(x))) +
+  labs(x = "Risk difference, 7 minus 14 days (percentage points)", y = NULL) +
+  theme_ho
+```
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-tip title="Antibiotic-free days by day 28" appearance="simple"}
+**19 vs 14** (median). Difference **5 days** (95% CI 4.6 to 5.4).
+:::
+:::
+::: {.column width="50%"}
+::: {.callout-tip title="Days in hospital" appearance="simple"}
+**10 vs 11** (median). Difference **−1 day** (95% CI −1.5 to −0.5).
+:::
+:::
+:::
+
+There were no detectable differences in relapse, *C. difficile*, allergy, kidney injury or resistant organisms. These events were rare, so the intervals are wide relative to the event rates.
+
+::: {.callout-note title="So shorter courses do not reduce resistance?"}
+The trial could not show it either way. Resistance was measured from routine cultures, not active surveillance, and follow-up for *C. difficile* missed community and readmission episodes, as the authors acknowledge.
+:::
+
+# Critical appraisal
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note title="Authors' conclusion" appearance="simple"}
+In hospitalised patients with bloodstream infection, "antibiotic treatment for 7 days was noninferior to treatment for 14 days" [@balance2025].
+:::
+:::
+::: {.column width="50%"}
+::: {.callout-warning title="Our appraisal" appearance="simple"}
+Agree for the **included** population. Caution where patients were excluded or under-represented. Everything below is our judgement, not the authors'.
+:::
+:::
+:::
+
+## CONSORT: was it reported properly?
+
+| CONSORT non-inferiority item [@piaggio2012] | BALANCE |
+|-----|------|
+| Margin prespecified and justified | Yes: 4 points, tighter than the 10 points used elsewhere |
+| Sample size based on margin | Yes: 3,626 planned, 3,608 analysed |
+| ITT **and** per-protocol reported | Yes, both non-inferior |
+| CI interpreted against margin | Yes (95.7% CI) |
+| Reference treatment proven effective | No: 14 days is custom, not placebo-tested |
+
+: Key items from the CONSORT extension for non-inferiority trials {#tbl-consort}
+
+::: {.callout-tip title="The subtle last row"}
+Classic non-inferiority logic assumes the comparator has proven efficacy against placebo. Fourteen days has never been shown to beat a shorter course, so the margin is a **clinical judgement about acceptable extra deaths**, not a fraction of a known treatment effect [@mulla2012].
+:::
+
+## CASP: a quick structured appraisal
+
+| CASP question [@casp2020] | Judgement |
+|-----|------|
+| Focused question; randomised | Yes |
+| All patients accounted for | Yes: 99.3% and 99.2% with day-90 data |
+| Blinding | Partial: concealed to day 7, open thereafter; analyses blinded |
+| Groups similar at baseline | Yes (Table 1 of the paper) |
+| Treated equally apart from the intervention | Unclear: co-interventions not reported |
+| Important outcomes covered | Mortality yes; function and patient-reported outcomes no |
+
+: CASP randomised controlled trial checklist, abridged {#tbl-casp}
+
+The two weaker areas are the open-label period after day 7 and the lack of information on co-interventions and oral switch timing. Death is objective, so measurement bias is unlikely. The concern is behaviour: clinicians who know a patient will stop at day 7 may look harder for reasons to continue.
+
+## RoB 2: could bias have shifted the result?
+
+```{r}
+#| label: fig-rob
+#| fig-cap: "Our RoB 2 judgement for 90-day mortality [@sterne2019]. Colour is paired with a symbol and a label."
+#| fig-height: 2.3
+#| fig-alt: "Risk of bias summary. Randomisation: low. Deviations from intended intervention: some concerns. Missing outcome data: low. Measurement of outcome: low. Selection of reported result: low. Overall: some concerns."
+rob <- data.frame(
+  domain = c("Randomisation process", "Deviations from intended intervention", "Missing outcome data",
+             "Measurement of the outcome", "Selection of the reported result", "Overall"),
+  j = c("Low", "Some concerns", "Low", "Low", "Low", "Some concerns"),
+  why = c("Web-based, concealed, balanced groups", "Open-label after day 7; 23.9% vs 16.5% off protocol",
+          "0.7% lost to follow-up", "All-cause death", "Protocol and SAP published in advance", "Driven by deviations domain")
+)
+rob$domain <- factor(rob$domain, levels = rev(rob$domain))
+rob$sym <- ifelse(rob$j == "Low", "+", "!")
+ggplot(rob, aes(y = domain)) +
+  geom_point(aes(x = 1, colour = j), size = 7) +
+  geom_text(aes(x = 1, label = sym), colour = "white", fontface = "bold", size = 4) +
+  geom_text(aes(x = 1.25, label = j), hjust = 0, size = 3, fontface = "bold") +
+  geom_text(aes(x = 2.75, label = why), hjust = 0, size = 3, colour = oi[["grey"]]) +
+  scale_colour_manual(values = c(Low = oi[["green"]], `Some concerns` = oi[["orange"]]), guide = "none") +
+  scale_x_continuous(limits = c(0.85, 6.9)) +
+  labs(x = NULL, y = NULL) +
+  theme_ho + theme(axis.text.x = element_blank(), panel.grid = element_blank(),
+                   axis.text.y = element_text(face = c("bold", rep("plain", 5))))
+```
+
+The only domain with concerns is deviations from the intended intervention. For the effect of *assignment* (ITT), RoB 2 would often rate deviations that reflect usual practice as low risk. We have been stricter because, in a non-inferiority trial, deviations that blur the contrast push towards a finding of non-inferiority. We would not rate it high risk: non-adherence was moderate, median durations still differed by six days, and the supporting analyses agreed.
+
+## The non-inferiority trap {#sec-trap}
+
+::: {.callout-important title="Why non-adherence matters more here"}
+23% of the 7-day group received longer courses. Crossover makes the arms more alike, shrinking any true difference towards zero. In a superiority trial that is **conservative**. In a non-inferiority trial it is **anti-conservative**: it biases **towards** finding non-inferiority. That is why the per-protocol analysis matters, and in BALANCE it agreed.
+:::
+
+A later post-hoc analysis [@ong2026] found that non-adherence was linked to prognostic factors (more acute illness, non-urinary source, non-*Enterobacterales* organisms). After weighting for these, the per-protocol risk difference was −1.61% (95% CI −4.13 to 0.87) and the as-treated estimate −0.75% (−3.36 to 1.86), both within the 4-point margin.
+
+
+## GRADE: how sure are we?
+
+| Outcome [@guyatt2008] | Certainty | Main reason |
+|----|--|------|
+| 90-day mortality | **High** | Large trial, precise against the margin, consistent with earlier RCTs |
+| Antibiotic exposure | **High** | Large, objective difference |
+| Relapse | **Moderate** | Imprecision: rare events |
+| *C. difficile*, resistance | **Low** | Imprecision; under-ascertainment |
+
+: Our GRADE certainty for patients like those enrolled {#tbl-grade}
+
+::: {.callout-warning title="Indirectness"}
+These ratings apply to the trial population. For excluded groups (*S. aureus*, neutropenia, deep foci) the trial provides **no evidence**, not weak evidence. The paper's own meta-analysis with earlier trials (Supplementary Figure S1) was not reviewed for this handout.
+:::
+
+# Applicability to NHS practice {#sec-applicability}
+
+::: {.callout-tip title="Likely applies"}
+- Community-acquired gram-negative bacteraemia, especially urinary
+- Ward and ICU patients who are improving
+- Source identified and controlled
+:::
+
+::: {.callout-warning title="Uncertain"}
+- Frail older patients (Clinical Frailty Scale 5 or more)
+- Lung, catheter or unknown source
+- Gram-positive organisms other than *S. aureus*
+- No UK sites; patients whose consultants declined enrolment
+:::
+
+::: {.callout-caution title="Does not apply"}
+- *S. aureus* and fungaemia
+- Neutropenia and transplant recipients
+- Endovascular, bone, joint or undrained deep foci
+:::
+
+The paper does not report the oral switch rate in the main text, so we cannot say how much of the 7 days was given orally.
+
+## Current guidance position
+
+| Source | Position |
+|----|------|
+| UKHSA *Start Smart then Focus* (2023) [@ukhsa2023sstf] | Review antibiotics at 48 to 72 hours |
+| NHS England stewardship report [@nhse2025watch] | Gives 7 days for gram-negative bacteraemia with urinary source as an example of a shortened course trusts have adopted |
+| NICE NG253 (2025) [@nice2025ng253] | Covers recognition and early management of sepsis; no NICE recommendation on bacteraemia duration |
+| Local trust guideline | Sets duration in practice: check yours |
+
+: UK guidance relevant to bacteraemia duration {#tbl-guidance}
+
+
+# Discussion questions {#sec-discussion}
+
+1. **Would you stop Mrs D's antibiotics today? What would make you extend?** Think about persistent bacteraemia, an undrained focus, a new infection, or failure to improve by day 7.
+2. **Is a 4-point margin for death acceptable? Who should decide?** Patients may weigh side effects and length of stay against a small possible mortality risk differently from clinicians.
+3. **4,532 patients were kept out by their consultant. Does that change your view?** Physician refusal suggests the most complex patients were selected out, though more than half of those enrolled were in ICU.
+4. **Fixed 7 days or individualised duration?** von Dach 2020 tested CRP-guided duration [@vondach2020]. The authors call for research on individualised, potentially shorter courses.
+
+::: {.callout-tip title="A practical tip"}
+Writing a stop date on day 1 or day 3 avoids "weekend drift", when a planned day-7 stop falls on a Saturday and nobody reviews it.
+:::
+
+# Take-home messages
+
+- 7 days was **non-inferior** to 14 days for 90-day death: −1.6 points (95.7% CI −4.0 to 0.8).
+- **5 more antibiotic-free days**; harms were too rare to compare reliably.
+- Non-adherence biases a non-inferiority trial towards non-inferiority, but the supporting analyses agree.
+- Not for *S. aureus*, severe immunosuppression or deep foci.
+
+::: {.callout-important title="Bottom line"}
+For improving inpatients with uncomplicated, non-*S. aureus* bacteraemia, **plan 7 days and justify anything longer**. This is our interpretation, not the authors' wording. Check that your patient meets the trial's inclusion criteria and that local guidance agrees.
+:::
+
+# Test yourself {#sec-quiz}
+
+```{r}
+#| label: quiz-data
+#| output: asis
+quiz <- data.frame(
+  topic = c("Non-inferiority", "Intention-to-treat", "Effect size", "Interpreting results",
+            "Non-adherence", "Allocation concealment", "Power", "Confidence intervals", "Subgroups"),
+  level = c(1, 1, 2, 2, 3, 1, 2, 3, 2),
+  stem = c(
+    "A non-inferiority trial concludes that 7 days is non-inferior to 14 days. This means:",
+    "Mr K is randomised to 7 days, but his team keeps antibiotics going to 12 days. In the intention-to-treat analysis he is counted in:",
+    "A treatment lowers the risk of death from 10% to 8%. What is the number needed to treat?",
+    "The ITT difference is −1.6 points (95.7% CI −4.0 to 0.8) and the margin is +4. Which statement is correct?",
+    "23% of the 7-day group received longer courses. In an ITT analysis of a non-inferiority trial, this tends to:",
+    "Why did BALANCE keep the allocation hidden until day 7?",
+    "BALANCE was designed with 80% power. What does this mean?",
+    "Why is the primary result reported with a 95.7% rather than a 95% confidence interval?",
+    "In the gram-negative subgroup the difference was −2.8 points (95% CI −5.6 to −0.1). What should we conclude?"
+  ),
+  a = c("7 days is better than 14 days", "The 7-day group", "2", "7 days is superior to 14 days",
+        "Bias towards finding non-inferiority", "So clinicians could not treat the groups differently in the first week",
+        "80% of patients survived", "The test was one-sided", "7 days is better for gram-negative infection"),
+  b = c("7 days is exactly as good as 14 days", "The 14-day group", "20", "7 days is non-inferior; superiority is not shown",
+        "Bias towards finding inferiority", "To keep the trial double-blind throughout",
+        "There is an 80% chance the result is correct", "Alpha was spent on three interim analyses",
+        "It is a hypothesis to test, not a conclusion"),
+  c = c("7 days is not worse than 14 days by more than the agreed margin", "Neither: he is excluded", "50",
+        "Inconclusive, because the CI crosses zero", "No effect, because ITT preserves randomisation",
+        "To keep the two groups the same size", "If 7 days truly is non-inferior, the trial had an 80% chance of showing it",
+        "To correct for prespecified subgroups", "Gram-positive infections need 14 days"),
+  d = c("No difference was found, so the result is inconclusive", "A separate non-adherent group", "80",
+        "14 days is superior for gram-positive infection", "Higher mortality in both groups equally",
+        "A technical limit of the randomisation system", "80% of patients followed the protocol",
+        "To account for clustering by hospital", "The overall trial result is invalid"),
+  ans = c("C", "A", "C", "B", "A", "A", "C", "B", "B"),
+  why = c(
+    "Non-inferior is a precise claim: any extra harm is smaller than the margin. It does not mean better (A), and no trial can show two treatments are identical (B). 'No significant difference' (D) is the language of superiority trials.",
+    "ITT analyses everyone as randomised, whatever they actually received. Moving him to the 14-day group (B) would be an as-treated analysis; excluding him (C) is what a per-protocol analysis does.",
+    "ARR = 10% − 8% = 2 points, so NNT = 100 ÷ 2 = 50. Option A is the ARR itself, B is the relative risk reduction (20%) and D is the relative risk (0.8).",
+    "The upper limit (0.8) lies below the +4 margin, so non-inferiority is shown. The interval includes zero, so superiority is not. Crossing zero (C) is expected in a non-inferiority trial, and the subgroups are too imprecise to support D.",
+    "Crossover makes the arms more alike, shrinking any true difference towards zero and therefore towards non-inferiority. ITT preserves randomisation (C) but still dilutes the contrast, which is why the per-protocol analysis matters.",
+    "Both arms receive identical care until day 7, so hiding the allocation until then prevents early differences in management. The trial was open-label after day 7 (B), and group sizes are handled by 1:1 block randomisation (C).",
+    "Power is the chance of detecting a true effect, and it is conditional on that effect being real (so B is wrong). The remaining 20% is the type II error rate. Survival (A) and adherence (D) are separate issues.",
+    "Each interim look at the data spends a little of the allowed error, so the final interval is widened to keep the overall error rate at 2.5% one-sided. Subgroups were not corrected for (C), and clustering was handled in a separate model (D).",
+    "With 13 or more subgroups and no correction for multiple comparisons, one nominally significant result is expected by chance. Treat it as hypothesis-generating. The gram-positive interval is wide and does not show harm (C)."
+  ),
+  ref = c("superiority-vs-non-inferiority", "intention-to-treat-vs-per-protocol", "how-big-is-the-effect-the-vocabulary",
+          "primary-outcome-death-by-90-days", "sec-trap", "randomisation-concealment-and-blinding",
+          "power-and-sample-size", "confidence-intervals", "subgroups"),
+  stringsAsFactors = FALSE
+)
+
+# Escape characters that are special in Typst markup
+esc <- function(x) gsub("([#$*_@<>\\[\\]\\\\`])", "\\\\\\1", x, perl = TRUE)
+tq <- function(x) paste0("[", esc(x), "]")
+
+defs <- '
+#let jc-blue = rgb("#0072B2")
+#let jc-navy = rgb("#0B2E4F")
+#let jc-wash = rgb("#F2F6FA")
+#let jc-green = rgb("#009E73")
+#let jc-grey = rgb("#4A5560")
+#let jc-rule = rgb("#C9D3DC")
+#let disc(body, fill: jc-navy, r: 10pt, size: 10pt) = box(baseline: 22%,
+  circle(radius: r, fill: fill, stroke: none, inset: 0pt)[
+    #set align(center + horizon)
+    #text(fill: white, weight: "bold", size: size)[#body]
+  ])
+#let optdisc(l) = box(
+  circle(radius: 7.5pt, fill: white, stroke: 0.9pt + jc-blue, inset: 0pt)[
+    #set align(center + horizon)
+    #text(fill: jc-blue, weight: "bold", size: 8pt)[#l]
+  ])
+#let levelmeter(n) = {
+  for i in range(3) {
+    box(baseline: -0.5pt, circle(radius: 2.7pt, fill: if i < n { jc-blue } else { white }, stroke: 0.7pt + jc-blue))
+    h(2pt)
+  }
+}
+#let question(n, topic, lvl, stem, opts, cols) = block(width: 100%, breakable: false,
+  above: 6pt, below: 6pt, fill: jc-wash, radius: 5pt, inset: (x: 12pt, y: 7pt),
+  stroke: (left: 3.5pt + jc-blue))[
+  #grid(columns: (auto, 1fr), column-gutter: 10pt,
+    disc(str(n)),
+    [
+      #text(size: 7.5pt, weight: "bold", fill: jc-grey, tracking: 0.6pt)[#upper(topic)]
+      #h(1fr) #levelmeter(lvl)
+      #v(0pt)
+      #text(weight: "bold")[#stem]
+      #v(2pt)
+      #grid(columns: cols, column-gutter: 14pt, row-gutter: 5pt,
+        ..opts.enumerate().map(((i, o)) => grid(columns: (auto, 1fr), column-gutter: 6pt, align: horizon,
+          optdisc("ABCD".at(i)), o)))
+    ])
+]
+#let answer(n, letter, body, target) = block(width: 100%, breakable: false, above: 0pt, below: 9pt,
+  inset: (bottom: 9pt), stroke: (bottom: 0.5pt + jc-rule))[
+  #grid(columns: (auto, auto, 1fr), column-gutter: 7pt,
+    disc(str(n), r: 9pt, size: 9pt),
+    disc(letter, fill: jc-green, r: 9pt, size: 9pt),
+    [#body #h(3pt) #text(size: 8.5pt, fill: jc-grey)[Revisit #ref(target).]])
+]
+'
+
+intro <- '
+#block(width: 100%, fill: jc-navy, radius: 6pt, inset: (x: 14pt, y: 12pt), below: 12pt)[
+  #text(fill: white, size: 13pt, weight: "bold")[Nine questions on BALANCE and the statistics behind it]
+  #v(2pt)
+  #text(fill: rgb("#D6E6F2"), size: 9.5pt)[Choose one answer for each question. Answers, explanations and a score guide follow on the next page.]
+  #v(6pt)
+  #text(fill: white, size: 8.5pt)[Difficulty:]
+  #h(4pt) #box(fill: white, radius: 3pt, inset: (x: 5pt, y: 2pt))[#levelmeter(1) #text(size: 8pt)[core]]
+  #h(4pt) #box(fill: white, radius: 3pt, inset: (x: 5pt, y: 2pt))[#levelmeter(2) #text(size: 8pt)[applied]]
+  #h(4pt) #box(fill: white, radius: 3pt, inset: (x: 5pt, y: 2pt))[#levelmeter(3) #text(size: 8pt)[advanced]]
+]
+'
+
+qs <- vapply(seq_len(nrow(quiz)), function(i) {
+  o <- unlist(quiz[i, c("a", "b", "c", "d")])
+  cols <- if (max(nchar(o)) <= 34) "(1fr, 1fr)" else "(1fr,)"
+  sprintf('#question(%d, "%s", %d, %s, (%s), %s)',
+          i, quiz$topic[i], quiz$level[i], tq(quiz$stem[i]),
+          paste(vapply(o, tq, ""), collapse = ", "), cols)
+}, "")
+
+score <- '
+#block(width: 100%, breakable: false, stroke: 1pt + jc-blue, radius: 6pt, inset: 12pt, above: 0pt, below: 14pt)[
+  #grid(columns: (auto, 1fr), column-gutter: 16pt, align: horizon,
+    [#text(weight: "bold", fill: jc-navy, size: 11pt)[Your score] #h(6pt) #box(width: 2.2em, stroke: (bottom: 0.8pt + jc-navy))[] #h(3pt)#text(size: 11pt)[#sym.slash 9]],
+    text(size: 9pt)[*8 to 9:* ready to lead the discussion. #h(6pt) *5 to 7:* revisit the sections flagged in the answers. #h(6pt) *0 to 4:* start again from the statistics toolkit.]
+  )
+]
+'
+
+cat("```{=typst}\n", defs, intro, paste(qs, collapse = "\n"), "\n```\n", sep = "")
+```
+
+# Answers and explanations
+
+```{r}
+#| label: quiz-answers
+#| output: asis
+key <- paste0(
+  '#block(width: 100%, fill: jc-wash, radius: 6pt, inset: (x: 12pt, y: 10pt), below: 14pt)[\n',
+  '  #text(weight: "bold", fill: jc-navy)[Quick answer key]\n  #v(4pt)\n',
+  '  #grid(columns: (1fr,) * 9, column-gutter: 4pt, row-gutter: 5pt, align: center,\n    ',
+  paste(sprintf('[#text(size: 8pt, fill: jc-grey)[Q%d]]', seq_len(nrow(quiz))), collapse = ", "), ",\n    ",
+  paste(sprintf('disc("%s", fill: jc-green, r: 8pt, size: 8.5pt)', quiz$ans), collapse = ", "),
+  ")\n]\n")
+ans <- vapply(seq_len(nrow(quiz)), function(i)
+  sprintf('#answer(%d, "%s", %s, <%s>)', i, quiz$ans[i], tq(quiz$why[i]), quiz$ref[i]), "")
+cat("```{=typst}\n", key, score, paste(ans, collapse = "\n"), "\n```\n", sep = "")
+```
+
+# Glossary
+
+| Term | Meaning |
+|---|------|
+| **Absolute risk reduction (ARR)** | Control risk minus treatment risk, in percentage points. ARI if the treatment raises risk |
+| **Allocation concealment** | Nobody can know or influence the next allocation in advance |
+| **Alpha (type I error)** | Accepted risk of a false-positive conclusion. BALANCE: 2.5% one-sided |
+| **Blinding** | Who knows which treatment a patient is receiving after allocation |
+| **Confidence interval (CI)** | The range of true effects compatible with the data |
+| **Intention-to-treat (ITT)** | Analyse everyone in the group they were randomised to |
+| **Margin** | The largest extra harm agreed in advance to be acceptable. BALANCE: 4 points |
+| **Non-inferiority trial** | Tests whether a new option is not unacceptably worse than the standard |
+| **NNT, NNTB, NNTH** | 100 ÷ absolute difference (in points): patients treated for one extra to benefit (NNTB) or be harmed (NNTH) |
+| **Per-protocol (PP)** | Analyse only those who received the treatment as assigned |
+| **Percentage points** | Absolute difference between two percentages (20% to 15% = 5 points) |
+| **Power** | Chance of showing a true effect. 80% power = 20% chance of missing it (type II error) |
+| **Relative risk (RR), RRR** | Treatment risk ÷ control risk; RRR = 1 − RR |
+| **Risk** | Patients with the outcome ÷ patients in the group |
+| **Risk difference (RD)** | One group's risk minus the other's, in percentage points |
+
+: Key terms used in this handout {#tbl-glossary}
+
+# References
+
+::: {#refs}
+:::
