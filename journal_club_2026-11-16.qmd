@@ -12,6 +12,7 @@ format:
     theme: [default, custom.scss]
     slide-number: true
     chalkboard: true
+    mouse-wheel: true
     preview-links: auto
     transition: fade
     footer: "BALANCE: 7 vs 14 days of antibiotics for bloodstream infection"
